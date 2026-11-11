@@ -1,3 +1,5 @@
+import { handleAvatarError } from '../utils/avatar';
+import { ThemeToggle } from '../components/common/ThemeToggle';
 import React, { useState } from 'react';
 import { Outlet, Link, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import {
@@ -87,12 +89,12 @@ export const AdminLayout: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen flex bg-[#F8F9FD] text-slate-800 font-sans antialiased selection:bg-indigo-500 selection:text-white">
+    <div className="min-h-screen flex bg-canvas text-slate-800 font-sans antialiased selection:bg-indigo-500 selection:text-white">
       {/* SIDEBAR DÍNH LIỀN MÀN HÌNH (FIXED / SÁT MÉP TRÁI) + TO RA THOÁNG ĐÃNG */}
       <aside
         className={`${
           collapsed ? 'w-20' : 'w-72'
-        } bg-white border-r border-slate-200/80 flex flex-col shrink-0 transition-all duration-300 ease-in-out z-30 shadow-[4px_0_24px_rgba(0,0,0,0.02)] h-screen sticky top-0`}
+        } bg-surface border-r border-slate-200/80 flex flex-col shrink-0 transition-all duration-300 ease-in-out z-30 shadow-[4px_0_24px_rgba(0,0,0,0.02)] h-screen sticky top-0`}
       >
         {/* Brand Header: Logo + Nút thu hẹp icon <<< hoặc >>> to đẹp nằm ngay cạnh Logo */}
         <div className="h-20 flex items-center justify-between px-5 border-b border-slate-100 shrink-0">
@@ -104,7 +106,7 @@ export const AdminLayout: React.FC = () => {
               <div className="flex flex-col min-w-0">
                 <span className="font-extrabold text-slate-900 tracking-tight text-base font-['Outfit'] truncate flex items-center gap-1.5">
                   SmartCook
-                  <span className="text-[10px] uppercase font-bold px-1.5 py-0.5 bg-orange-100 text-orange-600 rounded">
+                  <span className="text-[10px] uppercase font-bold px-1.5 py-0.5 bg-orange-100 text-slate-800 rounded">
                     Admin
                   </span>
                 </span>
@@ -118,7 +120,7 @@ export const AdminLayout: React.FC = () => {
           {/* NÚT THU HẸP/MỞ RỘNG <<< HOẶC >>> TO ĐẸP GẦN LOGO KHÔNG CẦN TEXT */}
           <button
             onClick={() => setCollapsed(!collapsed)}
-            className="w-9 h-9 rounded-xl flex items-center justify-center text-indigo-600 bg-indigo-50 hover:bg-indigo-100 hover:scale-105 active:scale-95 transition-all shadow-2xs shrink-0"
+            className="w-9 h-9 rounded-xl flex items-center justify-center text-slate-800 bg-indigo-50 hover:bg-indigo-100 hover:scale-105 active:scale-95 transition-all shadow-2xs shrink-0"
             title={collapsed ? 'Mở rộng sidebar (>>>)' : 'Thu gọn sidebar (<<<)'}
           >
             {collapsed ? (
@@ -156,7 +158,7 @@ export const AdminLayout: React.FC = () => {
               >
                 <div
                   className={`flex items-center justify-center shrink-0 transition-transform group-hover:scale-110 ${
-                    isActive ? 'text-white' : 'text-slate-500 group-hover:text-indigo-600'
+                    isActive ? 'text-white' : 'text-slate-500 group-hover:text-slate-800'
                   }`}
                 >
                   <Icon className="w-5 h-5" />
@@ -173,15 +175,16 @@ export const AdminLayout: React.FC = () => {
         {/* Bottom User Profile Card */}
         <div className="p-4 border-t border-slate-100 bg-slate-50/60 shrink-0">
           <div
-            className={`flex items-center gap-3 p-2.5 rounded-2xl bg-white border border-slate-200/80 shadow-xs ${
+            className={`flex items-center gap-3 p-2.5 rounded-2xl bg-surface border border-slate-200/80 shadow-xs ${
               collapsed ? 'justify-center' : 'justify-between'
             }`}
           >
             <div className="flex items-center gap-3 overflow-hidden">
               <div className="relative shrink-0">
                 <img
-                  src={currentUser.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100'}
+                  src={currentUser.avatar || '/facebook-default-avatar.svg'}
                   alt="Admin"
+                  onError={handleAvatarError}
                   className="w-10 h-10 rounded-full object-cover ring-2 ring-indigo-500/20 shadow-xs"
                 />
                 <span className="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-emerald-500 ring-2 ring-white" />
@@ -195,7 +198,7 @@ export const AdminLayout: React.FC = () => {
                   <span className="text-[11px] text-slate-400 truncate">
                     {currentUser.email || 'admin@gmail.com'}
                   </span>
-                  <span className="text-[9px] font-bold text-indigo-600 uppercase tracking-wide mt-0.5">
+                  <span className="text-[9px] font-bold text-slate-800 uppercase tracking-wide mt-0.5">
                     ● Quản Trị Viên Cấp Cao
                   </span>
                 </div>
@@ -208,7 +211,7 @@ export const AdminLayout: React.FC = () => {
                   logout();
                   navigate('/login');
                 }}
-                className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors shrink-0 shadow-2xs"
+                className="p-2 text-slate-400 hover:text-rose-700 hover:bg-rose-50 rounded-xl transition-colors shrink-0 shadow-2xs"
                 title="Đăng xuất tài khoản"
               >
                 <LogOut className="w-4 h-4" />
@@ -221,17 +224,17 @@ export const AdminLayout: React.FC = () => {
       {/* MAIN VIEWPORT DÍNH LIỀN VÀ TRẢI DÀI TOÀN BỘ KHÔNG GIAN BÊN PHẢI */}
       <div className="flex-1 flex flex-col min-w-0 min-h-screen overflow-hidden">
         {/* TOPBAR (Cố định ở trên) */}
-        <header className="h-18 bg-white border-b border-slate-200/80 px-8 lg:px-10 flex items-center justify-between shrink-0 sticky top-0 z-20">
+        <header className="h-18 bg-surface border-b border-slate-200/80 px-8 lg:px-10 flex items-center justify-between shrink-0 sticky top-0 z-20">
           <div className="flex items-center gap-2.5">
             {/* Khung tìm kiếm chuyên nghiệp, sang trọng */}
             <div className="relative group w-72 md:w-96">
-              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 group-focus-within:text-indigo-600 transition-colors">
+              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 group-focus-within:text-slate-800 transition-colors">
                 <Search className="w-4 h-4" />
               </div>
               <input
                 type="text"
                 placeholder="Tìm kiếm công thức, nguyên liệu, người dùng..."
-                className="w-full pl-10 pr-4 py-2 text-xs font-medium text-slate-700 bg-slate-50/80 hover:bg-slate-50 focus:bg-white border border-slate-200/90 hover:border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 shadow-2xs placeholder:text-slate-400 transition-all"
+                className="w-full pl-10 pr-4 py-2 text-xs font-medium text-slate-700 bg-slate-50/80 hover:bg-slate-50 focus:bg-surface border border-slate-200/90 hover:border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-focus/20 focus:border-focus shadow-2xs placeholder:text-slate-400 transition-all"
               />
             </div>
 
@@ -242,8 +245,8 @@ export const AdminLayout: React.FC = () => {
                 onClick={() => setShowFilterDropdown(!showFilterDropdown)}
                 className={`flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-xl border transition-all shadow-2xs ${
                   showFilterDropdown || filterScope !== 'all' || filterStatus !== 'all' || filterTime !== '7d'
-                    ? 'bg-indigo-50 text-indigo-600 border-indigo-200 ring-2 ring-indigo-500/20'
-                    : 'bg-white text-slate-600 border-slate-200/90 hover:border-slate-300 hover:bg-slate-50'
+                    ? 'bg-indigo-50 text-slate-800 border-indigo-200 ring-2 ring-indigo-500/20'
+                    : 'bg-surface text-slate-600 border-slate-200/90 hover:border-slate-300 hover:bg-slate-50'
                 }`}
                 title="Mở bộ lọc nâng cao"
               >
@@ -264,10 +267,10 @@ export const AdminLayout: React.FC = () => {
                   />
 
                   {/* Dropdown Panel */}
-                  <div className="absolute left-0 mt-2 w-80 bg-white rounded-2xl border border-slate-200 shadow-xl z-40 p-4 animate-in fade-in zoom-in-95 duration-150">
+                  <div className="absolute left-0 mt-2 w-80 bg-surface rounded-2xl border border-slate-200 shadow-xl z-40 p-4 animate-in fade-in zoom-in-95 duration-150">
                     <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                       <div className="flex items-center gap-2">
-                        <Filter className="w-4 h-4 text-indigo-600" />
+                        <Filter className="w-4 h-4 text-slate-800" />
                         <h4 className="font-bold text-xs text-slate-800 uppercase tracking-wider">Bộ Lọc Hệ Thống</h4>
                       </div>
                       <button
@@ -297,12 +300,12 @@ export const AdminLayout: React.FC = () => {
                               onClick={() => setFilterScope(item.id)}
                               className={`px-2.5 py-1.5 rounded-lg text-left text-xs font-medium border transition-colors flex items-center justify-between ${
                                 filterScope === item.id
-                                  ? 'bg-indigo-50/80 text-indigo-700 border-indigo-300 font-bold'
+                                  ? 'bg-indigo-50/80 text-slate-900 border-indigo-300 font-bold'
                                   : 'bg-slate-50 text-slate-600 border-slate-200/70 hover:bg-slate-100'
                               }`}
                             >
                               <span>{item.label}</span>
-                              {filterScope === item.id && <Check className="w-3 h-3 text-indigo-600 shrink-0" />}
+                              {filterScope === item.id && <Check className="w-3 h-3 text-slate-800 shrink-0" />}
                             </button>
                           ))}
                         </div>
@@ -354,7 +357,7 @@ export const AdminLayout: React.FC = () => {
                               onClick={() => setFilterTime(t.id)}
                               className={`py-1 text-center rounded-lg text-xs font-medium border transition-colors ${
                                 filterTime === t.id
-                                  ? 'bg-slate-800 text-white border-slate-800 font-bold'
+                                  ? 'bg-panel-800 text-white border-slate-800 font-bold'
                                   : 'bg-slate-50 text-slate-600 border-slate-200/70 hover:bg-slate-100'
                               }`}
                             >
@@ -374,7 +377,7 @@ export const AdminLayout: React.FC = () => {
                           setFilterStatus('all');
                           setFilterTime('7d');
                         }}
-                        className="text-[11px] font-semibold text-slate-400 hover:text-rose-600 transition-colors"
+                        className="text-[11px] font-semibold text-slate-400 hover:text-rose-700 transition-colors"
                       >
                         Đặt lại mặc định
                       </button>
@@ -393,6 +396,7 @@ export const AdminLayout: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-3.5">
+            <ThemeToggle />
             {/* Notification Bell with red dot */}
             <div className="relative">
               <button className="w-10 h-10 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200/60 flex items-center justify-center text-slate-600 transition-colors">
@@ -413,7 +417,7 @@ export const AdminLayout: React.FC = () => {
         </header>
 
         {/* CONTENT SCROLL KHÔNG GIAN RỘNG TO LỚN */}
-        <main className="flex-1 p-6 sm:p-8 lg:p-10 overflow-y-auto bg-[#F8F9FD]">
+        <main className="flex-1 p-6 sm:p-8 lg:p-10 overflow-y-auto bg-canvas">
           <div className="w-full max-w-[1720px] mx-auto space-y-7">
             <Outlet />
           </div>

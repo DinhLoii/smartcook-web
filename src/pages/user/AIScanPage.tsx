@@ -1,3 +1,4 @@
+import { MediaImage } from '../../components/common/MediaImage';
 import React, { useState, useRef, useEffect } from 'react';
 import { 
   Camera, 
@@ -299,7 +300,7 @@ export const AIScanPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#faf8f5] text-slate-900 font-sans selection:bg-orange-500 selection:text-white pb-24">
+    <div className="min-h-screen bg-canvas text-slate-900 font-sans selection:bg-orange-500 selection:text-white pb-24">
       {/* Header đồng bộ */}
       <UserHeader />
 
@@ -313,15 +314,15 @@ export const AIScanPage: React.FC = () => {
       {/* Decorative background glows */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <div className="absolute top-[10%] right-[10%] w-[500px] h-[500px] bg-orange-200/20 rounded-full blur-[130px]" />
-        <div className="absolute bottom-[10%] left-[5%] w-[600px] h-[600px] bg-amber-200/20 rounded-full blur-[140px]" />
+        <div className="absolute bottom-[10%] left-[5%] w-[600px] h-[600px] bg-brand-200/20 rounded-full blur-[140px]" />
       </div>
 
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 space-y-8">
         
         {/* Tiêu đề & Thông điệp công nghệ AI */}
         <div className="text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-100/90 border border-orange-200 text-orange-700 text-xs font-extrabold tracking-wide uppercase shadow-xs">
-            <Sparkles className="w-4 h-4 text-orange-600 animate-pulse" />
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-100/90 border border-orange-200 text-slate-900 text-xs font-extrabold tracking-wide uppercase shadow-xs">
+            <Sparkles className="w-4 h-4 text-slate-800 animate-pulse" />
             <span>Gemini Vision • Phân tích theo ảnh thực tế</span>
           </div>
 
@@ -334,13 +335,13 @@ export const AIScanPage: React.FC = () => {
           </p>
 
           {/* Thanh chuyển tab Scanner / Lịch sử */}
-          <div className="inline-flex p-1 bg-white border border-slate-200 rounded-2xl shadow-xs mt-3">
+          <div className="inline-flex p-1 bg-surface border border-slate-200 rounded-2xl shadow-xs mt-3">
             <button
               onClick={() => setActiveTab('scanner')}
               className={`px-5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${
                 activeTab === 'scanner'
                   ? 'bg-orange-500 text-white shadow-sm'
-                  : 'text-slate-600 hover:text-orange-600'
+                  : 'text-slate-600 hover:text-slate-800'
               }`}
             >
               <Camera className="w-3.5 h-3.5" />
@@ -357,14 +358,14 @@ export const AIScanPage: React.FC = () => {
               className={`px-5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${
                 activeTab === 'history'
                   ? 'bg-orange-500 text-white shadow-sm'
-                  : 'text-slate-600 hover:text-orange-600'
+                  : 'text-slate-600 hover:text-slate-800'
               }`}
             >
               <History className="w-3.5 h-3.5" />
               <span>Lịch Sử Quét Của Tôi</span>
               {scanHistory.length > 0 && (
                 <span className={`px-1.5 py-0.2 rounded-full text-[10px] font-extrabold ${
-                  activeTab === 'history' ? 'bg-white text-orange-600' : 'bg-orange-100 text-orange-700'
+                  activeTab === 'history' ? 'bg-surface text-slate-800' : 'bg-orange-100 text-slate-900'
                 }`}>
                   {scanHistory.length}
                 </span>
@@ -382,7 +383,7 @@ export const AIScanPage: React.FC = () => {
             </div>
             <Link
               to="/kitchen"
-              className="px-3 py-1 bg-white text-emerald-700 rounded-xl text-xs font-black hover:bg-emerald-50 transition-colors shrink-0 flex items-center gap-1"
+              className="px-3 py-1 bg-surface text-emerald-700 rounded-xl text-xs font-black hover:bg-emerald-50 transition-colors shrink-0 flex items-center gap-1"
             >
               <Refrigerator className="w-3.5 h-3.5" />
               <span>Xem Tủ Lạnh</span>
@@ -393,7 +394,7 @@ export const AIScanPage: React.FC = () => {
         {/* THÔNG BÁO LỖI NẾU CÓ */}
         {errorMessage && (
           <div className="max-w-xl mx-auto p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-bold flex items-center gap-2 shadow-xs">
-            <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
+            <AlertCircle className="w-4 h-4 shrink-0 text-rose-700" />
             <span>{errorMessage}</span>
           </div>
         )}
@@ -404,10 +405,10 @@ export const AIScanPage: React.FC = () => {
         {activeTab === 'scanner' && (
           <>
             {/* THÔNG BÁO THÂN THIỆN: Laptop vs Mobile */}
-            <div className="bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-amber-500/10 border border-orange-200/90 rounded-3xl p-5 sm:p-6 shadow-xs backdrop-blur-sm">
+            <div className="bg-gradient-to-r from-brand-500/10 via-orange-500/10 to-brand-500/10 border border-orange-200/90 rounded-3xl p-5 sm:p-6 shadow-xs backdrop-blur-sm">
               <div className="flex flex-col md:flex-row items-center justify-between gap-5">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-orange-500 to-amber-500 text-white flex items-center justify-center shrink-0 shadow-md shadow-orange-500/20">
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-orange-500 to-brand-500 text-white flex items-center justify-center shrink-0 shadow-md shadow-orange-500/20">
                     <Smartphone className="w-6 h-6" />
                   </div>
                   <div className="space-y-1 text-center sm:text-left">
@@ -423,7 +424,7 @@ export const AIScanPage: React.FC = () => {
 
                 <a
                   href="/#download"
-                  className="shrink-0 inline-flex items-center gap-2 px-5 py-3 rounded-2xl font-bold text-xs text-white bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 shadow-md shadow-orange-500/25 transition-all hover:scale-105 active:scale-95"
+                  className="shrink-0 inline-flex items-center gap-2 px-5 py-3 rounded-2xl font-bold text-xs text-white bg-brand-500 hover:bg-brand-600 shadow-md shadow-orange-500/25 transition-all hover:scale-105 active:scale-95"
                 >
                   <Smartphone className="w-4 h-4" />
                   <span>Tải App Cho Điện Thoại</span>
@@ -435,16 +436,16 @@ export const AIScanPage: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               
               {/* CỘT TRÁI: KHUNG UPLOAD VÀ HIỂN THỊ ẢNH CÓ BOUNDING PINS */}
-              <div className="lg:col-span-6 bg-white rounded-3xl p-6 sm:p-8 border border-orange-100 shadow-sm space-y-6">
+              <div className="lg:col-span-6 bg-surface rounded-3xl p-6 sm:p-8 border border-orange-100 shadow-sm space-y-6">
                 <div className="flex items-center justify-between">
                   <h3 className="font-bold text-base text-slate-900 flex items-center gap-2">
-                    <Camera className="w-5 h-5 text-orange-500" />
+                    <Camera className="w-5 h-5 text-slate-700" />
                     <span>Ảnh Tủ Lạnh / Nguyên Liệu</span>
                   </h3>
                   {previewUrl && (
                     <button
                       onClick={handleReset}
-                      className="text-xs font-bold text-slate-500 hover:text-orange-600 flex items-center gap-1 transition-colors"
+                      className="text-xs font-bold text-slate-500 hover:text-slate-800 flex items-center gap-1 transition-colors"
                     >
                       <RotateCcw className="w-3.5 h-3.5" />
                       <span>Chọn ảnh khác</span>
@@ -474,7 +475,7 @@ export const AIScanPage: React.FC = () => {
                     onDrop={handleDrop}
                     className="group cursor-pointer border-2 border-dashed border-orange-200 hover:border-orange-500 bg-orange-50/40 hover:bg-orange-50/80 rounded-2xl p-10 sm:p-14 text-center space-y-4 transition-all duration-300"
                   >
-                    <div className="w-16 h-16 rounded-2xl bg-white text-orange-500 flex items-center justify-center mx-auto shadow-sm group-hover:scale-110 group-hover:shadow-md transition-all">
+                    <div className="w-16 h-16 rounded-2xl bg-surface text-slate-700 flex items-center justify-center mx-auto shadow-sm group-hover:scale-110 group-hover:shadow-md transition-all">
                       <Upload className="w-8 h-8" />
                     </div>
                     <div className="space-y-1.5">
@@ -495,7 +496,7 @@ export const AIScanPage: React.FC = () => {
                 ) : (
                   <div className="space-y-4">
                     {/* KHUNG HIỂN THỊ ẢNH + LASER SCAN + BOUNDING PINS */}
-                    <div className="relative rounded-2xl overflow-hidden border border-slate-200 bg-slate-900 shadow-inner group">
+                    <div className="relative rounded-2xl overflow-hidden border border-slate-200 bg-panel-900 shadow-inner group">
                       <img
                         src={previewUrl}
                         alt="Scan preview"
@@ -505,9 +506,9 @@ export const AIScanPage: React.FC = () => {
                       {/* Scanning Animation Laser Line */}
                       {isScanning && (
                         <div className="absolute inset-0 bg-gradient-to-b from-orange-500/20 via-orange-400/40 to-orange-500/20 flex flex-col items-center justify-center">
-                          <div className="w-full h-1 bg-gradient-to-r from-transparent via-amber-300 to-transparent animate-pulse shadow-[0_0_20px_#f59e0b]" />
-                          <div className="mt-4 bg-slate-900/95 text-white px-5 py-2.5 rounded-full text-xs font-bold flex items-center gap-2.5 border border-orange-400/60 shadow-xl backdrop-blur-md">
-                            <Sparkles className="w-4 h-4 text-amber-400 animate-spin" />
+                          <div className="w-full h-1 bg-gradient-to-r from-transparent via-brand-300 to-transparent animate-pulse shadow-lg shadow-brand-500/30" />
+                          <div className="mt-4 bg-panel-900/95 text-white px-5 py-2.5 rounded-full text-xs font-bold flex items-center gap-2.5 border border-orange-400/60 shadow-xl backdrop-blur-md">
+                            <Sparkles className="w-4 h-4 text-slate-500 animate-spin" />
                             <span>Gemini Vision đang bóc tách từng đối tượng...</span>
                           </div>
                         </div>
@@ -526,14 +527,14 @@ export const AIScanPage: React.FC = () => {
                                 aria-pressed={isSelected} title={target.name}
                                 onClick={() => setSelectedTargetName(target.name)}
                                 style={{ top: `${pin.top}%`, left: `${pin.left}%` }}
-                                className={`absolute -translate-x-1/2 -translate-y-1/2 pointer-events-auto min-w-10 h-10 px-2 rounded-full border-2 shadow-lg flex items-center justify-center gap-1 text-xs font-extrabold transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange-500 ${isSelected ? 'bg-orange-500 text-white border-white ring-4 ring-orange-400/30 z-20' : 'bg-white/95 text-slate-800 border-orange-300 z-10 hover:bg-orange-50'}`}>
+                                className={`absolute -translate-x-1/2 -translate-y-1/2 pointer-events-auto min-w-10 h-10 px-2 rounded-full border-2 shadow-lg flex items-center justify-center gap-1 text-xs font-extrabold transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus ${isSelected ? 'bg-orange-500 text-white border-white ring-4 ring-orange-400/30 z-20' : 'bg-surface/95 text-slate-800 border-orange-300 z-10 hover:bg-orange-50'}`}>
                                 <span aria-hidden="true">{foodIcons[target.icon || pin.icon || 'silverware-fork-knife'] || '🍽️'}</span>
                                 <span>{index + 1}</span>
                               </button>
                             );
                           })}
                           {selectedTarget && (
-                            <div className="absolute bottom-3 inset-x-3 rounded-2xl bg-slate-900/95 text-white shadow-lg px-3 py-2.5 flex items-center gap-3 border border-white/15" aria-live="polite" aria-atomic="true">
+                            <div className="absolute bottom-3 inset-x-3 rounded-2xl bg-panel-900/95 text-white shadow-lg px-3 py-2.5 flex items-center gap-3 border border-white/15" aria-live="polite" aria-atomic="true">
                               <span className="w-8 h-8 rounded-xl bg-orange-500 flex items-center justify-center shrink-0 text-sm font-extrabold">{selectedTargetIndex + 1}</span>
                               <span className="text-xl" aria-hidden="true">{foodIcons[selectedTarget.icon || 'silverware-fork-knife'] || '🍽️'}</span>
                               <div className="min-w-0 flex-1"><p className="text-xs font-bold leading-relaxed break-words">{selectedTarget.name}</p><p className="text-[10px] text-slate-300 mt-0.5">Độ tin cậy AI ước tính: {selectedTarget.confidence}</p></div>
@@ -580,12 +581,12 @@ export const AIScanPage: React.FC = () => {
               <div className="lg:col-span-6 space-y-6">
                 
                 {scanResult && photoTargets.length > 0 && (
-                  <section className="bg-white rounded-3xl p-6 sm:p-8 border border-orange-100 shadow-sm space-y-4" aria-label="Danh sách món trong ảnh">
-                    <div><h3 className="font-bold text-base text-slate-900 flex items-center gap-2"><ChefHat className="w-5 h-5 text-orange-500" />{scanResult.dishes?.length ? 'Món ăn trong ảnh' : 'Thực phẩm trong ảnh'} ({photoTargets.length})</h3><p className="text-xs text-slate-500 mt-1">Số thứ tự tương ứng với dấu trên ảnh.</p></div>
+                  <section className="bg-surface rounded-3xl p-6 sm:p-8 border border-orange-100 shadow-sm space-y-4" aria-label="Danh sách món trong ảnh">
+                    <div><h3 className="font-bold text-base text-slate-900 flex items-center gap-2"><ChefHat className="w-5 h-5 text-slate-700" />{scanResult.dishes?.length ? 'Món ăn trong ảnh' : 'Thực phẩm trong ảnh'} ({photoTargets.length})</h3><p className="text-xs text-slate-500 mt-1">Số thứ tự tương ứng với dấu trên ảnh.</p></div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-2.5">
                       {photoTargets.map((target, index) => (
                         <button key={target.name} type="button" aria-pressed={selectedTarget?.name === target.name} onClick={() => setSelectedTargetName(target.name)}
-                          className={`w-full text-left flex items-start gap-3 p-3 rounded-2xl border transition-colors focus-visible:outline-2 focus-visible:outline-orange-500 ${selectedTarget?.name === target.name ? 'bg-orange-50 border-orange-400 ring-1 ring-orange-200' : 'border-slate-200 hover:border-orange-300 hover:bg-orange-50/40'}`}>
+                          className={`w-full text-left flex items-start gap-3 p-3 rounded-2xl border transition-colors focus-visible:outline-2 focus-visible:outline-focus ${selectedTarget?.name === target.name ? 'bg-orange-50 border-orange-400 ring-1 ring-orange-200' : 'border-slate-200 hover:border-orange-300 hover:bg-orange-50/40'}`}>
                           <span className={`w-7 h-7 shrink-0 rounded-lg flex items-center justify-center text-xs font-extrabold ${selectedTarget?.name === target.name ? 'bg-orange-500 text-white' : 'bg-slate-100 text-slate-600'}`}>{index + 1}</span>
                           <span className="min-w-0 flex-1"><span className="block text-xs font-bold text-slate-900 leading-relaxed break-words"><span aria-hidden="true">{foodIcons[target.icon || 'silverware-fork-knife'] || '🍽️'}</span> {target.name}</span><span className="block text-[10px] text-slate-500 mt-1">AI ước tính · {target.confidence}</span></span>
                         </button>
@@ -596,11 +597,11 @@ export const AIScanPage: React.FC = () => {
                 )}
 
                 {/* Box 1: Danh sách nguyên liệu AI tìm thấy */}
-                <div className="bg-white rounded-3xl p-6 sm:p-8 border border-orange-100 shadow-sm space-y-5">
+                <div className="bg-surface rounded-3xl p-6 sm:p-8 border border-orange-100 shadow-sm space-y-5">
                   <div className="flex items-center justify-between flex-wrap gap-2">
                     <div>
                       <h3 className="font-bold text-base text-slate-900 flex items-center gap-2">
-                        <Sparkles className="w-5 h-5 text-orange-500" />
+                        <Sparkles className="w-5 h-5 text-slate-700" />
                         <span>{scanResult?.dishes?.length ? 'Nguyên liệu của món' : 'Nguyên liệu nhận diện'} ({selectedIngredients.length})</span>
                       </h3>
                       {scanResult?.title && (
@@ -612,7 +613,7 @@ export const AIScanPage: React.FC = () => {
                       <button
                         onClick={handleAddAllToFridge}
                         disabled={addingToFridge}
-                        className="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-sm transition-all disabled:opacity-50 active:scale-95"
+                        className="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-success-action-hover text-white text-xs font-bold flex items-center gap-1.5 shadow-sm transition-all disabled:opacity-50 active:scale-95"
                       >
                         <Refrigerator className="w-3.5 h-3.5" />
                         <span>{addingToFridge ? 'Đang thêm...' : (scanResult?.dishes?.length ? 'Thêm nguyên liệu món này' : 'Thêm nguyên liệu vào tủ lạnh')}</span>
@@ -651,7 +652,7 @@ export const AIScanPage: React.FC = () => {
 
                             <div className="flex items-center gap-3">
                               <div className="text-right">
-                                <span className="text-xs font-extrabold text-orange-600">
+                                <span className="text-xs font-extrabold text-slate-800">
                                   {typeof item.confidence === 'number' ? `${item.confidence}%` : item.confidence}
                                 </span>
                                 <p className="text-[9px] text-slate-400">Độ tin cậy</p>
@@ -663,12 +664,12 @@ export const AIScanPage: React.FC = () => {
                                 className={`px-2.5 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1 transition-all ${
                                   isAdded
                                     ? 'bg-emerald-100 text-emerald-700 cursor-default'
-                                    : 'bg-white border border-slate-200 hover:border-orange-400 hover:text-orange-600 text-slate-700 shadow-2xs'
+                                    : 'bg-surface border border-slate-200 hover:border-orange-400 hover:text-slate-800 text-slate-700 shadow-2xs'
                                 }`}
                               >
                                 {isAdded ? (
                                   <>
-                                    <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                                    <CheckCircle2 className="w-3 h-3 text-emerald-700" />
                                     <span>Đã thêm</span>
                                   </>
                                 ) : (
@@ -694,11 +695,11 @@ export const AIScanPage: React.FC = () => {
 
                 {/* Box 2: Món ăn đề xuất tức thì dựa trên ảnh quét */}
                 {scanResult && scanResult.suggestedRecipe && (
-                  <div className="bg-white rounded-3xl p-6 sm:p-8 border border-orange-100 shadow-sm space-y-4 animate-in fade-in slide-in-from-bottom-3 duration-300">
+                  <div className="bg-surface rounded-3xl p-6 sm:p-8 border border-orange-100 shadow-sm space-y-4 animate-in fade-in slide-in-from-bottom-3 duration-300">
                     <div className="flex items-center justify-between">
                       <div className="space-y-0.5">
                         <h3 className="font-bold text-base text-slate-900 flex items-center gap-2">
-                          <ChefHat className="w-5 h-5 text-orange-500" />
+                          <ChefHat className="w-5 h-5 text-slate-700" />
                           <span>Món Ăn Gợi Ý Nấu Ngay</span>
                         </h3>
                         <p className="text-xs text-slate-500">
@@ -707,14 +708,14 @@ export const AIScanPage: React.FC = () => {
                       </div>
                       <Link
                         to="/recipes"
-                        className="text-xs font-bold text-orange-600 hover:text-orange-700 flex items-center gap-1"
+                        className="text-xs font-bold text-slate-800 hover:text-slate-900 flex items-center gap-1"
                       >
                         <span>Khám phá thêm</span>
                         <ArrowRight className="w-3.5 h-3.5" />
                       </Link>
                     </div>
 
-                    <div className="p-4 rounded-2xl border border-orange-200/80 bg-gradient-to-br from-orange-50/60 to-amber-50/40 space-y-3">
+                    <div className="p-4 rounded-2xl border border-orange-200/80 bg-gradient-to-br from-orange-50/60 to-brand-50/40 space-y-3">
                       <div className="flex items-start justify-between gap-3">
                         <div>
                           <span className="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
@@ -733,11 +734,11 @@ export const AIScanPage: React.FC = () => {
                       <div className="flex items-center justify-between pt-2 border-t border-orange-100 text-xs">
                         <div className="flex items-center gap-4 text-slate-500 font-medium">
                           <span className="flex items-center gap-1">
-                            <Clock className="w-3.5 h-3.5 text-orange-500" />
+                            <Clock className="w-3.5 h-3.5 text-slate-700" />
                             <span>{scanResult.suggestedRecipe.durationMinutes ?? 0} phút</span>
                           </span>
                           <span className="flex items-center gap-1">
-                            <Flame className="w-3.5 h-3.5 text-amber-500" />
+                            <Flame className="w-3.5 h-3.5 text-slate-700" />
                             <span>{scanResult.suggestedRecipe.calories ?? 0} kcal</span>
                           </span>
                         </div>
@@ -764,11 +765,11 @@ export const AIScanPage: React.FC = () => {
             TAB 2: LỊCH SỬ CÁC LẦN QUÉT (SCAN HISTORY VIEW)
         ========================================================================== */}
         {activeTab === 'history' && (
-          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-orange-100 shadow-sm space-y-6">
+          <div className="bg-surface rounded-3xl p-6 sm:p-8 border border-orange-100 shadow-sm space-y-6">
             <div className="flex items-center justify-between flex-wrap gap-3">
               <div>
                 <h3 className="font-bold text-lg text-slate-900 flex items-center gap-2">
-                  <History className="w-5 h-5 text-orange-500" />
+                  <History className="w-5 h-5 text-slate-700" />
                   <span>Nhật Ký Quét Thực Phẩm Gần Đây</span>
                 </h3>
                 <p className="text-xs text-slate-500 mt-0.5">
@@ -792,7 +793,7 @@ export const AIScanPage: React.FC = () => {
               </div>
             ) : scanHistory.length === 0 ? (
               <div className="text-center py-16 space-y-3">
-                <div className="w-14 h-14 rounded-2xl bg-orange-50 text-orange-500 flex items-center justify-center mx-auto">
+                <div className="w-14 h-14 rounded-2xl bg-orange-50 text-slate-700 flex items-center justify-center mx-auto">
                   <Camera className="w-7 h-7" />
                 </div>
                 <h4 className="text-sm font-bold text-slate-800">Chưa có lịch sử quét nào</h4>
@@ -812,23 +813,23 @@ export const AIScanPage: React.FC = () => {
                   <div
                     key={item.id || item._id}
                     onClick={() => handleSelectHistoryItem(item)}
-                    className="group cursor-pointer rounded-2xl border border-slate-200 hover:border-orange-300 bg-white hover:shadow-md transition-all overflow-hidden flex flex-col justify-between"
+                    className="group cursor-pointer rounded-2xl border border-slate-200 hover:border-orange-300 bg-surface hover:shadow-md transition-all overflow-hidden flex flex-col justify-between"
                   >
                     <div>
                       {/* Ảnh scan */}
-                      <div className="relative h-40 bg-slate-900 overflow-hidden">
-                        <img
+                      <div className="relative h-40 bg-panel-900 overflow-hidden">
+                        <MediaImage
                           src={item.imageUrl || item.image}
                           alt={item.title}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         />
-                        <div className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-lg bg-slate-900/80 backdrop-blur-sm text-white text-[10px] font-bold">
+                        <div className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-lg bg-panel-900/80 backdrop-blur-sm text-white text-[10px] font-bold">
                           {item.scannedAt || 'Đã lưu'}
                         </div>
                         <button
                           onClick={(e) => handleDeleteHistoryItem(e, item.id || item._id || '')}
                           title="Xóa bản ghi này"
-                          className="absolute top-2.5 right-2.5 p-1.5 rounded-lg bg-slate-900/80 hover:bg-rose-600 text-white text-xs transition-colors"
+                          className="absolute top-2.5 right-2.5 p-1.5 rounded-lg bg-panel-900/80 hover:bg-rose-600 text-white text-xs transition-colors"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
@@ -836,7 +837,7 @@ export const AIScanPage: React.FC = () => {
 
                       {/* Thông tin */}
                       <div className="p-4 space-y-2.5">
-                        <h4 className="text-xs sm:text-sm font-bold text-slate-900 group-hover:text-orange-600 transition-colors truncate">
+                        <h4 className="text-xs sm:text-sm font-bold text-slate-900 group-hover:text-slate-800 transition-colors truncate">
                           {item.title || 'Quét thực phẩm'}
                         </h4>
 
@@ -844,7 +845,7 @@ export const AIScanPage: React.FC = () => {
                           {item.ingredients.slice(0, 4).map((ing, i) => (
                             <span
                               key={i}
-                              className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-orange-50 text-orange-700 border border-orange-100"
+                              className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-orange-50 text-slate-900 border border-orange-100"
                             >
                               {ing.name}
                             </span>
@@ -858,7 +859,7 @@ export const AIScanPage: React.FC = () => {
 
                         {item.suggestedRecipe && (
                           <div className="text-[11px] text-slate-500 pt-1 flex items-center gap-1.5">
-                            <ChefHat className="w-3.5 h-3.5 text-orange-500 shrink-0" />
+                            <ChefHat className="w-3.5 h-3.5 text-slate-700 shrink-0" />
                             <span className="truncate">{item.suggestedRecipe.title}</span>
                           </div>
                         )}
@@ -866,10 +867,10 @@ export const AIScanPage: React.FC = () => {
                     </div>
 
                     <div className="px-4 py-2.5 border-t border-slate-100 bg-slate-50/50 flex items-center justify-between text-xs">
-                      <span className="text-[11px] font-bold text-emerald-600">
+                      <span className="text-[11px] font-bold text-emerald-700">
                         {item.accuracy}% độ tin cậy AI ước tính
                       </span>
-                      <span className="text-[11px] font-bold text-orange-600 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                      <span className="text-[11px] font-bold text-slate-800 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
                         <span>Xem chi tiết</span>
                         <ArrowRight className="w-3 h-3" />
                       </span>

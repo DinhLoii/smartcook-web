@@ -1,3 +1,4 @@
+import { MediaImage } from '../../components/common/MediaImage';
 import React, { useState, useEffect } from 'react';
 import {
   Bot,
@@ -239,14 +240,14 @@ export const AIEnginePage: React.FC = () => {
   return (
     <div className="space-y-4">
       {/* ================= THANH ĐIỀU HƯỚNG TAB TÍNH NĂNG AI ================= */}
-      <div className="bg-white p-3.5 rounded-xl border border-slate-200/80 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div className="bg-surface p-3.5 rounded-xl border border-slate-200/80 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-3">
         <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto">
           <button
             onClick={() => setActiveTab('assistant')}
             className={`px-4 py-2 rounded-lg text-xs font-bold transition-all shrink-0 flex items-center gap-2 ${
               activeTab === 'assistant'
                 ? 'bg-gradient-to-r from-indigo-600 to-indigo-500 text-white shadow-sm shadow-indigo-500/20'
-                : 'bg-slate-50 text-slate-600 hover:bg-indigo-50/50 hover:text-indigo-600 border border-slate-200/60'
+                : 'bg-slate-50 text-slate-600 hover:bg-indigo-50/50 hover:text-slate-800 border border-slate-200/60'
             }`}
           >
             <Bot className="w-3.5 h-3.5" />
@@ -258,10 +259,10 @@ export const AIEnginePage: React.FC = () => {
             className={`px-4 py-2 rounded-lg text-xs font-bold transition-all shrink-0 flex items-center gap-2 ${
               activeTab === 'vision'
                 ? 'bg-gradient-to-r from-indigo-600 to-indigo-500 text-white shadow-sm shadow-indigo-500/20'
-                : 'bg-slate-50 text-slate-600 hover:bg-indigo-50/50 hover:text-indigo-600 border border-slate-200/60'
+                : 'bg-slate-50 text-slate-600 hover:bg-indigo-50/50 hover:text-slate-800 border border-slate-200/60'
             }`}
           >
-            <ScanLine className="w-3.5 h-3.5 text-emerald-500" />
+            <ScanLine className="w-3.5 h-3.5 text-emerald-700" />
             <span>Thị Giác Nhận Diện Tủ Lạnh (Vision AI)</span>
           </button>
 
@@ -270,10 +271,10 @@ export const AIEnginePage: React.FC = () => {
             className={`px-4 py-2 rounded-lg text-xs font-bold transition-all shrink-0 flex items-center gap-2 ${
               activeTab === 'playground'
                 ? 'bg-gradient-to-r from-indigo-600 to-indigo-500 text-white shadow-sm shadow-indigo-500/20'
-                : 'bg-slate-50 text-slate-600 hover:bg-indigo-50/50 hover:text-indigo-600 border border-slate-200/60'
+                : 'bg-slate-50 text-slate-600 hover:bg-indigo-50/50 hover:text-slate-800 border border-slate-200/60'
             }`}
           >
-            <Terminal className="w-3.5 h-3.5 text-amber-500" />
+            <Terminal className="w-3.5 h-3.5 text-amber-700" />
             <span>Phòng Thử Nghiệm Prompt (Playground)</span>
           </button>
         </div>
@@ -312,11 +313,11 @@ export const AIEnginePage: React.FC = () => {
       {activeTab === 'assistant' && (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
           {/* CỘT TRÁI (8 phần): System Prompt & Cấu hình Persona */}
-          <div className="lg:col-span-8 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
+          <div className="lg:col-span-8 bg-surface p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <div>
                 <h3 className="text-sm font-extrabold text-slate-900 font-['Outfit'] flex items-center gap-1.5">
-                  <Bot className="w-4 h-4 text-indigo-600" />
+                  <Bot className="w-4 h-4 text-slate-800" />
                   <span>Định Hình System Prompt & Khẩu Khí Đầu Bếp</span>
                 </h3>
                 <p className="text-xs text-slate-400 mt-0.5">
@@ -330,7 +331,7 @@ export const AIEnginePage: React.FC = () => {
                 <select
                   value={selectedModel}
                   onChange={(e) => setSelectedModel(e.target.value as any)}
-                  className="px-2.5 py-1 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold text-indigo-700 outline-none"
+                  className="px-2.5 py-1 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold text-slate-900 outline-none"
                 >
                   <option value="gemini-2.5-flash">Gemini 2.5 Flash (Tối ưu tốc độ)</option>
                   <option value="gemini-1.5-pro">Gemini 1.5 Pro (Lập luận món ăn sâu)</option>
@@ -353,7 +354,7 @@ export const AIEnginePage: React.FC = () => {
                 rows={8}
                 value={promptText}
                 onChange={(e) => setPromptText(e.target.value)}
-                className="w-full p-4 bg-slate-50/80 border border-slate-200 rounded-xl text-xs font-mono leading-relaxed text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500"
+                className="w-full p-4 bg-slate-50/80 border border-slate-200 rounded-xl text-xs font-mono leading-relaxed text-slate-800 focus:outline-none focus:ring-2 focus:ring-focus/30 focus:border-focus"
               />
             </div>
 
@@ -364,7 +365,7 @@ export const AIEnginePage: React.FC = () => {
                   <label className="text-[10.5px] font-bold text-slate-700 uppercase">
                     Độ Sáng Tạo Món Ăn (Temperature)
                   </label>
-                  <span className="text-xs font-mono font-extrabold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">
+                  <span className="text-xs font-mono font-extrabold text-slate-900 bg-indigo-50 px-2 py-0.5 rounded">
                     {aiConfig.temperature}
                   </span>
                 </div>
@@ -391,7 +392,7 @@ export const AIEnginePage: React.FC = () => {
                 <select
                   value={aiConfig.personaTone}
                   onChange={(e) => updateAIConfig({ personaTone: e.target.value as any })}
-                  className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:ring-2 focus:ring-indigo-500/30"
+                  className="w-full px-3 py-2 bg-surface border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:ring-2 focus:ring-focus/30"
                 >
                   <option value="friendly">Thân thiện, vui vẻ, tận tâm (Gợi ý nấu ăn hàng ngày)</option>
                   <option value="traditional_viet">Ấm cúng, am hiểu sâu sắc ẩm thực 3 miền Việt Nam</option>
@@ -426,10 +427,10 @@ export const AIEnginePage: React.FC = () => {
           </div>
 
           {/* CỘT PHẢI (4 phần): Câu hỏi gợi ý nhanh (Quick Prompts) */}
-          <div className="lg:col-span-4 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
+          <div className="lg:col-span-4 bg-surface p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
             <div>
               <h3 className="text-sm font-extrabold text-slate-900 font-['Outfit'] flex items-center gap-1.5">
-                <Sparkles className="w-4 h-4 text-amber-500" />
+                <Sparkles className="w-4 h-4 text-amber-700" />
                 <span>Gợi Ý Câu Hỏi Nhanh (Quick Prompts)</span>
               </h3>
               <p className="text-xs text-slate-400 mt-0.5">
@@ -444,7 +445,7 @@ export const AIEnginePage: React.FC = () => {
                 placeholder="Thêm câu hỏi mẫu mới..."
                 value={newQuickPrompt}
                 onChange={(e) => setNewQuickPrompt(e.target.value)}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-focus/30"
               />
               <button
                 type="submit"
@@ -464,7 +465,7 @@ export const AIEnginePage: React.FC = () => {
                   <span className="font-semibold line-clamp-1">{qp}</span>
                   <button
                     onClick={() => handleRemoveQuickPrompt(idx)}
-                    className="text-slate-400 hover:text-rose-600 p-1 rounded-lg transition-colors ml-2 shrink-0"
+                    className="text-slate-400 hover:text-rose-700 p-1 rounded-lg transition-colors ml-2 shrink-0"
                     title="Xóa câu hỏi gợi ý"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
@@ -483,31 +484,31 @@ export const AIEnginePage: React.FC = () => {
         <div className="space-y-4">
           {/* 3 Metric Cards Chỉ Số Thị Giác Máy Tính */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-            <div className="bg-white p-4 rounded-xl border border-slate-200/80 shadow-xs space-y-1">
+            <div className="bg-surface p-4 rounded-xl border border-slate-200/80 shadow-xs space-y-1">
               <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
                 Độ Chính Xác Nhận Diện Vision
               </span>
-              <div className="text-2xl font-black text-emerald-600 font-['Outfit']">
+              <div className="text-2xl font-black text-emerald-700 font-['Outfit']">
                 {aiConfig.visionAccuracyOverall}%
               </div>
               <p className="text-[10.5px] text-slate-400">Trên 4,120 lượt chụp quét tuần qua</p>
             </div>
 
-            <div className="bg-white p-4 rounded-xl border border-slate-200/80 shadow-xs space-y-1">
+            <div className="bg-surface p-4 rounded-xl border border-slate-200/80 shadow-xs space-y-1">
               <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
                 Thời Gian Phản Hồi Trung Bình
               </span>
-              <div className="text-2xl font-black text-indigo-600 font-['Outfit']">
+              <div className="text-2xl font-black text-slate-800 font-['Outfit']">
                 1.2 giây
               </div>
               <p className="text-[10.5px] text-slate-400">Xử lý đám mây độ trễ thấp</p>
             </div>
 
-            <div className="bg-white p-4 rounded-xl border border-slate-200/80 shadow-xs space-y-1">
+            <div className="bg-surface p-4 rounded-xl border border-slate-200/80 shadow-xs space-y-1">
               <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
                 Tỷ Lệ Người Dùng Chấp Nhận Món
               </span>
-              <div className="text-2xl font-black text-amber-600 font-['Outfit']">
+              <div className="text-2xl font-black text-amber-700 font-['Outfit']">
                 87.4%
               </div>
               <p className="text-[10.5px] text-slate-400">Bấm bắt đầu nấu theo gợi ý AI</p>
@@ -515,11 +516,11 @@ export const AIEnginePage: React.FC = () => {
           </div>
 
           {/* Cấu hình ngưỡng lọc nguyên liệu */}
-          <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
+          <div className="bg-surface p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <div>
                 <h3 className="text-sm font-extrabold text-slate-900 font-['Outfit'] flex items-center gap-1.5">
-                  <SlidersHorizontal className="w-4 h-4 text-indigo-600" />
+                  <SlidersHorizontal className="w-4 h-4 text-slate-800" />
                   <span>Cấu Hình Ngưỡng Nhận Diện Thị Giác (Vision Thresholds)</span>
                 </h3>
                 <p className="text-xs text-slate-400 mt-0.5">
@@ -542,7 +543,7 @@ export const AIEnginePage: React.FC = () => {
               <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
                 <div className="flex justify-between font-bold text-slate-800">
                   <span>Ngưỡng Tin Cậy Tối Thiểu:</span>
-                  <span className="text-indigo-600 font-mono">{visionConfidenceThreshold}%</span>
+                  <span className="text-slate-800 font-mono">{visionConfidenceThreshold}%</span>
                 </div>
                 <input
                   type="range"
@@ -560,7 +561,7 @@ export const AIEnginePage: React.FC = () => {
               <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
                 <div className="flex justify-between font-bold text-slate-800">
                   <span>Số Nguyên Liệu Tối Đa / Ảnh:</span>
-                  <span className="text-indigo-600 font-mono">{maxIngredientsPerScan} món</span>
+                  <span className="text-slate-800 font-mono">{maxIngredientsPerScan} món</span>
                 </div>
                 <input
                   type="range"
@@ -598,11 +599,11 @@ export const AIEnginePage: React.FC = () => {
           </div>
 
           {/* Bảng nhật ký quét thực tế */}
-          <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
+          <div className="bg-surface rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
             <div className="p-4 border-b border-slate-100 flex items-center justify-between flex-wrap gap-2">
               <div>
                 <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider font-['Outfit'] flex items-center gap-1.5">
-                  <Camera className="w-4 h-4 text-indigo-600" />
+                  <Camera className="w-4 h-4 text-slate-800" />
                   <span>Nhật Ký Quét Ảnh Thực Tế Từ Người Dùng (Live & Anonymized Logs)</span>
                 </h3>
                 <p className="text-xs text-slate-400 mt-0.5">
@@ -638,13 +639,14 @@ export const AIEnginePage: React.FC = () => {
                       <tr key={scan.id || idx} className="hover:bg-indigo-50/30 transition-colors">
                         <td className="py-3.5 px-5 font-bold text-slate-900 whitespace-nowrap flex items-center gap-2">
                           {scan.imageUrl || scan.image ? (
-                            <img
+                            <MediaImage
+                              compact
                               src={scan.imageUrl || scan.image}
-                              alt="Scan thumb"
+                              alt="Ảnh lần quét"
                               className="w-7 h-7 rounded-lg object-cover border border-slate-200"
                             />
                           ) : (
-                            <div className="w-7 h-7 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center font-bold text-[10px]">
+                            <div className="w-7 h-7 rounded-lg bg-orange-100 text-slate-800 flex items-center justify-center font-bold text-[10px]">
                               AI
                             </div>
                           )}
@@ -658,7 +660,7 @@ export const AIEnginePage: React.FC = () => {
                             {scan.ingredients.slice(0, 4).map((ing, i) => (
                               <span
                                 key={i}
-                                className="px-2 py-0.5 rounded-md text-[10.5px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-100"
+                                className="px-2 py-0.5 rounded-md text-[10.5px] font-bold bg-indigo-50 text-slate-900 border border-indigo-100"
                               >
                                 {ing.name}
                               </span>
@@ -676,7 +678,7 @@ export const AIEnginePage: React.FC = () => {
                           </span>
                         </td>
                         <td className="py-3.5 px-5 text-right whitespace-nowrap">
-                          <span className="font-extrabold text-orange-700 bg-orange-50 px-2.5 py-1 rounded-lg border border-orange-200">
+                          <span className="font-extrabold text-slate-900 bg-orange-50 px-2.5 py-1 rounded-lg border border-orange-200">
                             {scan.suggestedRecipe?.title || 'Salad thanh đạm'}
                           </span>
                         </td>
@@ -696,7 +698,7 @@ export const AIEnginePage: React.FC = () => {
                             {scan.detectedLabels.map((lbl, idx) => (
                               <span
                                 key={idx}
-                                className="px-2 py-0.5 rounded-md text-[10.5px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-100"
+                                className="px-2 py-0.5 rounded-md text-[10.5px] font-bold bg-indigo-50 text-slate-900 border border-indigo-100"
                               >
                                 {lbl}
                               </span>
@@ -729,9 +731,9 @@ export const AIEnginePage: React.FC = () => {
       {activeTab === 'playground' && (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
           {/* CỘT TRÁI (5 phần): Cấu hình ngữ cảnh thử nghiệm */}
-          <div className="lg:col-span-5 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
+          <div className="lg:col-span-5 bg-surface p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
             <h3 className="text-sm font-extrabold text-slate-900 font-['Outfit'] flex items-center gap-1.5">
-              <Settings className="w-4 h-4 text-indigo-600" />
+              <Settings className="w-4 h-4 text-slate-800" />
               <span>Ngữ Cảnh Thử Nghiệm Mô Phỏng</span>
             </h3>
 
@@ -745,7 +747,7 @@ export const AIEnginePage: React.FC = () => {
 
               <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 flex justify-between items-center">
                 <span className="font-bold text-slate-700">Phong cách Persona:</span>
-                <span className="font-extrabold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded uppercase text-[10px]">
+                <span className="font-extrabold text-slate-900 bg-indigo-50 px-2 py-0.5 rounded uppercase text-[10px]">
                   {aiConfig.personaTone}
                 </span>
               </div>
@@ -758,8 +760,8 @@ export const AIEnginePage: React.FC = () => {
               </div>
 
               <div className="p-3 bg-indigo-50/50 rounded-xl border border-indigo-100 text-slate-700 space-y-1">
-                <span className="font-bold text-indigo-900 block flex items-center gap-1">
-                  <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
+                <span className="font-bold text-slate-900 block flex items-center gap-1">
+                  <Sparkles className="w-3.5 h-3.5 text-slate-800" />
                   Mẹo thử nghiệm
                 </span>
                 <p className="text-[11px] text-slate-600 leading-relaxed">
@@ -786,7 +788,7 @@ export const AIEnginePage: React.FC = () => {
           </div>
 
           {/* CỘT PHẢI (7 phần): Hộp Chatbot Thử Nghiệm Trực Tiếp (Playground Console) */}
-          <div className="lg:col-span-7 bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden flex flex-col h-[560px]">
+          <div className="lg:col-span-7 bg-surface rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden flex flex-col h-[560px]">
             {/* Topbar chat */}
             <div className="px-5 py-3.5 border-b border-slate-100 bg-slate-50/70 flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -797,7 +799,7 @@ export const AIEnginePage: React.FC = () => {
                   <span className="font-extrabold text-xs text-slate-900 block font-['Outfit']">
                     SmartCook Chef AI Console
                   </span>
-                  <span className="text-[10px] text-emerald-600 font-bold flex items-center gap-1">
+                  <span className="text-[10px] text-emerald-700 font-bold flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                     Online • Trực Tiếp
                   </span>
@@ -819,7 +821,7 @@ export const AIEnginePage: React.FC = () => {
                   <div
                     className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold shrink-0 ${
                       msg.role === 'user'
-                        ? 'bg-slate-900 text-white'
+                        ? 'bg-panel-900 text-white'
                         : 'bg-indigo-600 text-white shadow-xs'
                     }`}
                   >
@@ -830,7 +832,7 @@ export const AIEnginePage: React.FC = () => {
                     className={`max-w-md p-3.5 rounded-2xl space-y-1 leading-relaxed ${
                       msg.role === 'user'
                         ? 'bg-indigo-600 text-white rounded-tr-xs font-medium'
-                        : 'bg-white border border-slate-200/90 text-slate-800 rounded-tl-xs shadow-2xs font-normal'
+                        : 'bg-surface border border-slate-200/90 text-slate-800 rounded-tl-xs shadow-2xs font-normal'
                     }`}
                   >
                     <p className="whitespace-pre-line">{msg.text}</p>
@@ -846,7 +848,7 @@ export const AIEnginePage: React.FC = () => {
               ))}
 
               {isSimulatingAI && (
-                <div className="flex items-center gap-2 text-indigo-600 text-xs font-bold pl-9">
+                <div className="flex items-center gap-2 text-slate-800 text-xs font-bold pl-9">
                   <Sparkles className="w-3.5 h-3.5 animate-spin" />
                   <span>Chef AI đang suy nghĩ công thức...</span>
                 </div>
@@ -856,14 +858,14 @@ export const AIEnginePage: React.FC = () => {
             {/* Ô nhập tin nhắn thử nghiệm */}
             <form
               onSubmit={handleSendTestMessage}
-              className="p-3 border-t border-slate-100 bg-white flex items-center gap-2"
+              className="p-3 border-t border-slate-100 bg-surface flex items-center gap-2"
             >
               <input
                 type="text"
                 placeholder="Nhập câu hỏi thử nghiệm gửi tới Chef AI..."
                 value={testInput}
                 onChange={(e) => setTestInput(e.target.value)}
-                className="flex-1 px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
+                className="flex-1 px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-focus/30"
               />
               <button
                 type="submit"

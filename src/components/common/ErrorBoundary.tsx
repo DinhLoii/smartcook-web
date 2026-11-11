@@ -1,3 +1,4 @@
+import { ThemeToggle } from './ThemeToggle';
 import React, { Component, type ErrorInfo, type ReactNode } from 'react';
 import { AlertOctagon, RotateCcw, Home, Sparkles } from 'lucide-react';
 
@@ -53,8 +54,9 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       }
 
       return (
-        <div className="min-h-screen bg-[#faf8f5] flex items-center justify-center p-4 selection:bg-orange-500 selection:text-white">
-          <div className="relative w-full max-w-lg bg-white/95 backdrop-blur-md rounded-3xl border border-rose-200/80 p-8 shadow-2xl space-y-6 animate-in fade-in zoom-in-95 duration-300">
+        <div className="min-h-screen bg-canvas flex items-center justify-center p-4 selection:bg-orange-500 selection:text-white">
+          <div className="absolute right-4 top-4"><ThemeToggle /></div>
+          <div className="relative w-full max-w-lg bg-surface/95 backdrop-blur-md rounded-3xl border border-rose-200/80 p-8 shadow-2xl space-y-6 animate-in fade-in zoom-in-95 duration-300">
             {/* Header Icon */}
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 rounded-2xl bg-rose-500 text-white flex items-center justify-center shadow-lg shadow-rose-500/25 shrink-0">
@@ -76,7 +78,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>Chi tiết lỗi hệ thống:</span>
               </p>
-              <p className="font-mono text-[11px] bg-white/80 p-2.5 rounded-xl border border-rose-200/60 break-words max-h-32 overflow-y-auto">
+              <p className="font-mono text-[11px] bg-surface/80 p-2.5 rounded-xl border border-rose-200/60 break-words max-h-32 overflow-y-auto">
                 {this.state.error?.message || 'Lỗi không xác định trong quá trình kết xuất trang.'}
               </p>
             </div>

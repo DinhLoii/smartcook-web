@@ -7,13 +7,15 @@ import { audioBlobBase64, prepareCookingAudio, recordingMimeType } from '../util
 import { watchCookingSpeech } from '../utils/cookingSpeechEnd';
 import { cookingRecognitionConstructor, listenCookingCommand } from '../utils/cookingRecognition';
 import { cookingStepAnnouncement } from '../utils/cookingStepSpeech';
-import { parseRecipeVideoCommand, type RecipeVideoCommand } from '../utils/recipeVideoCommands';
+import { parseRecipeVideoCommand, type CookingVoiceTarget, type RecipeVideoCommand } from '../utils/recipeVideoCommands';
 
 type Phase = 'idle' | 'permission' | 'recording' | 'transcribing' | 'thinking';
 type Context = Omit<CookingVoiceRequest, 'userVoiceText' | 'conversationHistory'>;
 
 export function useCookingVoice(context: Context, recipeId: string, onAction: (reply: CookingVoiceReply) => void, cookingActive = false, onVideoCommand?: (command: RecipeVideoCommand) => string) {
   const [phase, setPhase] = useState<Phase>('idle');
+  const [inputTarget, setInputTarget] = useState<CookingVoiceTarget>('cooking');
+  const [videoFeedback, setVideoFeedback] = useState<{ text: string; message: string } | null>(null);
   const [transcript, setTranscript] = useState('');
   const [reply, setReply] = useState('');
   const [error, setError] = useState('');
@@ -24,6 +26,7 @@ export function useCookingVoice(context: Context, recipeId: string, onAction: (r
   useEffect(() => { latest.current = { context, onAction, readReplies, onVideoCommand }; }, [context, onAction, readReplies, onVideoCommand]);
   const session = useRef(0);
   const busy = useRef(false);
+  const activeTarget = useRef<CookingVoiceTarget>('cooking');
   const controller = useRef<AbortController | null>(null);
   const recorder = useRef<MediaRecorder | null>(null);
   const stream = useRef<MediaStream | null>(null);
@@ -105,6 +108,7 @@ export function useCookingVoice(context: Context, recipeId: string, onAction: (r
 
   useEffect(() => {
     history.current = [];
+    setVideoFeedback(null);
     return () => { cancelSession(); };
   }, [recipeId, cancelSession]);
 
@@ -112,8 +116,12 @@ export function useCookingVoice(context: Context, recipeId: string, onAction: (r
     const previous = announcedStep.current;
     const preserveReplySpeech = navigationReply.current;
     navigationReply.current = false;
-    cancelSession(preserveReplySpeech);
     history.current = [];
+    if (busy.current && activeTarget.current === 'video') {
+      announcedStep.current = cookingActive ? context.currentStep.stepNumber : undefined;
+      return;
+    }
+    cancelSession(preserveReplySpeech);
     if (!cookingActive) { announcedStep.current = undefined; return; }
     announcedStep.current = context.currentStep.stepNumber;
     if (preserveReplySpeech) return;
@@ -129,22 +137,27 @@ export function useCookingVoice(context: Context, recipeId: string, onAction: (r
     else setError(err instanceof Error ? err.message : 'Không xử lý được yêu cầu. Hãy thử lại.');
   };
 
-  const ask = async (text: string, token: number, requestController: AbortController) => {
+  const ask = async (text: string, target: CookingVoiceTarget, token: number, requestController: AbortController) => {
     if (token !== session.current) return;
-    const request = { ...latest.current.context, userVoiceText: text, conversationHistory: history.current };
     setTranscript(text);
     setReply('');
     setQuickReplies([]);
     setError('');
     setPhase('thinking');
-    const videoCommand = latest.current.onVideoCommand && parseRecipeVideoCommand(text);
-    if (videoCommand && latest.current.onVideoCommand) {
-      const message = latest.current.onVideoCommand(videoCommand);
+    if (text.length > 600) throw new Error('Bạn hãy nói hoặc nhập ngắn gọn, tối đa 600 ký tự nhé.');
+    const handleVideo = latest.current.onVideoCommand;
+    const videoCommand = (target === 'video' || handleVideo) && parseRecipeVideoCommand(text, target);
+    if (target === 'video' || videoCommand) {
+      const message = videoCommand && handleVideo
+        ? handleVideo(videoCommand)
+        : 'Trình điều khiển video chưa sẵn sàng. Hãy mở video và thử lại.';
+      setVideoFeedback({ text, message });
       setReply(message);
-      setQuickReplies(['Mở video hướng dẫn', 'Tua tới 30 giây', 'Tạm dừng video']);
+      setQuickReplies(['Mở video hướng dẫn', 'Tua nhanh 30 giây', 'Tua lùi 15 giây', 'Tạm dừng video', 'Phát tiếp']);
       if (latest.current.readReplies) speak(message);
       return;
     }
+    const request = { ...latest.current.context, userVoiceText: text, conversationHistory: history.current };
     const answer = await cookingVoiceApi.ask(request, requestController.signal);
     if (token !== session.current) return;
     setReply(answer.speechReply);
@@ -158,17 +171,18 @@ export function useCookingVoice(context: Context, recipeId: string, onAction: (r
     if (latest.current.readReplies) speak(answer.speechReply);
   };
 
-  const send = async (input: string) => {
+  const send = async (input: string, target: CookingVoiceTarget = 'cooking') => {
     if (busy.current) return;
     const text = input.trim();
     if (!text) return;
-    if (text.length > 600) { setError('Bạn hãy hỏi ngắn gọn, tối đa 600 ký tự nhé.'); return; }
+    setInputTarget(target);
+    activeTarget.current = target;
     busy.current = true;
     stopSpeech();
     const token = session.current;
     const requestController = new AbortController();
     controller.current = requestController;
-    try { await ask(text, token, requestController); }
+    try { await ask(text, target, token, requestController); }
     catch (err) { if (token === session.current && !requestController.signal.aborted) showError(err); }
     finally { if (token === session.current) { busy.current = false; setPhase('idle'); } }
   };
@@ -183,12 +197,18 @@ export function useCookingVoice(context: Context, recipeId: string, onAction: (r
     }
   };
 
-  const startRecording = async (useRecorder = false) => {
+  const startRecording = async (target: CookingVoiceTarget = 'cooking', useRecorder = false) => {
     if (busy.current) return;
+    setInputTarget(target);
+    activeTarget.current = target;
+    setTranscript('');
+    setReply('');
+    setError('');
+    if (target === 'video') setVideoFeedback(null);
     const Recognition = !useRecorder && cookingRecognitionConstructor();
     if (Recognition) {
       busy.current = true;
-      stopSpeech(); setError(''); setTranscript(''); setPhase('permission');
+      stopSpeech(); setPhase('permission');
       const token = session.current;
       const requestController = new AbortController();
       controller.current = requestController;
@@ -199,7 +219,7 @@ export function useCookingVoice(context: Context, recipeId: string, onAction: (r
           onText: async text => {
             recognition.current = null;
             if (token !== session.current) return;
-            try { await ask(text, token, requestController); }
+            try { await ask(text, target, token, requestController); }
             catch (err) { if (token === session.current && !requestController.signal.aborted) showError(err); }
             finally { if (token === session.current) { busy.current = false; setPhase('idle'); } }
           },
@@ -220,7 +240,6 @@ export function useCookingVoice(context: Context, recipeId: string, onAction: (r
       setError('Trình duyệt chưa hỗ trợ ghi âm. Bạn có thể nhập câu hỏi bên dưới.'); return;
     }
     busy.current = true;
-    setError('');
     setPhase('permission');
     stopSpeech();
     const token = session.current;
@@ -251,7 +270,7 @@ export function useCookingVoice(context: Context, recipeId: string, onAction: (r
           const audioBase64 = await audioBlobBase64(audio);
           if (token !== session.current) return;
           const text = await cookingVoiceApi.transcribe(audioBase64, audio.type, requestController.signal);
-          if (token === session.current) await ask(text, token, requestController);
+          if (token === session.current) await ask(text, target, token, requestController);
         } catch (err) {
           if (token === session.current && !requestController.signal.aborted) showError(err);
         } finally {
@@ -288,6 +307,6 @@ export function useCookingVoice(context: Context, recipeId: string, onAction: (r
     }
   };
 
-  return { phase, transcript, reply, error, isSpeaking, readReplies, quickReplies,
+  return { phase, inputTarget, videoFeedback, transcript, reply, error, isSpeaking, readReplies, quickReplies,
     setReadReplies, send, startRecording, stopRecording, cancel, speak, stopSpeech };
 }

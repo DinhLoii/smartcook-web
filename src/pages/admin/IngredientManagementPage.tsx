@@ -1,3 +1,4 @@
+import { handleImageError, resolveRecipeImage } from '../../utils/imageFallback';
 import React, { useState, useMemo } from 'react';
 import {
   Plus,
@@ -292,7 +293,7 @@ export const IngredientManagementPage: React.FC = () => {
 
 
       {/* ================= THANH ĐIỀU KHIỂN & LỌC THEO NHÓM (KHUNG CHỮ NHẬT GỌN GÀNG) ================= */}
-      <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs space-y-3">
+      <div className="bg-surface p-4 rounded-2xl border border-slate-200/80 shadow-xs space-y-3">
         {/* Row 1: Search + Thêm mới + Sắp xếp */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
           {/* Ô tìm kiếm */}
@@ -303,7 +304,7 @@ export const IngredientManagementPage: React.FC = () => {
               placeholder="Tìm tên nguyên liệu, alias..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 placeholder:text-slate-400 transition-all"
+              className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-focus/20 focus:border-focus placeholder:text-slate-400 transition-all"
             />
           </div>
 
@@ -314,7 +315,7 @@ export const IngredientManagementPage: React.FC = () => {
               <button
                 onClick={() => setSortBy('inStock')}
                 className={`px-2.5 py-1 rounded-lg transition-colors ${
-                  sortBy === 'inStock' ? 'bg-white text-indigo-600 shadow-2xs font-bold' : 'hover:text-slate-900'
+                  sortBy === 'inStock' ? 'bg-surface text-slate-800 shadow-2xs font-bold' : 'hover:text-slate-900'
                 }`}
               >
                 Lưu tủ
@@ -322,7 +323,7 @@ export const IngredientManagementPage: React.FC = () => {
               <button
                 onClick={() => setSortBy('shelfLife')}
                 className={`px-2.5 py-1 rounded-lg transition-colors ${
-                  sortBy === 'shelfLife' ? 'bg-white text-indigo-600 shadow-2xs font-bold' : 'hover:text-slate-900'
+                  sortBy === 'shelfLife' ? 'bg-surface text-slate-800 shadow-2xs font-bold' : 'hover:text-slate-900'
                 }`}
               >
                 Hạn dùng
@@ -330,14 +331,14 @@ export const IngredientManagementPage: React.FC = () => {
               <button
                 onClick={() => setSortBy('name')}
                 className={`px-2.5 py-1 rounded-lg transition-colors ${
-                  sortBy === 'name' ? 'bg-white text-indigo-600 shadow-2xs font-bold' : 'hover:text-slate-900'
+                  sortBy === 'name' ? 'bg-surface text-slate-800 shadow-2xs font-bold' : 'hover:text-slate-900'
                 }`}
               >
                 Tên A-Z
               </button>
               <button
                 onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-                className="p-1 text-slate-400 hover:text-indigo-600"
+                className="p-1 text-slate-400 hover:text-slate-800"
                 title="Đảo chiều sắp xếp"
               >
                 <ArrowUpDown className="w-3.5 h-3.5" />
@@ -361,7 +362,7 @@ export const IngredientManagementPage: React.FC = () => {
             onClick={() => setSelectedGroupId('all')}
             className={`px-3 py-1.5 rounded-xl font-bold transition-all shrink-0 flex items-center gap-1.5 ${
               selectedGroupId === 'all'
-                ? 'bg-slate-900 text-white shadow-xs'
+                ? 'bg-panel-900 text-white shadow-xs'
                 : 'bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200/60'
             }`}
           >
@@ -393,7 +394,7 @@ export const IngredientManagementPage: React.FC = () => {
       </div>
 
       {/* ================= BẢNG DỮ LIỆU TỐI GIẢN & CHUYÊN NGHIỆP ================= */}
-      <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
+      <div className="bg-surface rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
@@ -420,7 +421,7 @@ export const IngredientManagementPage: React.FC = () => {
                   >
                     {/* Cột 1: Tên Nguyên Liệu (không còn icon) */}
                     <td className="py-3.5 px-5">
-                      <span className="font-bold text-slate-900 group-hover:text-indigo-600 transition-colors text-sm block">
+                      <span className="font-bold text-slate-900 group-hover:text-slate-800 transition-colors text-sm block">
                         {item.name}
                       </span>
                     </td>
@@ -440,7 +441,7 @@ export const IngredientManagementPage: React.FC = () => {
                     {/* Cột 4: Hạn Bảo Quản Gợi Ý */}
                     <td className="py-3.5 px-4 whitespace-nowrap">
                       <span className="inline-flex items-center gap-1.5 text-emerald-700 bg-emerald-50/80 border border-emerald-200/50 px-2.5 py-0.5 rounded-md font-semibold text-[11px]">
-                        <Clock className="w-3 h-3 text-emerald-600" />
+                        <Clock className="w-3 h-3 text-emerald-700" />
                         ~{item.shelfLifeDays} ngày
                       </span>
                     </td>
@@ -451,7 +452,7 @@ export const IngredientManagementPage: React.FC = () => {
                         {/* Nút Xem Chi Tiết */}
                         <button
                           onClick={() => setViewingDetail(item)}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-indigo-600 bg-indigo-50 hover:bg-indigo-600 hover:text-white font-semibold text-xs transition-all active:scale-95"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-slate-800 bg-indigo-50 hover:bg-indigo-600 hover:text-white font-semibold text-xs transition-all active:scale-95"
                           title="Xem thông tin chi tiết & món ăn"
                         >
                           <Eye className="w-3.5 h-3.5" />
@@ -461,7 +462,7 @@ export const IngredientManagementPage: React.FC = () => {
                         {/* Nút Sửa */}
                         <button
                           onClick={() => handleOpenEditModal(item)}
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-slate-100 transition-colors"
+                          className="p-1.5 rounded-lg text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-colors"
                           title="Chỉnh sửa"
                         >
                           <Edit className="w-3.5 h-3.5" />
@@ -470,7 +471,7 @@ export const IngredientManagementPage: React.FC = () => {
                         {/* Nút Xóa */}
                         <button
                           onClick={() => setDeleteModalId(item.id)}
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors"
+                          className="p-1.5 rounded-lg text-slate-400 hover:text-rose-700 hover:bg-rose-50 transition-colors"
                           title="Xóa"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
@@ -497,12 +498,12 @@ export const IngredientManagementPage: React.FC = () => {
 
       {/* ================= MODAL: XEM CHI TIẾT NGUYÊN LIỆU & CÁC MÓN ĂN LIÊN QUAN ================= */}
       {viewingDetail && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs animate-in fade-in duration-200">
-          <div className="bg-white w-full max-w-2xl rounded-3xl border border-slate-200 shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-panel-900/50 backdrop-blur-xs animate-in fade-in duration-200">
+          <div className="bg-surface w-full max-w-2xl rounded-3xl border border-slate-200 shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
             {/* Header Modal */}
             <div className="p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/80">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-2xl bg-white border border-slate-200 shadow-2xs text-2xl flex items-center justify-center">
+                <div className="w-12 h-12 rounded-2xl bg-surface border border-slate-200 shadow-2xs text-2xl flex items-center justify-center">
                   {viewingDetail.icon}
                 </div>
                 <div>
@@ -510,7 +511,7 @@ export const IngredientManagementPage: React.FC = () => {
                     <h3 className="text-base font-bold text-slate-900 font-['Outfit']">
                       {viewingDetail.name}
                     </h3>
-                    <span className="px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 text-[10px] font-bold">
+                    <span className="px-2 py-0.5 rounded-md bg-indigo-50 text-slate-900 text-[10px] font-bold">
                       {getGroupName(viewingDetail.groupId)}
                     </span>
                   </div>
@@ -548,7 +549,7 @@ export const IngredientManagementPage: React.FC = () => {
               <div>
                 <div className="flex items-center justify-between mb-2.5">
                   <span className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
-                    <Utensils className="w-3.5 h-3.5 text-indigo-600" />
+                    <Utensils className="w-3.5 h-3.5 text-slate-800" />
                     Các Món Ăn Tiêu Biểu Chế Biến Từ Nguyên Liệu Này
                   </span>
                   <span className="text-[11px] text-slate-400">
@@ -569,20 +570,21 @@ export const IngredientManagementPage: React.FC = () => {
                       >
                         <div className="flex items-center gap-3">
                           <img
-                            src={dish.image}
+                            src={resolveRecipeImage(dish.image, dish.name)}
+                            onError={(event) => handleImageError(event, resolveRecipeImage(null, dish.name))}
                             alt={dish.name}
                             className="w-12 h-12 rounded-xl object-cover shrink-0 shadow-2xs"
                           />
                           <div>
                             <h5 className="font-bold text-xs text-slate-900 leading-snug">{dish.name}</h5>
                             <div className="flex items-center gap-2 mt-1 text-[11px] text-slate-400">
-                              <span className="text-indigo-600 font-semibold">{dish.category}</span>
+                              <span className="text-slate-800 font-semibold">{dish.category}</span>
                               <span>•</span>
                               <span className="flex items-center gap-1">
                                 <Clock className="w-3 h-3" /> {dish.cookingTime}
                               </span>
                               <span>•</span>
-                              <span className="flex items-center gap-1 text-amber-600">
+                              <span className="flex items-center gap-1 text-amber-700">
                                 <Flame className="w-3 h-3" /> {dish.calories}
                               </span>
                             </div>
@@ -601,7 +603,7 @@ export const IngredientManagementPage: React.FC = () => {
             <div className="p-4 bg-slate-50/60 border-t border-slate-100 flex items-center justify-end">
               <button
                 onClick={() => setViewingDetail(null)}
-                className="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold rounded-xl shadow-xs transition-colors"
+                className="px-4 py-2 bg-panel-800 hover:bg-panel-900 text-white text-xs font-bold rounded-xl shadow-xs transition-colors"
               >
                 Đóng
               </button>
@@ -612,11 +614,11 @@ export const IngredientManagementPage: React.FC = () => {
 
       {/* ================= MODAL: THÊM / SỬA NGUYÊN LIỆU (CRUD) ================= */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs animate-in fade-in duration-200">
-          <div className="bg-white w-full max-w-lg rounded-3xl border border-slate-200 shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-panel-900/50 backdrop-blur-xs animate-in fade-in duration-200">
+          <div className="bg-surface w-full max-w-lg rounded-3xl border border-slate-200 shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
             <div className="p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/80">
               <div className="flex items-center gap-2">
-                <Package className="w-5 h-5 text-indigo-600" />
+                <Package className="w-5 h-5 text-slate-800" />
                 <h3 className="text-base font-bold text-slate-900 font-['Outfit']">
                   {editingIngredient ? 'Chỉnh Sửa Nguyên Liệu' : 'Thêm Nguyên Liệu Mới'}
                 </h3>
@@ -640,7 +642,7 @@ export const IngredientManagementPage: React.FC = () => {
                     required
                     value={formIcon}
                     onChange={(e) => setFormIcon(e.target.value)}
-                    className="w-full text-center text-xl py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                    className="w-full text-center text-xl py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-focus/20"
                   />
                 </div>
                 <div className="col-span-3">
@@ -653,7 +655,7 @@ export const IngredientManagementPage: React.FC = () => {
                     placeholder="VD: Thịt Heo Xay, Tôm Thẻ..."
                     value={formName}
                     onChange={(e) => setFormName(e.target.value)}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 text-xs font-semibold"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-focus/20 text-xs font-semibold"
                   />
                 </div>
               </div>
@@ -666,7 +668,7 @@ export const IngredientManagementPage: React.FC = () => {
                   <select
                     value={formGroupId}
                     onChange={(e) => setFormGroupId(e.target.value)}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 text-xs font-medium"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-focus/20 text-xs font-medium"
                   >
                     {ingredientGroups.map((grp) => (
                       <option key={grp.id} value={grp.id}>
@@ -685,7 +687,7 @@ export const IngredientManagementPage: React.FC = () => {
                     placeholder="VD: gram, kg, quả, củ..."
                     value={formUnit}
                     onChange={(e) => setFormUnit(e.target.value)}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 text-xs"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-focus/20 text-xs"
                   />
                 </div>
               </div>
@@ -700,7 +702,7 @@ export const IngredientManagementPage: React.FC = () => {
                   max="365"
                   value={formShelfLife}
                   onChange={(e) => setFormShelfLife(Number(e.target.value))}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 text-xs font-medium"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-focus/20 text-xs font-medium"
                 />
               </div>
 
@@ -713,7 +715,7 @@ export const IngredientManagementPage: React.FC = () => {
                   placeholder="VD: thịt ba rọi, thịt ba chỉ, heo xay, nạc vai..."
                   value={formSynonyms}
                   onChange={(e) => setFormSynonyms(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 text-xs"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-focus/20 text-xs"
                 />
                 <p className="text-[10.5px] text-slate-400 mt-1">
                   Thuật toán AI sẽ dùng các từ này để so khớp khi người dùng quét tủ lạnh hoặc gõ tìm kiếm.
@@ -742,9 +744,9 @@ export const IngredientManagementPage: React.FC = () => {
 
       {/* ================= MODAL: XÁC NHẬN XÓA ================= */}
       {deleteModalId && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs animate-in fade-in duration-150">
-          <div className="bg-white w-full max-w-sm rounded-3xl border border-slate-200 shadow-xl p-5 text-center space-y-3">
-            <div className="w-12 h-12 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center mx-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-panel-900/50 backdrop-blur-xs animate-in fade-in duration-150">
+          <div className="bg-surface w-full max-w-sm rounded-3xl border border-slate-200 shadow-xl p-5 text-center space-y-3">
+            <div className="w-12 h-12 rounded-full bg-rose-50 text-rose-700 flex items-center justify-center mx-auto">
               <Trash2 className="w-6 h-6" />
             </div>
             <div>
@@ -762,7 +764,7 @@ export const IngredientManagementPage: React.FC = () => {
               </button>
               <button
                 onClick={handleConfirmDelete}
-                className="px-4 py-2 rounded-xl text-xs font-bold bg-rose-600 text-white hover:bg-rose-700 shadow-xs transition-colors"
+                className="px-4 py-2 rounded-xl text-xs font-bold bg-rose-600 text-white hover:bg-danger-action-hover shadow-xs transition-colors"
               >
                 Xác nhận xóa
               </button>

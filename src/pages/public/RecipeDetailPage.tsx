@@ -108,7 +108,7 @@ export const RecipeDetailPage: React.FC = () => {
     _id: id || 'seed-chicken-rice',
     title: 'Cơm Đùi Gà Trứng Ốp',
     description: 'Đùi gà rim sốt mật ong đậm đà ăn kèm trứng ốp la lòng đào béo ngậy, bơ sáp và cà chua bi thanh mát. Nhanh gọn, giàu protein và cân đối vi chất.',
-    image: 'https://images.unsplash.com/photo-1525755662778-989d0524087e?w=800&q=80',
+    image: '/recipe-images/chicken-teriyaki.webp',
     category: 'Tiện lợi',
     cookingTimeMinutes: 12,
     difficulty: 'Nhanh gọn',
@@ -190,10 +190,13 @@ export const RecipeDetailPage: React.FC = () => {
 
   const displayIngredients = (recipe.ingredients || []).map((ing: any) => {
     const ingName = ing?.name || ing?.ingredientName || 'Nguyên liệu';
+    const amount = String(ing?.amount ?? '').trim();
+    const unit = String(ing?.unit ?? '').trim();
     return {
       name: ingName,
       amount: ing?.amount ?? '',
       unit: ing?.unit ?? '',
+      amountLabel: !amount || !unit || amount.toLowerCase().endsWith(unit.toLowerCase()) ? amount : `${amount} ${unit}`,
       price: getIngredientEstimatedPrice(ingName),
       notes: ing?.notes || '',
     };
@@ -365,13 +368,13 @@ export const RecipeDetailPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#faf8f5] text-slate-900 font-sans selection:bg-orange-500 selection:text-white pb-24">
+    <div className="min-h-screen bg-canvas text-slate-900 font-sans selection:bg-orange-500 selection:text-white pb-24">
       <UserHeader />
 
       {/* Trang trí ambient mờ nhẹ nhàng */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <div className="absolute top-[5%] right-[5%] w-[500px] h-[500px] bg-orange-300/10 rounded-full blur-[140px]" />
-        <div className="absolute bottom-[10%] left-[5%] w-[600px] h-[600px] bg-amber-300/10 rounded-full blur-[150px]" />
+        <div className="absolute bottom-[10%] left-[5%] w-[600px] h-[600px] bg-brand-300/10 rounded-full blur-[150px]" />
       </div>
 
       <div className="relative z-10 w-full max-w-[1520px] mx-auto px-4 sm:px-8 lg:px-12 pt-6 space-y-6">
@@ -380,7 +383,7 @@ export const RecipeDetailPage: React.FC = () => {
         <div className="flex items-center justify-between">
           <Link
             to="/recipes"
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-orange-600 transition-colors group"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors group"
           >
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
             <span>Kho công thức</span>
@@ -393,17 +396,17 @@ export const RecipeDetailPage: React.FC = () => {
               onClick={() => setIsFavorite(!isFavorite)}
               className={`p-2 rounded-xl transition-all ${
                 isFavorite
-                  ? 'bg-rose-50 text-rose-600'
-                  : 'bg-white hover:bg-slate-100 text-slate-600 border border-slate-200/60 shadow-2xs'
+                  ? 'bg-rose-50 text-rose-700'
+                  : 'bg-surface hover:bg-slate-100 text-slate-600 border border-slate-200/60 shadow-2xs'
               }`}
               title="Lưu yêu thích"
             >
-              <Heart className={`w-4 h-4 ${isFavorite ? 'fill-rose-500 text-rose-500' : ''}`} />
+              <Heart className={`w-4 h-4 ${isFavorite ? 'fill-rose-700 text-rose-700' : ''}`} />
             </button>
 
             <button
               onClick={handleShare}
-              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-white hover:bg-slate-100 text-slate-700 text-xs font-bold border border-slate-200/60 shadow-2xs transition-colors"
+              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-surface hover:bg-slate-100 text-slate-700 text-xs font-bold border border-slate-200/60 shadow-2xs transition-colors"
             >
               <Share2 className="w-3.5 h-3.5 text-slate-500" />
               <span>{copied ? 'Đã sao chép' : 'Chia sẻ'}</span>
@@ -420,7 +423,7 @@ export const RecipeDetailPage: React.FC = () => {
           <div className="lg:col-span-4 xl:col-span-4 flex flex-col items-center lg:items-start lg:sticky lg:top-24">
             
             {/* THẺ CARD MẪU TINH GỌN (THIẾT KẾ Y HỆT ẢNH CHỤP) */}
-            <div className="w-full max-w-[320px] bg-white rounded-[26px] p-3 shadow-[0_4px_24px_rgba(0,0,0,0.06)] border border-slate-100 flex flex-col justify-between group">
+            <div className="w-full max-w-[320px] bg-surface rounded-[26px] p-3 shadow-[0_4px_24px_rgba(0,0,0,0.06)] border border-slate-100 flex flex-col justify-between group">
               
               {/* Ảnh món ăn bo góc tròn mềm mại */}
               <div className="relative w-full aspect-square rounded-[20px] overflow-hidden bg-slate-100">
@@ -434,7 +437,7 @@ export const RecipeDetailPage: React.FC = () => {
                 {/* Badge HOT / POPULAR */}
                 {recipe.badgeLabel && (
                   <div className="absolute top-2.5 left-2.5">
-                    <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black text-white uppercase tracking-wider shadow-md bg-gradient-to-r ${recipe.badgeGradient || (recipe.badgeType === 'popular' ? 'from-rose-500 to-orange-500' : 'from-orange-500 to-amber-500')}`}>
+                    <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black text-white uppercase tracking-wider shadow-md bg-gradient-to-r ${recipe.badgeGradient || (recipe.badgeType === 'popular' ? 'from-rose-500 to-orange-500' : 'from-orange-500 to-brand-500')}`}>
                       <Flame className="w-3 h-3 fill-white text-white" />
                       <span>{recipe.badgeLabel}</span>
                     </span>
@@ -445,9 +448,9 @@ export const RecipeDetailPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={handleToggleFavorite}
-                  className="absolute top-2.5 right-2.5 w-8 h-8 rounded-full bg-white/95 hover:bg-white shadow-[0_2px_8px_rgba(0,0,0,0.12)] flex items-center justify-center transition-transform hover:scale-110 active:scale-95"
+                  className="absolute top-2.5 right-2.5 w-8 h-8 rounded-full bg-surface/95 hover:bg-surface shadow-[0_2px_8px_rgba(0,0,0,0.12)] flex items-center justify-center transition-transform hover:scale-110 active:scale-95"
                 >
-                  <Heart className={`w-4 h-4 transition-colors ${isFavorite ? 'text-rose-500 fill-rose-500' : 'text-slate-400'}`} />
+                  <Heart className={`w-4 h-4 transition-colors ${isFavorite ? 'text-rose-700 fill-rose-700' : 'text-slate-400'}`} />
                 </button>
               </div>
 
@@ -455,10 +458,10 @@ export const RecipeDetailPage: React.FC = () => {
               <div className="pt-3 px-1 flex-1 flex flex-col justify-between space-y-2.5">
                 <div>
                   {/* Dòng 1: Icon mặt trứng 🍳 + Thời gian nấu */}
-                  <div className="flex items-center gap-1.5 text-xs font-bold text-orange-600">
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800">
                     <span className="text-sm">🍳</span>
                     <span>{recipe.cookingTimeMinutes} phút</span>
-                    <span className="text-orange-400 font-normal">•</span>
+                    <span className="text-slate-500 font-normal">•</span>
                     <span>{recipe.quickNote || recipe.difficulty || 'Nhanh gọn'}</span>
                   </div>
 
@@ -474,7 +477,7 @@ export const RecipeDetailPage: React.FC = () => {
                     {recipe.category} • ...
                   </span>
 
-                  <div className="px-3 py-1 rounded-xl bg-orange-50 border border-orange-200 text-orange-600 text-xs font-bold flex items-center gap-1 shadow-2xs">
+                  <div className="px-3 py-1 rounded-xl bg-orange-50 border border-orange-200 text-slate-800 text-xs font-bold flex items-center gap-1 shadow-2xs">
                     <span>Xem chi tiết</span>
                     <span className="text-xs">→</span>
                   </div>
@@ -486,17 +489,17 @@ export const RecipeDetailPage: React.FC = () => {
             {/* Quick Stats Tối Giản Nằm Ngay Dưới Card (Không đóng khung hộp) */}
             <div className="w-full max-w-[320px] flex items-center justify-between pt-4 px-2 text-xs text-slate-500 font-medium">
               <span className="flex items-center gap-1">
-                <Flame className="w-3.5 h-3.5 text-orange-500" />
+                <Flame className="w-3.5 h-3.5 text-slate-700" />
                 <strong className="text-slate-800">{cookingNutrition?.calories ?? "—"}</strong> kcal
               </span>
               <span>•</span>
               <span className="flex items-center gap-1">
-                <Users className="w-3.5 h-3.5 text-emerald-500" />
+                <Users className="w-3.5 h-3.5 text-emerald-700" />
                 <strong className="text-slate-800">{recipe.servingsCount}</strong> người
               </span>
               <span>•</span>
               <span className="flex items-center gap-1">
-                <Clock className="w-3.5 h-3.5 text-amber-500" />
+                <Clock className="w-3.5 h-3.5 text-slate-700" />
                 <strong className="text-slate-800">{recipe.cookingTimeMinutes}</strong>p
               </span>
             </div>
@@ -508,14 +511,14 @@ export const RecipeDetailPage: React.FC = () => {
             
             {/* 1. TIÊU ĐỀ & MÔ TẢ TỰ NHIÊN (HÒA NỀN, KHÔNG ĐÓNG KHUNG HỘP) */}
             <div className="space-y-3 pb-5 border-b border-orange-200/50">
-              <div className="flex items-center gap-2 text-xs font-bold text-orange-600">
-                <span className="px-2.5 py-0.5 rounded-full bg-orange-100 text-orange-700">
+              <div className="flex items-center gap-2 text-xs font-bold text-slate-800">
+                <span className="px-2.5 py-0.5 rounded-full bg-orange-100 text-slate-900">
                   {recipe.category}
                 </span>
                 <span>•</span>
                 <span className="text-slate-500">Độ khó: {recipe.difficulty}</span>
                 <span>•</span>
-                <span className="text-amber-500 flex items-center gap-0.5">
+                <span className="text-slate-700 flex items-center gap-0.5">
                   ★ {recipe.ratingAverage} <span className="text-slate-400 font-normal">({recipe.ratingsCount})</span>
                 </span>
               </div>
@@ -531,7 +534,7 @@ export const RecipeDetailPage: React.FC = () => {
               {hasRecipe && (
                 <a
                   href="#recipe-video"
-                  className="inline-flex items-center gap-2 rounded-xl border border-orange-200 bg-orange-50 px-3 py-2 text-xs font-bold text-orange-700 transition-colors hover:bg-orange-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+                  className="inline-flex items-center gap-2 rounded-xl border border-orange-200 bg-orange-50 px-3 py-2 text-xs font-bold text-slate-900 transition-colors hover:bg-orange-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
                 >
                   <Video aria-hidden="true" className="size-4" /> Video hướng dẫn
                 </a>
@@ -553,7 +556,7 @@ export const RecipeDetailPage: React.FC = () => {
                 </div>
                 <div>
                   <span className="text-slate-400 block text-[11px]">Năng lượng</span>
-                  <span className="font-bold text-orange-600 text-sm">{cookingNutrition?.calories ?? "—"} kcal</span>
+                  <span className="font-bold text-slate-800 text-sm">{cookingNutrition?.calories ?? "—"} kcal</span>
                 </div>
               </div>
             </div>
@@ -566,7 +569,7 @@ export const RecipeDetailPage: React.FC = () => {
                 <div>
                   <h3 className="text-base sm:text-lg font-extrabold text-slate-900 font-heading flex items-center gap-2">
                     <span>Nguyên Liệu Cần Có</span>
-                    <span className="px-2 py-0.5 rounded-full bg-orange-100 text-orange-700 text-xs font-bold">
+                    <span className="px-2 py-0.5 rounded-full bg-orange-100 text-slate-900 text-xs font-bold">
                       {displayIngredients.length} món
                     </span>
                   </h3>
@@ -585,7 +588,7 @@ export const RecipeDetailPage: React.FC = () => {
               </div>
 
               {/* THANH THỐNG KÊ CHI PHÍ ĐI CHỢ ƯỚC TÍNH (THAY ĐỔI THEO TICK CHỌN) */}
-              <div className="p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-orange-500/10 via-amber-500/10 to-orange-500/5 border border-orange-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-orange-500/10 via-brand-500/10 to-orange-500/5 border border-orange-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-orange-500 text-white flex items-center justify-center shrink-0 shadow-sm shadow-orange-500/30">
                     <ShoppingBag className="w-5 h-5" />
@@ -594,13 +597,13 @@ export const RecipeDetailPage: React.FC = () => {
                     <div className="flex items-center gap-2">
                       <span className="text-xs font-bold text-slate-600">Ước tính chi phí đi chợ:</span>
                       {checkedItemsCount > 0 && (
-                        <span className="text-[11px] font-semibold text-emerald-600 bg-emerald-100/70 px-2 py-0.5 rounded-full">
+                        <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-100/70 px-2 py-0.5 rounded-full">
                           Đã trừ {checkedItemsCount} món có sẵn
                         </span>
                       )}
                     </div>
                     <div className="flex items-baseline gap-2 mt-0.5">
-                      <span className="text-xl sm:text-2xl font-black text-orange-600 font-heading">
+                      <span className="text-xl sm:text-2xl font-black text-slate-800 font-heading">
                         {remainingCost.toLocaleString('vi-VN')} đ
                       </span>
                       {checkedItemsCount > 0 && (
@@ -617,10 +620,10 @@ export const RecipeDetailPage: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setIsMapModalOpen(true)}
-                    className="inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-white hover:bg-orange-50 border border-orange-200 text-orange-700 text-xs font-extrabold shadow-2xs hover:shadow-xs transition-all active:scale-95 shrink-0"
+                    className="inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-surface hover:bg-orange-50 border border-orange-200 text-slate-900 text-xs font-extrabold shadow-2xs hover:shadow-xs transition-all active:scale-95 shrink-0"
                     title="Tìm 5 siêu thị hoặc cửa hàng thực phẩm gần nhất"
                   >
-                    <MapPin className="w-4 h-4 text-orange-600" />
+                    <MapPin className="w-4 h-4 text-slate-800" />
                     <span>Tìm 5 siêu thị gần nhất</span>
                   </button>
 
@@ -647,7 +650,7 @@ export const RecipeDetailPage: React.FC = () => {
                       className={`group relative flex items-center justify-between p-3 rounded-2xl transition-all duration-200 border ${
                         isChecked
                           ? 'bg-slate-50/80 border-slate-200/50 text-slate-400'
-                          : 'bg-white hover:bg-orange-50/30 border-slate-200/80 hover:border-orange-200 text-slate-800 shadow-2xs hover:shadow-xs'
+                          : 'bg-surface hover:bg-orange-50/30 border-slate-200/80 hover:border-orange-200 text-slate-800 shadow-2xs hover:shadow-xs'
                       }`}
                     >
                       {/* Bấm vào tên để tick chọn (Đã có sẵn -> Giảm giá) */}
@@ -659,7 +662,7 @@ export const RecipeDetailPage: React.FC = () => {
                           className={`w-5 h-5 rounded-lg border flex items-center justify-center shrink-0 transition-colors ${
                             isChecked
                               ? 'bg-emerald-500 border-emerald-500 text-white shadow-xs'
-                              : 'border-slate-300 bg-white group-hover:border-orange-400'
+                              : 'border-slate-300 bg-surface group-hover:border-orange-400'
                           }`}
                         >
                           {isChecked && <Check className="w-3.5 h-3.5 stroke-[3]" />}
@@ -674,9 +677,9 @@ export const RecipeDetailPage: React.FC = () => {
                             {ing.name}
                           </span>
                           <span className="text-[11px] text-slate-400 flex items-center gap-1.5">
-                            <span>{ing.amount} {ing.unit}</span>
+                            <span>{ing.amountLabel}</span>
                             <span>•</span>
-                            <span className={isChecked ? 'line-through text-slate-300' : 'text-amber-600 font-semibold'}>
+                            <span className={isChecked ? 'line-through text-slate-300' : 'text-slate-800 font-semibold'}>
                               ~{ing.price.toLocaleString('vi-VN')} đ
                             </span>
                           </span>
@@ -693,8 +696,8 @@ export const RecipeDetailPage: React.FC = () => {
                           }}
                           className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
                             isChecked
-                              ? 'bg-slate-100 hover:bg-orange-100 text-slate-500 hover:text-orange-700'
-                              : 'bg-orange-50 hover:bg-orange-500 text-orange-600 hover:text-white border border-orange-200/70 hover:border-orange-500 shadow-2xs'
+                              ? 'bg-slate-100 hover:bg-orange-100 text-slate-500 hover:text-slate-900'
+                              : 'bg-orange-50 hover:bg-orange-500 text-slate-800 hover:text-white border border-orange-200/70 hover:border-orange-500 shadow-2xs'
                           }`}
                           title={`Thêm ${ing.name} vào giỏ đi chợ`}
                         >
@@ -749,7 +752,7 @@ export const RecipeDetailPage: React.FC = () => {
                       className={`p-3.5 sm:p-4 rounded-2xl transition-all flex items-start gap-3.5 ${
                         isActive
                           ? 'bg-orange-100/60 border border-orange-300 shadow-xs'
-                          : 'bg-white border border-slate-200/60 hover:border-orange-200 shadow-2xs'
+                          : 'bg-surface border border-slate-200/60 hover:border-orange-200 shadow-2xs'
                       }`}
                     >
                       <span className={`w-6 h-6 rounded-lg text-xs font-black flex items-center justify-center shrink-0 ${
@@ -771,7 +774,7 @@ export const RecipeDetailPage: React.FC = () => {
                               sendTimer({ type: 'reset' });
                               sendTimer({ type: 'toggle' });
                             }}
-                            className="inline-flex items-center gap-1 text-[11px] font-bold text-orange-600 hover:text-orange-700 bg-orange-50 px-2 py-0.5 rounded-md hover:bg-orange-100 transition-colors"
+                            className="inline-flex items-center gap-1 text-[11px] font-bold text-slate-800 hover:text-slate-900 bg-orange-50 px-2 py-0.5 rounded-md hover:bg-orange-100 transition-colors"
                           >
                             <Clock className="w-3 h-3" />
                             <span>Hẹn giờ {step.timerMinutes} phút</span>
@@ -799,7 +802,7 @@ export const RecipeDetailPage: React.FC = () => {
               recipeContext: {
                 servings: String(recipe.servingsCount || '').slice(0, 80),
                 nutrition: cookingNutrition,
-                ingredients: displayIngredients.slice(0, 40).map((item) => ({ name: String(item.name).slice(0, 120), amount: `${item.amount} ${item.unit}`.trim().slice(0, 100) })),
+                ingredients: displayIngredients.slice(0, 40).map((item) => ({ name: String(item.name).slice(0, 120), amount: item.amountLabel.slice(0, 100) })),
                 steps: displaySteps.slice(0, 30).map((step) => ({ stepNumber: step.stepNumber, title: step.title.slice(0, 160), description: step.instruction.slice(0, 1600), timerMinutes: Number(step.timerMinutes) || 0 })),
               },
             }} />
@@ -808,7 +811,7 @@ export const RecipeDetailPage: React.FC = () => {
             <div className="pt-3 flex flex-wrap items-center gap-3">
               <button
                 onClick={handleStartCooking}
-                className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 hover:from-orange-600 hover:to-amber-600 text-white font-extrabold text-sm shadow-md shadow-orange-500/25 hover:shadow-lg hover:shadow-orange-500/30 hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-2 group"
+                className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-brand-500 hover:bg-brand-600 text-white font-extrabold text-sm shadow-md shadow-orange-500/25 hover:shadow-lg hover:shadow-orange-500/30 hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-2 group"
               >
                 <Utensils className="w-4 h-4 text-white group-hover:rotate-12 transition-transform" />
                 <span>BẮT ĐẦU NẤU NGAY</span>
@@ -818,7 +821,7 @@ export const RecipeDetailPage: React.FC = () => {
               <button
                 onClick={handleCompleteCooking}
                 disabled={isSubmittingCooking}
-                className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-extrabold text-sm shadow-md shadow-emerald-600/25 hover:shadow-lg hover:shadow-emerald-600/35 hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-2"
+                className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-emerald-600 hover:bg-success-action-hover disabled:opacity-50 text-white font-extrabold text-sm shadow-md shadow-emerald-600/25 hover:shadow-lg hover:shadow-emerald-600/35 hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-2"
               >
                 <CheckCheck className="w-4 h-4 text-white" />
                 <span>{isSubmittingCooking ? 'Đang ghi nhận...' : 'Đã Nấu Xong (+50 XP)'}</span>
@@ -827,7 +830,7 @@ export const RecipeDetailPage: React.FC = () => {
 
             {completedNotice && (
               <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm font-bold flex items-center gap-2 animate-bounce">
-                <Sparkles className="w-5 h-5 text-emerald-600 shrink-0" />
+                <Sparkles className="w-5 h-5 text-emerald-700 shrink-0" />
                 <span>{completedNotice}</span>
               </div>
             )}

@@ -124,21 +124,21 @@ export const AuthRequiredModal: React.FC<AuthRequiredModalProps> = ({
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
       {/* Lớp nền mờ Glassmorphism cao cấp - bấm ra ngoài để đóng */}
       <div 
-        className="fixed inset-0 bg-slate-900/60 backdrop-blur-md transition-opacity animate-in fade-in duration-300 cursor-pointer"
+        className="fixed inset-0 bg-panel-900/60 backdrop-blur-md transition-opacity animate-in fade-in duration-300 cursor-pointer"
         onClick={onClose}
       />
 
       {/* Modal Container */}
-      <div className="relative w-full max-w-lg bg-white/95 backdrop-blur-xl rounded-[32px] p-6 sm:p-8 shadow-[0_25px_60px_-15px_rgba(234,88,12,0.3)] border border-orange-200/80 animate-in fade-in zoom-in-95 duration-300 z-10 overflow-hidden">
+      <div className="relative w-full max-w-lg bg-surface/95 backdrop-blur-xl rounded-[32px] p-6 sm:p-8 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.3)] border border-orange-200/80 animate-in fade-in zoom-in-95 duration-300 z-10 overflow-hidden">
         
         {/* Họa tiết trang trí nền */}
-        <div className="absolute -top-20 -right-20 w-48 h-48 bg-gradient-to-br from-orange-400/20 to-amber-300/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-20 -left-20 w-48 h-48 bg-gradient-to-tr from-amber-400/20 to-rose-300/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -top-20 -right-20 w-48 h-48 bg-gradient-to-br from-orange-400/20 to-brand-300/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-20 -left-20 w-48 h-48 bg-gradient-to-tr from-brand-400/20 to-rose-300/10 rounded-full blur-3xl pointer-events-none" />
 
         {/* Nút đóng (X) luôn hiển thị rõ ràng ở góc trên bên phải */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 w-10 h-10 rounded-full bg-slate-100/90 hover:bg-rose-100 text-slate-500 hover:text-rose-600 flex items-center justify-center transition-all hover:scale-105 active:scale-95 z-20 cursor-pointer shadow-xs border border-slate-200/70"
+          className="absolute top-5 right-5 w-10 h-10 rounded-full bg-slate-100/90 hover:bg-rose-100 text-slate-500 hover:text-rose-700 flex items-center justify-center transition-all hover:scale-105 active:scale-95 z-20 cursor-pointer shadow-xs border border-slate-200/70"
           title="Đóng (Esc)"
         >
           <X className="w-5 h-5 stroke-[2.5]" />
@@ -147,16 +147,16 @@ export const AuthRequiredModal: React.FC<AuthRequiredModalProps> = ({
         {/* Icon & Badge nổi bật */}
         <div className="flex flex-col items-center text-center space-y-4">
           <div className="relative">
-            <div className="w-16 h-16 rounded-3xl bg-gradient-to-tr from-orange-500 via-amber-500 to-orange-400 flex items-center justify-center shadow-lg shadow-orange-500/30">
+            <div className="w-16 h-16 rounded-3xl bg-gradient-to-tr from-orange-500 via-brand-500 to-orange-400 flex items-center justify-center shadow-lg shadow-orange-500/30">
               <IconComponent className="w-8 h-8 text-white" />
             </div>
-            <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-slate-900 text-white flex items-center justify-center shadow-sm">
-              <Lock className="w-3 h-3 text-amber-400" />
+            <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-panel-900 text-white flex items-center justify-center shadow-sm">
+              <Lock className="w-3 h-3 text-slate-500" />
             </div>
           </div>
 
           <div className="space-y-1.5">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider text-orange-600 bg-orange-100/80 border border-orange-200/60">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider text-slate-800 bg-orange-100/80 border border-orange-200/60">
               <Sparkles className="w-3.5 h-3.5" />
               <span>{config.badge}</span>
             </span>
@@ -172,13 +172,13 @@ export const AuthRequiredModal: React.FC<AuthRequiredModalProps> = ({
 
           {/* Danh sách quyền lợi hấp dẫn */}
           <div className="w-full bg-orange-50/60 rounded-2xl p-4 border border-orange-100/90 text-left space-y-2.5 my-2">
-            <span className="text-[11px] font-black uppercase tracking-wider text-orange-700 block">
+            <span className="text-[11px] font-black uppercase tracking-wider text-slate-900 block">
               Đặc quyền khi có tài khoản SmartCook:
             </span>
             <ul className="space-y-2">
               {config.benefits.map((b, idx) => (
                 <li key={idx} className="flex items-start gap-2.5 text-xs text-slate-700 font-medium">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-4 h-4 text-emerald-700 shrink-0 mt-0.5" />
                   <span>{b}</span>
                 </li>
               ))}
@@ -189,7 +189,7 @@ export const AuthRequiredModal: React.FC<AuthRequiredModalProps> = ({
           <div className="w-full space-y-2.5 pt-2">
             <button
               onClick={() => navigate(`/auth/login?redirect=${encodedRedirect}`)}
-              className="w-full py-3.5 px-5 rounded-2xl bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-extrabold text-sm shadow-md shadow-orange-500/30 hover:shadow-lg hover:shadow-orange-500/40 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 group"
+              className="w-full py-3.5 px-5 rounded-2xl bg-gradient-to-r from-orange-500 via-brand-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-extrabold text-sm shadow-md shadow-orange-500/30 hover:shadow-lg hover:shadow-orange-500/40 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 group"
             >
               <LogIn className="w-4 h-4" />
               <span>Đăng Nhập Ngay</span>
@@ -198,9 +198,9 @@ export const AuthRequiredModal: React.FC<AuthRequiredModalProps> = ({
 
             <button
               onClick={() => navigate(`/auth/register?redirect=${encodedRedirect}`)}
-              className="w-full py-3 px-5 rounded-2xl bg-white hover:bg-orange-50/80 border border-slate-200 hover:border-orange-300 text-slate-800 font-bold text-sm transition-all flex items-center justify-center gap-2"
+              className="w-full py-3 px-5 rounded-2xl bg-surface hover:bg-orange-50/80 border border-slate-200 hover:border-orange-300 text-slate-800 font-bold text-sm transition-all flex items-center justify-center gap-2"
             >
-              <UserPlus className="w-4 h-4 text-orange-500" />
+              <UserPlus className="w-4 h-4 text-slate-700" />
               <span>Tạo Tài Khoản Miễn Phí (30 giây)</span>
             </button>
 
@@ -217,7 +217,7 @@ export const AuthRequiredModal: React.FC<AuthRequiredModalProps> = ({
 
           {/* Dòng bảo mật */}
           <div className="flex items-center gap-1.5 text-[11px] text-slate-400 pt-1">
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-700" />
             <span>Miễn phí 100% • Bảo mật an toàn thông tin cá nhân</span>
           </div>
         </div>

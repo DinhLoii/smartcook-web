@@ -165,7 +165,7 @@ export const LoginPage: React.FC = () => {
   return (
     <div className="space-y-6">
       <div className="text-left space-y-1.5">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-100 text-orange-700 text-xs font-black">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-100 text-slate-900 text-xs font-black">
           <ChefHat className="w-3.5 h-3.5" />
           <span>SmartCook Account</span>
         </div>
@@ -196,7 +196,7 @@ export const LoginPage: React.FC = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="name@example.com"
-              className="w-full pl-11 pr-4 py-3 bg-slate-50 hover:bg-orange-50/20 focus:bg-white border border-slate-200/90 rounded-2xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500 transition-all font-medium text-slate-900 placeholder-slate-400 shadow-2xs"
+              className="w-full pl-11 pr-4 py-3 bg-slate-50 hover:bg-orange-50/20 focus:bg-surface border border-slate-200/90 rounded-2xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-focus/30 focus:border-focus transition-all font-medium text-slate-900 placeholder-slate-400 shadow-2xs"
             />
           </div>
         </div>
@@ -212,7 +212,7 @@ export const LoginPage: React.FC = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full pl-11 pr-11 py-3 bg-slate-50 hover:bg-orange-50/20 focus:bg-white border border-slate-200/90 rounded-2xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500 transition-all font-medium text-slate-900 placeholder-slate-400 shadow-2xs [&::-ms-reveal]:hidden [&::-ms-clear]:hidden"
+              className="w-full pl-11 pr-11 py-3 bg-slate-50 hover:bg-orange-50/20 focus:bg-surface border border-slate-200/90 rounded-2xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-focus/30 focus:border-focus transition-all font-medium text-slate-900 placeholder-slate-400 shadow-2xs [&::-ms-reveal]:hidden [&::-ms-clear]:hidden"
             />
             <button
               type="button"
@@ -236,12 +236,12 @@ export const LoginPage: React.FC = () => {
               type="checkbox"
               checked={rememberMe}
               onChange={(e) => setRememberMe(e.target.checked)}
-              className="w-4 h-4 rounded-lg border-slate-300 text-orange-600 focus:ring-orange-500 accent-orange-500"
+              className="w-4 h-4 rounded-lg border-slate-300 text-slate-800 focus:ring-focus accent-orange-500"
             />
             <span className="text-xs font-medium text-slate-600">Ghi nhớ đăng nhập</span>
           </label>
 
-          <a href="#" onClick={(e) => { e.preventDefault(); alert("Vui lòng liên hệ quản trị viên hoặc sử dụng tài khoản mẫu để đăng nhập."); }} className="text-xs font-bold text-slate-500 hover:text-orange-600 transition-colors">
+          <a href="#" onClick={(e) => { e.preventDefault(); alert("Vui lòng liên hệ quản trị viên hoặc sử dụng tài khoản mẫu để đăng nhập."); }} className="text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors">
             Quên mật khẩu?
           </a>
         </div>
@@ -251,7 +251,7 @@ export const LoginPage: React.FC = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 hover:from-orange-600 hover:to-amber-600 text-white font-extrabold text-xs sm:text-sm rounded-2xl shadow-md shadow-orange-500/25 hover:shadow-lg hover:shadow-orange-500/35 hover:-translate-y-0.5 active:translate-y-0 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+            className="w-full sm:w-auto px-8 py-3 bg-brand-500 hover:bg-brand-600 text-white font-extrabold text-xs sm:text-sm rounded-2xl shadow-md shadow-orange-500/25 hover:shadow-lg hover:shadow-orange-500/35 hover:-translate-y-0.5 active:translate-y-0 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
           >
             {loading ? (
               <span>Đang xử lý...</span>
@@ -270,7 +270,7 @@ export const LoginPage: React.FC = () => {
         <div className="absolute inset-0 flex items-center">
           <div className="w-full border-t border-slate-300/60" />
         </div>
-        <span className="relative px-3 bg-[#faf8f5] text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+        <span className="relative px-3 bg-canvas text-[11px] font-bold text-slate-400 uppercase tracking-wider">
           Hoặc đăng nhập nhanh bằng
         </span>
       </div>
@@ -281,7 +281,7 @@ export const LoginPage: React.FC = () => {
           type="button"
           onClick={handleGoogleLogin}
           disabled={loading}
-          className="flex items-center justify-center gap-3 w-full py-3 px-4 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:bg-slate-50 hover:border-orange-300 hover:shadow-sm transition-all text-xs sm:text-sm font-bold text-slate-700 active:scale-98 cursor-pointer group"
+          className="flex items-center justify-center gap-3 w-full py-3 px-4 rounded-2xl bg-surface border border-slate-200/90 shadow-2xs hover:bg-slate-50 hover:border-orange-300 hover:shadow-sm transition-all text-xs sm:text-sm font-bold text-slate-700 active:scale-98 cursor-pointer group"
           title="Đăng nhập bảo mật với tài khoản Google"
         >
           <svg className="w-5 h-5 shrink-0 group-hover:scale-110 transition-transform" viewBox="0 0 24 24">
@@ -311,7 +311,7 @@ export const LoginPage: React.FC = () => {
       <div className="text-center pt-2 border-t border-slate-100">
         <p className="text-xs text-slate-500">
           Chưa có tài khoản?{' '}
-          <Link to="/auth/register" className="font-extrabold text-orange-600 hover:text-orange-700 hover:underline">
+          <Link to="/auth/register" className="font-extrabold text-slate-800 hover:text-slate-900 hover:underline">
             Đăng ký ngay
           </Link>
         </p>

@@ -1,3 +1,5 @@
+import { handleImageError, resolveRecipeImage } from '../../utils/imageFallback';
+import { MediaImage } from '../../components/common/MediaImage';
 import React, { useState } from 'react';
 import {
   Plus,
@@ -144,7 +146,7 @@ export const RecipeManagementPage: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Top Action & Navigation Tabs */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 rounded-3xl border border-slate-200/80 shadow-sm">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-surface p-5 rounded-3xl border border-slate-200/80 shadow-sm">
         <div>
           <h2 className="text-xl font-bold text-slate-900 font-['Outfit']">Quản Lý Công Thức Nấu Ăn</h2>
           <p className="text-xs text-slate-400 mt-0.5">
@@ -167,7 +169,7 @@ export const RecipeManagementPage: React.FC = () => {
           onClick={() => setActiveTab('all')}
           className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all ${
             activeTab === 'all'
-              ? 'bg-white text-indigo-600 shadow-sm border border-slate-200/80'
+              ? 'bg-surface text-slate-800 shadow-sm border border-slate-200/80'
               : 'text-slate-500 hover:text-slate-800'
           }`}
         >
@@ -178,7 +180,7 @@ export const RecipeManagementPage: React.FC = () => {
           onClick={() => setActiveTab('pending')}
           className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all flex items-center gap-2 ${
             activeTab === 'pending'
-              ? 'bg-white text-indigo-600 shadow-sm border border-slate-200/80'
+              ? 'bg-surface text-slate-800 shadow-sm border border-slate-200/80'
               : 'text-slate-500 hover:text-slate-800'
           }`}
         >
@@ -194,7 +196,7 @@ export const RecipeManagementPage: React.FC = () => {
           onClick={() => setActiveTab('banner')}
           className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all flex items-center gap-1.5 ${
             activeTab === 'banner'
-              ? 'bg-white text-indigo-600 shadow-sm border border-slate-200/80'
+              ? 'bg-surface text-slate-800 shadow-sm border border-slate-200/80'
               : 'text-slate-500 hover:text-slate-800'
           }`}
         >
@@ -207,7 +209,7 @@ export const RecipeManagementPage: React.FC = () => {
       {activeTab === 'all' && (
         <div className="space-y-5">
           {/* Search & Filter Bar */}
-          <div className="bg-white p-4 rounded-3xl border border-slate-200/80 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="bg-surface p-4 rounded-3xl border border-slate-200/80 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="relative w-full sm:w-96">
               <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
@@ -215,7 +217,7 @@ export const RecipeManagementPage: React.FC = () => {
                 placeholder="Tìm theo tên món, nguyên liệu..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-focus/20"
               />
             </div>
 
@@ -242,26 +244,27 @@ export const RecipeManagementPage: React.FC = () => {
             {filteredRecipes.map((item) => (
               <div
                 key={item.id}
-                className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden flex flex-col justify-between group hover:shadow-md transition-all"
+                className="bg-surface rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden flex flex-col justify-between group hover:shadow-md transition-all"
               >
                 <div>
                   <div className="relative h-52 w-full overflow-hidden">
                     <img
-                      src={item.image}
+                      src={resolveRecipeImage(item.image, item.title)}
+                            onError={(event) => handleImageError(event, resolveRecipeImage(null, item.title))}
                       alt={item.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
-                    <div className="absolute top-3.5 left-3.5 px-3 py-1 rounded-full bg-slate-950/75 backdrop-blur-md text-[11px] font-bold text-white">
+                    <div className="absolute top-3.5 left-3.5 px-3 py-1 rounded-full bg-panel-950/75 backdrop-blur-md text-[11px] font-bold text-white">
                       {item.category}
                     </div>
-                    <div className="absolute top-3.5 right-3.5 px-2.5 py-1 rounded-xl bg-white/95 text-[11px] font-bold text-amber-600 flex items-center gap-1 shadow-sm">
+                    <div className="absolute top-3.5 right-3.5 px-2.5 py-1 rounded-xl bg-surface/95 text-[11px] font-bold text-amber-700 flex items-center gap-1 shadow-sm">
                       <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                       <span>{item.rating}</span>
                     </div>
                   </div>
 
                   <div className="p-5 space-y-2.5">
-                    <h3 className="font-bold text-base text-slate-800 line-clamp-1 group-hover:text-indigo-600 transition-colors">
+                    <h3 className="font-bold text-base text-slate-800 line-clamp-1 group-hover:text-slate-800 transition-colors">
                       {item.title}
                     </h3>
                     <p className="text-xs text-slate-400 font-medium">
@@ -270,11 +273,11 @@ export const RecipeManagementPage: React.FC = () => {
 
                     <div className="flex items-center gap-4 pt-1 text-xs text-slate-600 font-semibold">
                       <div className="flex items-center gap-1.5">
-                        <Clock className="w-4 h-4 text-indigo-500" />
+                        <Clock className="w-4 h-4 text-slate-700" />
                         <span>{item.cookingTimeMinutes} phút</span>
                       </div>
                       <div className="flex items-center gap-1.5">
-                        <Flame className="w-4 h-4 text-orange-500" />
+                        <Flame className="w-4 h-4 text-slate-700" />
                         <span>{item.calories} kcal</span>
                       </div>
                     </div>
@@ -289,7 +292,7 @@ export const RecipeManagementPage: React.FC = () => {
                 </div>
 
                 <div className="p-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
-                  <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-lg">
+                  <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg">
                     Đã xuất bản
                   </span>
                   <button
@@ -303,7 +306,7 @@ export const RecipeManagementPage: React.FC = () => {
                       });
                       alert(`Đã ghim "${item.title}" lên Banner Mobile thành công!`);
                     }}
-                    className="text-xs font-bold text-indigo-600 hover:text-indigo-700"
+                    className="text-xs font-bold text-slate-800 hover:text-slate-900"
                   >
                     Ghim lên Banner Mobile
                   </button>
@@ -318,15 +321,15 @@ export const RecipeManagementPage: React.FC = () => {
       {activeTab === 'pending' && (
         <div className="space-y-4">
           <div className="bg-amber-50 border border-amber-200/80 p-4 rounded-3xl flex items-center gap-3 text-xs text-amber-800">
-            <Info className="w-4 h-4 text-amber-600 shrink-0" />
+            <Info className="w-4 h-4 text-amber-700 shrink-0" />
             <span>
               Công thức do người dùng tạo từ tính năng <strong>Wizard Creator</strong> trên Mobile App sẽ được xếp vào hàng đợi kiểm duyệt chất lượng trước khi phát hành công khai.
             </span>
           </div>
 
           {pendingContributions.length === 0 ? (
-            <div className="bg-white p-12 text-center rounded-3xl border border-slate-200/80">
-              <CheckCircle className="w-12 h-12 text-emerald-500 mx-auto mb-3" />
+            <div className="bg-surface p-12 text-center rounded-3xl border border-slate-200/80">
+              <CheckCircle className="w-12 h-12 text-emerald-700 mx-auto mb-3" />
               <h3 className="text-base font-bold text-slate-800">Không có công thức nào chờ duyệt!</h3>
               <p className="text-xs text-slate-400 mt-1">
                 Tất cả bài đóng góp từ người dùng đã được xử lý hoàn tất.
@@ -337,19 +340,20 @@ export const RecipeManagementPage: React.FC = () => {
               {pendingContributions.map((contrib) => (
                 <div
                   key={contrib.id}
-                  className="bg-white rounded-3xl border border-slate-200/80 shadow-sm overflow-hidden flex flex-col justify-between"
+                  className="bg-surface rounded-3xl border border-slate-200/80 shadow-sm overflow-hidden flex flex-col justify-between"
                 >
                   <div>
                     <div className="relative h-44 w-full">
                       <img
-                        src={contrib.image}
+                        src={resolveRecipeImage(contrib.image, contrib.title)}
+                            onError={(event) => handleImageError(event, resolveRecipeImage(null, contrib.title))}
                         alt={contrib.title}
                         className="w-full h-full object-cover"
                       />
                       <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-amber-500 text-white text-[10px] font-bold">
                         Chờ duyệt
                       </span>
-                      <span className="absolute bottom-3 right-3 px-2 py-1 rounded-xl bg-slate-900/80 backdrop-blur-md text-[10px] text-white">
+                      <span className="absolute bottom-3 right-3 px-2 py-1 rounded-xl bg-panel-900/80 backdrop-blur-md text-[10px] text-white">
                         {contrib.submittedAt}
                       </span>
                     </div>
@@ -384,14 +388,14 @@ export const RecipeManagementPage: React.FC = () => {
                           approveContribution(contrib.id);
                           alert(`Đã duyệt công thức "${contrib.title}" thành công!`);
                         }}
-                        className="py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 shadow-sm transition-all"
+                        className="py-2 bg-emerald-600 hover:bg-success-action-hover text-white text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 shadow-sm transition-all"
                       >
                         <Check className="w-3.5 h-3.5" />
                         <span>Phê Duyệt</span>
                       </button>
                       <button
                         onClick={() => setRejectModalId(contrib.id)}
-                        className="py-2 bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 transition-all"
+                        className="py-2 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 transition-all"
                       >
                         <X className="w-3.5 h-3.5" />
                         <span>Từ Chối</span>
@@ -407,7 +411,7 @@ export const RecipeManagementPage: React.FC = () => {
 
       {/* ================= TAB 3: CẤU HÌNH BANNER HERO MOBILE ================= */}
       {activeTab === 'banner' && (
-        <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm space-y-6">
+        <div className="bg-surface p-6 rounded-3xl border border-slate-200/80 shadow-sm space-y-6">
           <div className="flex items-center justify-between">
             <div>
               <h3 className="font-bold text-base text-slate-900 font-['Outfit']">
@@ -417,7 +421,7 @@ export const RecipeManagementPage: React.FC = () => {
                 Món ăn này sẽ tự động chạy ở vị trí đắc địa nhất trang chủ Mobile App SmartCook.
               </p>
             </div>
-            <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-xl">
+            <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-xl">
               Đang hoạt động trên App
             </span>
           </div>
@@ -425,17 +429,17 @@ export const RecipeManagementPage: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
             {/* Live Preview Card */}
             <div className="relative rounded-3xl overflow-hidden shadow-lg border border-slate-200 group">
-              <img
+              <MediaImage
                 src={heroBanner.imageUrl}
                 alt={heroBanner.title}
                 className="w-full h-64 object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/30 to-transparent" />
-              <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md text-[11px] font-bold text-slate-800">
+              <div className="absolute inset-0 bg-gradient-to-t from-panel-950/85 via-panel-950/30 to-transparent" />
+              <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-surface/90 backdrop-blur-md text-[11px] font-bold text-slate-800">
                 {heroBanner.badge}
               </div>
               <div className="absolute bottom-4 left-4 right-4 text-white">
-                <span className="text-xs text-orange-300 font-bold">{heroBanner.locationTag}</span>
+                <span className="text-xs text-media-muted font-bold">{heroBanner.locationTag}</span>
                 <h4 className="text-lg font-bold font-['Outfit'] mt-1">{heroBanner.title}</h4>
                 <p className="text-xs text-slate-300 mt-1 line-clamp-1">{heroBanner.subtitle}</p>
                 <div className="flex items-center gap-3 mt-3 text-xs font-bold">
@@ -454,7 +458,7 @@ export const RecipeManagementPage: React.FC = () => {
                   type="text"
                   value={heroBanner.title}
                   onChange={(e) => updateHeroBanner({ title: e.target.value })}
-                  className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500/20"
+                  className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-focus/20"
                 />
               </div>
 
@@ -464,7 +468,7 @@ export const RecipeManagementPage: React.FC = () => {
                   type="text"
                   value={heroBanner.subtitle}
                   onChange={(e) => updateHeroBanner({ subtitle: e.target.value })}
-                  className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500/20"
+                  className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-focus/20"
                 />
               </div>
 
@@ -512,8 +516,8 @@ export const RecipeManagementPage: React.FC = () => {
 
       {/* ================= MODAL: TỪ CHỐI CÔNG THỨC ================= */}
       {rejectModalId && (
-        <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl border border-slate-200">
+        <div className="fixed inset-0 z-50 bg-panel-900/40 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-surface rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl border border-slate-200">
             <h3 className="text-base font-bold text-slate-900">Từ Chối Công Thức Đóng Góp</h3>
             <p className="text-xs text-slate-500">
               Nhập lý do từ chối để gửi thông báo phản hồi lại cho tác giả công thức trên ứng dụng.
@@ -523,7 +527,7 @@ export const RecipeManagementPage: React.FC = () => {
               value={rejectionReason}
               onChange={(e) => setRejectionReason(e.target.value)}
               placeholder="VD: Hình ảnh mờ, thiếu định lượng gia vị cụ thể, vi phạm bản quyền..."
-              className="w-full p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs focus:ring-2 focus:ring-indigo-500/20"
+              className="w-full p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs focus:ring-2 focus:ring-focus/20"
             />
             <div className="flex items-center justify-end gap-2 pt-2">
               <button
@@ -543,7 +547,7 @@ export const RecipeManagementPage: React.FC = () => {
                     setRejectionReason('');
                   }
                 }}
-                className="px-4 py-2 text-xs font-bold text-white bg-rose-600 hover:bg-rose-700 rounded-xl shadow-sm"
+                className="px-4 py-2 text-xs font-bold text-white bg-rose-600 hover:bg-danger-action-hover rounded-xl shadow-sm"
               >
                 Xác Nhận Từ Chối
               </button>
@@ -554,8 +558,8 @@ export const RecipeManagementPage: React.FC = () => {
 
       {/* ================= MODAL: THÊM CÔNG THỨC CHUẨN ================= */}
       {showCreateModal && (
-        <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-white rounded-3xl max-w-xl w-full p-6 space-y-4 shadow-2xl border border-slate-200 my-8">
+        <div className="fixed inset-0 z-50 bg-panel-900/40 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-surface rounded-3xl max-w-xl w-full p-6 space-y-4 shadow-2xl border border-slate-200 my-8">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <h3 className="text-base font-bold text-slate-900 font-['Outfit']">
                 Thêm Công Thức Chuẩn MasterChef
@@ -577,7 +581,7 @@ export const RecipeManagementPage: React.FC = () => {
                   placeholder="VD: Cá Hồi Áp Chảo Sốt Chanh Dây..."
                   value={newRecipeTitle}
                   onChange={(e) => setNewRecipeTitle(e.target.value)}
-                  className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500/20"
+                  className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-focus/20"
                 />
               </div>
 
@@ -616,7 +620,7 @@ export const RecipeManagementPage: React.FC = () => {
                       type="number"
                       value={newRecipeCalo}
                       onChange={(e) => setNewRecipeCalo(Number(e.target.value))}
-                      className="w-full p-1.5 bg-white border border-slate-200 rounded-lg text-xs font-bold"
+                      className="w-full p-1.5 bg-surface border border-slate-200 rounded-lg text-xs font-bold"
                     />
                   </div>
                   <div>
@@ -625,7 +629,7 @@ export const RecipeManagementPage: React.FC = () => {
                       type="number"
                       value={newRecipeProtein}
                       onChange={(e) => setNewRecipeProtein(Number(e.target.value))}
-                      className="w-full p-1.5 bg-white border border-slate-200 rounded-lg text-xs font-bold"
+                      className="w-full p-1.5 bg-surface border border-slate-200 rounded-lg text-xs font-bold"
                     />
                   </div>
                   <div>
@@ -634,7 +638,7 @@ export const RecipeManagementPage: React.FC = () => {
                       type="number"
                       value={newRecipeCarbs}
                       onChange={(e) => setNewRecipeCarbs(Number(e.target.value))}
-                      className="w-full p-1.5 bg-white border border-slate-200 rounded-lg text-xs font-bold"
+                      className="w-full p-1.5 bg-surface border border-slate-200 rounded-lg text-xs font-bold"
                     />
                   </div>
                   <div>
@@ -643,7 +647,7 @@ export const RecipeManagementPage: React.FC = () => {
                       type="number"
                       value={newRecipeFat}
                       onChange={(e) => setNewRecipeFat(Number(e.target.value))}
-                      className="w-full p-1.5 bg-white border border-slate-200 rounded-lg text-xs font-bold"
+                      className="w-full p-1.5 bg-surface border border-slate-200 rounded-lg text-xs font-bold"
                     />
                   </div>
                 </div>

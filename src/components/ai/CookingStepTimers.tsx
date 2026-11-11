@@ -43,7 +43,7 @@ export function CookingStepTimers({
   return (
     <section
       aria-label="Hẹn giờ và tự chuyển bước"
-      className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xs"
+      className="overflow-hidden rounded-2xl border border-slate-200 bg-surface shadow-2xs"
     >
       {/* 1. KHU VỰC HẸN GIỜ NẤU - TỐI GIẢN MÀU SẮC */}
       <div className="space-y-4 p-4 sm:p-5">
@@ -84,7 +84,7 @@ export function CookingStepTimers({
               type="button"
               aria-label="Đặt lại thời gian của bước"
               onClick={() => onAction({ type: 'reset' })}
-              className="p-2.5 rounded-xl border border-slate-200 bg-white text-slate-500 hover:text-slate-800 hover:bg-slate-50 transition-colors active:scale-95 shadow-2xs"
+              className="p-2.5 rounded-xl border border-slate-200 bg-surface text-slate-500 hover:text-slate-800 hover:bg-slate-50 transition-colors active:scale-95 shadow-2xs"
               title="Đặt lại thời gian"
             >
               <RotateCcw className="w-4 h-4" />
@@ -108,7 +108,7 @@ export function CookingStepTimers({
                 type="button"
                 key={seconds}
                 onClick={() => onAction({ type: 'adjust', seconds })}
-                className="rounded-lg border border-slate-200 bg-white hover:bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-700 transition-all active:scale-95"
+                className="rounded-lg border border-slate-200 bg-surface hover:bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-700 transition-all active:scale-95"
               >
                 +{seconds < 60 ? `${seconds}s` : `${seconds / 60}p`}
               </button>
@@ -120,7 +120,7 @@ export function CookingStepTimers({
               type="button"
               disabled={timer.stepIndex === 0}
               onClick={onPrevious}
-              className="rounded-lg border border-slate-200 bg-white hover:bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-600 transition-all disabled:opacity-40"
+              className="rounded-lg border border-slate-200 bg-surface hover:bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-600 transition-all disabled:opacity-40"
             >
               Bước trước
             </button>
@@ -200,7 +200,7 @@ export function CookingStepTimers({
                   <button
                     type="button"
                     onClick={() => onAction({ type: 'toggleGrace' })}
-                    className="rounded-lg border border-slate-200 bg-white hover:bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-700 transition-colors"
+                    className="rounded-lg border border-slate-200 bg-surface hover:bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-700 transition-colors"
                   >
                     {advancing ? 'Dừng đếm chuyển' : 'Tiếp tục đếm'}
                   </button>
@@ -221,7 +221,7 @@ export function CookingStepTimers({
             {confirmed && nextStepNumber !== undefined && (
               <div className="h-1.5 overflow-hidden rounded-full bg-slate-200">
                 <div
-                  className="h-full bg-slate-700 transition-all duration-300 rounded-full"
+                  className="h-full bg-panel-700 transition-all duration-300 rounded-full"
                   style={{ width: `${(1 - timer.graceSeconds / timer.delaySeconds) * 100}%` }}
                 />
               </div>
@@ -238,8 +238,8 @@ export function CookingStepTimers({
                   onClick={() => onAction({ type: 'delay', seconds })}
                   className={`rounded-lg px-2.5 py-1 text-xs font-semibold transition-all ${
                     timer.delaySeconds === seconds
-                      ? 'border border-slate-800 bg-slate-800 text-white'
-                      : 'border border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
+                      ? 'border border-slate-800 bg-panel-800 text-white'
+                      : 'border border-slate-200 bg-surface text-slate-700 hover:bg-slate-50'
                   }`}
                 >
                   {seconds < 60 ? `${seconds}s` : `${seconds / 60}p`}

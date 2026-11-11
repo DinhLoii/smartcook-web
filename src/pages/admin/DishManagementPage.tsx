@@ -439,7 +439,7 @@ export const DishManagementPage: React.FC = () => {
   return (
     <div className="space-y-4">
       {/* ================= THANH ĐIỀU HƯỚNG TAB CHÍNH ================= */}
-      <div className="bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div className="bg-surface p-3.5 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-3">
         <div className="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto">
           <button
             onClick={() => setMainTab('dishes')}
@@ -534,7 +534,7 @@ export const DishManagementPage: React.FC = () => {
       {mainTab === 'dishes' && (
         <div className="space-y-4">
           {/* Thanh tìm kiếm & Bộ lọc theo đặc tả SRS Module 4, 15 */}
-          <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs space-y-3">
+          <div className="bg-surface p-4 rounded-2xl border border-slate-200/80 shadow-xs space-y-3">
             {/* Row 1: Search + Sort + Lọc chi phí */}
             <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
               {/* Ô tìm kiếm */}
@@ -545,7 +545,7 @@ export const DishManagementPage: React.FC = () => {
                   placeholder="Tìm theo tên món, nguyên liệu..."
                   value={dishSearch}
                   onChange={(e) => setDishSearch(e.target.value)}
-                  className="w-full pl-9 pr-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                  className="w-full pl-9 pr-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-focus/20"
                 />
               </div>
 
@@ -564,7 +564,7 @@ export const DishManagementPage: React.FC = () => {
                       onClick={() => setSelectedCostFilter(cost.id)}
                       className={`px-2.5 py-1 rounded-lg transition-colors ${
                         selectedCostFilter === cost.id
-                          ? 'bg-white text-indigo-600 font-bold shadow-2xs'
+                          ? 'bg-surface text-slate-800 font-bold shadow-2xs'
                           : 'hover:text-slate-900'
                       }`}
                     >
@@ -580,7 +580,7 @@ export const DishManagementPage: React.FC = () => {
                 <button
                   onClick={() => setDishSortBy('rating')}
                   className={`px-2.5 py-1 rounded-lg transition-colors ${
-                    dishSortBy === 'rating' ? 'bg-white text-indigo-600 font-bold shadow-2xs' : 'hover:text-slate-900'
+                    dishSortBy === 'rating' ? 'bg-surface text-slate-800 font-bold shadow-2xs' : 'hover:text-slate-900'
                   }`}
                 >
                   Đánh giá
@@ -588,7 +588,7 @@ export const DishManagementPage: React.FC = () => {
                 <button
                   onClick={() => setDishSortBy('time')}
                   className={`px-2.5 py-1 rounded-lg transition-colors ${
-                    dishSortBy === 'time' ? 'bg-white text-indigo-600 font-bold shadow-2xs' : 'hover:text-slate-900'
+                    dishSortBy === 'time' ? 'bg-surface text-slate-800 font-bold shadow-2xs' : 'hover:text-slate-900'
                   }`}
                 >
                   Thời gian
@@ -596,14 +596,14 @@ export const DishManagementPage: React.FC = () => {
                 <button
                   onClick={() => setDishSortBy('calories')}
                   className={`px-2.5 py-1 rounded-lg transition-colors ${
-                    dishSortBy === 'calories' ? 'bg-white text-indigo-600 font-bold shadow-2xs' : 'hover:text-slate-900'
+                    dishSortBy === 'calories' ? 'bg-surface text-slate-800 font-bold shadow-2xs' : 'hover:text-slate-900'
                   }`}
                 >
                   Calories
                 </button>
                 <button
                   onClick={() => setDishSortOrder(dishSortOrder === 'asc' ? 'desc' : 'asc')}
-                  className="p-1 text-slate-400 hover:text-indigo-600"
+                  className="p-1 text-slate-400 hover:text-slate-800"
                   title="Đảo chiều sắp xếp"
                 >
                   <ArrowUpDown className="w-3.5 h-3.5" />
@@ -619,7 +619,7 @@ export const DishManagementPage: React.FC = () => {
                   onClick={() => setSelectedCategory(cat)}
                   className={`px-3 py-1.5 rounded-xl font-semibold transition-all shrink-0 ${
                     selectedCategory === cat
-                      ? 'bg-slate-900 text-white shadow-xs font-bold'
+                      ? 'bg-panel-900 text-white shadow-xs font-bold'
                       : 'bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200/60'
                   }`}
                 >
@@ -630,7 +630,7 @@ export const DishManagementPage: React.FC = () => {
           </div>
 
           {/* BẢNG TABLE MÓN ĂN CHỮ NHẬT DÀI TỐI GIẢN */}
-          <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
+          <div className="bg-surface rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
@@ -669,7 +669,7 @@ export const DishManagementPage: React.FC = () => {
                               />
                             </div>
                             <div className="min-w-0">
-                              <span className="font-bold text-slate-900 group-hover:text-indigo-600 transition-colors text-sm block leading-snug">
+                              <span className="font-bold text-slate-900 group-hover:text-slate-800 transition-colors text-sm block leading-snug">
                                 {item.title}
                               </span>
                               <span className="text-[11px] text-slate-400 mt-1 block">
@@ -681,7 +681,7 @@ export const DishManagementPage: React.FC = () => {
 
                         {/* Cột 2: Phân Loại */}
                         <td className="py-4 px-4 whitespace-nowrap">
-                          <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-800 font-bold text-[11px] border border-indigo-100">
+                          <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-indigo-50 text-slate-900 font-bold text-[11px] border border-indigo-100">
                             {item.category}
                           </span>
                           {item.subCategory && (
@@ -694,7 +694,7 @@ export const DishManagementPage: React.FC = () => {
                         {/* Cột 3: Độ Phổ Biến & Tương Tác (Rating ⭐, Đánh giá, Thời gian nấu) */}
                         <td className="py-4 px-4 whitespace-nowrap">
                           <div className="flex items-center gap-1.5">
-                            <div className="flex items-center gap-1 text-amber-500 font-extrabold text-xs">
+                            <div className="flex items-center gap-1 text-amber-700 font-extrabold text-xs">
                               <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                               <span className="font-['Outfit'] text-slate-900 font-bold">{item.rating}</span>
                             </div>
@@ -703,7 +703,7 @@ export const DishManagementPage: React.FC = () => {
                             </span>
                           </div>
                           <div className="flex items-center gap-1.5 text-slate-500 text-[11px] mt-1">
-                            <Clock className="w-3 h-3 text-indigo-500" />
+                            <Clock className="w-3 h-3 text-slate-700" />
                             <span>{item.prepTimeMinutes + item.cookingTimeMinutes} phút chuẩn bị & nấu</span>
                           </div>
                         </td>
@@ -730,8 +730,8 @@ export const DishManagementPage: React.FC = () => {
                           <div className="text-sm font-extrabold text-slate-900">
                             {item.estimatedCostVnd.toLocaleString()} đ
                           </div>
-                          <span className="text-[10.5px] text-amber-600 font-bold block mt-0.5 flex items-center gap-1">
-                            <Flame className="w-3 h-3 text-amber-500 fill-amber-500" />
+                          <span className="text-[10.5px] text-amber-700 font-bold block mt-0.5 flex items-center gap-1">
+                            <Flame className="w-3 h-3 text-amber-700 fill-amber-700" />
                             {item.calories} kcal
                           </span>
                         </td>
@@ -742,7 +742,7 @@ export const DishManagementPage: React.FC = () => {
                             {/* Nút Xem Chi Tiết */}
                             <button
                               onClick={() => setViewingDish(item)}
-                              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-indigo-600 bg-indigo-50 hover:bg-indigo-600 hover:text-white font-bold text-xs transition-all active:scale-95 shadow-2xs"
+                              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-slate-800 bg-indigo-50 hover:bg-indigo-600 hover:text-white font-bold text-xs transition-all active:scale-95 shadow-2xs"
                               title="Xem toàn bộ hồ sơ món ăn"
                             >
                               <Eye className="w-3.5 h-3.5" />
@@ -752,7 +752,7 @@ export const DishManagementPage: React.FC = () => {
                             {/* Nút Sửa */}
                             <button
                               onClick={() => handleOpenDishModal(item)}
-                              className="p-2 rounded-xl text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 transition-colors"
+                              className="p-2 rounded-xl text-slate-400 hover:text-slate-800 hover:bg-indigo-50 transition-colors"
                               title="Chỉnh sửa thông tin món ăn"
                             >
                               <Edit className="w-3.5 h-3.5" />
@@ -761,7 +761,7 @@ export const DishManagementPage: React.FC = () => {
                             {/* Nút Xóa */}
                             <button
                               onClick={() => setDeleteDishId(item.id)}
-                              className="p-2 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors"
+                              className="p-2 rounded-xl text-slate-400 hover:text-rose-700 hover:bg-rose-50 transition-colors"
                               title="Xóa món ăn"
                             >
                               <Trash2 className="w-3.5 h-3.5" />
@@ -793,7 +793,7 @@ export const DishManagementPage: React.FC = () => {
       ========================================================================== */}
       {mainTab === 'ingredients' && (
         <div className="space-y-4">
-          <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs space-y-3">
+          <div className="bg-surface p-4 rounded-2xl border border-slate-200/80 shadow-xs space-y-3">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
               <div className="relative w-full sm:w-80">
                 <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -802,7 +802,7 @@ export const DishManagementPage: React.FC = () => {
                   placeholder="Tìm kiếm nguyên liệu, alias..."
                   value={ingSearch}
                   onChange={(e) => setIngSearch(e.target.value)}
-                  className="w-full pl-9 pr-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                  className="w-full pl-9 pr-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-focus/20"
                 />
               </div>
 
@@ -812,7 +812,7 @@ export const DishManagementPage: React.FC = () => {
                   onClick={() => setIngGroupId('all')}
                   className={`px-3 py-1.5 rounded-xl font-bold transition-all shrink-0 ${
                     ingGroupId === 'all'
-                      ? 'bg-slate-900 text-white shadow-xs'
+                      ? 'bg-panel-900 text-white shadow-xs'
                       : 'bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200/60'
                   }`}
                 >
@@ -838,7 +838,7 @@ export const DishManagementPage: React.FC = () => {
           </div>
 
           {/* BẢNG NGUYÊN LIỆU */}
-          <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
+          <div className="bg-surface rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
@@ -863,7 +863,7 @@ export const DishManagementPage: React.FC = () => {
                         key={item.id}
                         className="hover:bg-slate-50/70 transition-colors group"
                       >
-                        <td className="py-3.5 px-5 font-bold text-slate-900 group-hover:text-indigo-600 transition-colors text-sm">
+                        <td className="py-3.5 px-5 font-bold text-slate-900 group-hover:text-slate-800 transition-colors text-sm">
                           {item.name}
                         </td>
                         <td className="py-3.5 px-4 whitespace-nowrap">
@@ -876,7 +876,7 @@ export const DishManagementPage: React.FC = () => {
                         </td>
                         <td className="py-3.5 px-4 whitespace-nowrap">
                           <span className="inline-flex items-center gap-1 text-emerald-700 bg-emerald-50 border border-emerald-200/50 px-2.5 py-0.5 rounded-md font-semibold text-[11px]">
-                            <Clock className="w-3 h-3 text-emerald-600" />
+                            <Clock className="w-3 h-3 text-emerald-700" />
                             ~{item.shelfLifeDays} ngày
                           </span>
                         </td>
@@ -884,20 +884,20 @@ export const DishManagementPage: React.FC = () => {
                           <div className="flex items-center justify-end gap-2">
                             <button
                               onClick={() => setViewingIngredient(item)}
-                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-indigo-600 bg-indigo-50 hover:bg-indigo-600 hover:text-white font-semibold text-xs transition-all active:scale-95"
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-slate-800 bg-indigo-50 hover:bg-indigo-600 hover:text-white font-semibold text-xs transition-all active:scale-95"
                             >
                               <Eye className="w-3.5 h-3.5" />
                               <span>Xem chi tiết</span>
                             </button>
                             <button
                               onClick={() => handleOpenIngModal(item)}
-                              className="p-1.5 rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-slate-100 transition-colors"
+                              className="p-1.5 rounded-lg text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-colors"
                             >
                               <Edit className="w-3.5 h-3.5" />
                             </button>
                             <button
                               onClick={() => setDeleteIngId(item.id)}
-                              className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors"
+                              className="p-1.5 rounded-lg text-slate-400 hover:text-rose-700 hover:bg-rose-50 transition-colors"
                             >
                               <Trash2 className="w-3.5 h-3.5" />
                             </button>
@@ -925,15 +925,15 @@ export const DishManagementPage: React.FC = () => {
       {mainTab === 'pending' && (
         <div className="space-y-4">
           <div className="bg-amber-50 border border-amber-200/80 p-4 rounded-2xl flex items-center gap-3 text-xs text-amber-800">
-            <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" />
+            <AlertCircle className="w-4 h-4 text-amber-700 shrink-0" />
             <span>
               Công thức do cộng đồng người dùng gửi lên qua tính năng <strong>Wizard Creator</strong> trên Mobile App cần được Admin duyệt chất lượng trước khi hiển thị cho toàn bộ người dùng.
             </span>
           </div>
 
           {pendingContributions.length === 0 ? (
-            <div className="bg-white p-12 text-center rounded-2xl border border-slate-200/80">
-              <CheckCircle className="w-12 h-12 text-emerald-500 mx-auto mb-3" />
+            <div className="bg-surface p-12 text-center rounded-2xl border border-slate-200/80">
+              <CheckCircle className="w-12 h-12 text-emerald-700 mx-auto mb-3" />
               <h3 className="text-base font-bold text-slate-800">Không có công thức nào chờ duyệt!</h3>
               <p className="text-xs text-slate-400 mt-1">
                 Tất cả bài đóng góp từ người dùng đã được xử lý hoàn tất.
@@ -944,7 +944,7 @@ export const DishManagementPage: React.FC = () => {
               {pendingContributions.map((contrib) => (
                 <div
                   key={contrib.id}
-                  className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden flex flex-col justify-between"
+                  className="bg-surface rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden flex flex-col justify-between"
                 >
                   <div>
                     <div className="relative h-44 w-full overflow-hidden">
@@ -958,7 +958,7 @@ export const DishManagementPage: React.FC = () => {
                       <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-amber-500 text-white text-[10px] font-bold">
                         Chờ duyệt
                       </span>
-                      <span className="absolute bottom-3 right-3 px-2 py-0.5 rounded-lg bg-slate-900/80 backdrop-blur-md text-[10px] text-white">
+                      <span className="absolute bottom-3 right-3 px-2 py-0.5 rounded-lg bg-panel-900/80 backdrop-blur-md text-[10px] text-white">
                         {contrib.submittedAt}
                       </span>
                     </div>
@@ -982,14 +982,14 @@ export const DishManagementPage: React.FC = () => {
                         approveContribution(contrib.id);
                         alert(`Đã duyệt công thức "${contrib.title}" thành công!`);
                       }}
-                      className="py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 shadow-2xs transition-all"
+                      className="py-2 bg-emerald-600 hover:bg-success-action-hover text-white text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 shadow-2xs transition-all"
                     >
                       <Check className="w-3.5 h-3.5" />
                       <span>Phê Duyệt</span>
                     </button>
                     <button
                       onClick={() => setRejectModalId(contrib.id)}
-                      className="py-2 bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 transition-all"
+                      className="py-2 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 transition-all"
                     >
                       <X className="w-3.5 h-3.5" />
                       <span>Từ Chối</span>
@@ -1006,7 +1006,7 @@ export const DishManagementPage: React.FC = () => {
           TAB 4: CẤU HÌNH BANNER HERO MOBILE
       ========================================================================== */}
       {mainTab === 'banner' && (
-        <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs space-y-5">
+        <div className="bg-surface p-6 rounded-2xl border border-slate-200/80 shadow-xs space-y-5">
           <div className="flex items-center justify-between">
             <div>
               <h3 className="font-bold text-base text-slate-900 font-['Outfit']">
@@ -1016,7 +1016,7 @@ export const DishManagementPage: React.FC = () => {
                 Món ăn này sẽ tự động hiển thị ở đầu trang chủ Mobile App SmartCook.
               </p>
             </div>
-            <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-xl">
+            <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-xl">
               Đang hoạt động trên App
             </span>
           </div>
@@ -1054,7 +1054,7 @@ export const DishManagementPage: React.FC = () => {
                 {recipes.map((r) => (
                   <div
                     key={r.id}
-                    className="p-2.5 rounded-xl bg-white border border-slate-200/80 flex items-center justify-between gap-3 text-xs"
+                    className="p-2.5 rounded-xl bg-surface border border-slate-200/80 flex items-center justify-between gap-3 text-xs"
                   >
                     <div className="flex items-center gap-2.5 min-w-0">
                       <img
@@ -1082,7 +1082,7 @@ export const DishManagementPage: React.FC = () => {
                         });
                         alert(`Đã đổi Banner Mobile thành "${r.title}"!`);
                       }}
-                      className="px-3 py-1 bg-indigo-50 hover:bg-indigo-600 hover:text-white text-indigo-600 font-bold rounded-lg shrink-0 transition-colors"
+                      className="px-3 py-1 bg-indigo-50 hover:bg-indigo-600 hover:text-white text-slate-800 font-bold rounded-lg shrink-0 transition-colors"
                     >
                       Ghim Banner
                     </button>
@@ -1098,10 +1098,10 @@ export const DishManagementPage: React.FC = () => {
           MODAL: XEM CHI TIẾT HỒ SƠ MÓN ĂN TOÀN DIỆN (LAYOUT RỘNG GẦN FULL MÀN HÌNH, BO NHẸ, TỐI GIẢN CAO CẤP)
       ========================================================================== */}
       {viewingDish && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/60 backdrop-blur-xs animate-in fade-in duration-200">
-          <div className="bg-white w-full max-w-6xl h-[92vh] rounded-xl border border-slate-200/90 shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 flex flex-col text-slate-800">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-panel-950/60 backdrop-blur-xs animate-in fade-in duration-200">
+          <div className="bg-surface w-full max-w-6xl h-[92vh] rounded-xl border border-slate-200/90 shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 flex flex-col text-slate-800">
             {/* Topbar tối giản */}
-            <div className="px-6 py-3.5 border-b border-slate-200/80 flex items-center justify-between bg-white shrink-0">
+            <div className="px-6 py-3.5 border-b border-slate-200/80 flex items-center justify-between bg-surface shrink-0">
               <div className="flex items-center gap-3">
                 <span className="text-xs font-semibold px-2.5 py-1 rounded bg-slate-100 text-slate-700 tracking-wide">
                   {viewingDish.category} {viewingDish.subCategory ? `• ${viewingDish.subCategory}` : ''}
@@ -1137,7 +1137,7 @@ export const DishManagementPage: React.FC = () => {
                     className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-500"
                     loading="lazy"
                   />
-                  <div className="absolute top-3 right-3 px-2.5 py-1 rounded bg-slate-900/85 backdrop-blur-md text-white text-[11px] font-medium flex items-center gap-1.5">
+                  <div className="absolute top-3 right-3 px-2.5 py-1 rounded bg-panel-900/85 backdrop-blur-md text-white text-[11px] font-medium flex items-center gap-1.5">
                     <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                     <span>{viewingDish.rating}</span>
                     <span className="text-slate-400">({viewingDish.ratingsCount})</span>
@@ -1157,7 +1157,7 @@ export const DishManagementPage: React.FC = () => {
                       {viewingDish.dietaryTags.map((tag, idx) => (
                         <span
                           key={idx}
-                          className="px-2 py-0.5 rounded text-[10.5px] font-medium bg-white text-slate-600 border border-slate-200"
+                          className="px-2 py-0.5 rounded text-[10.5px] font-medium bg-surface text-slate-600 border border-slate-200"
                         >
                           #{tag}
                         </span>
@@ -1181,7 +1181,7 @@ export const DishManagementPage: React.FC = () => {
 
                 {/* Khối 4 Thẻ Thông Số Tối Giản */}
                 <div className="grid grid-cols-2 gap-2.5 pt-1">
-                  <div className="p-3 bg-white rounded-lg border border-slate-200/80 space-y-0.5">
+                  <div className="p-3 bg-surface rounded-lg border border-slate-200/80 space-y-0.5">
                     <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider block">
                       Tổng Thời Gian
                     </span>
@@ -1193,7 +1193,7 @@ export const DishManagementPage: React.FC = () => {
                     </span>
                   </div>
 
-                  <div className="p-3 bg-white rounded-lg border border-slate-200/80 space-y-0.5">
+                  <div className="p-3 bg-surface rounded-lg border border-slate-200/80 space-y-0.5">
                     <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider block">
                       Khẩu Phần / Độ Khó
                     </span>
@@ -1205,7 +1205,7 @@ export const DishManagementPage: React.FC = () => {
                     </span>
                   </div>
 
-                  <div className="p-3 bg-white rounded-lg border border-slate-200/80 space-y-0.5">
+                  <div className="p-3 bg-surface rounded-lg border border-slate-200/80 space-y-0.5">
                     <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider block">
                       Mức Năng Lượng
                     </span>
@@ -1217,7 +1217,7 @@ export const DishManagementPage: React.FC = () => {
                     </span>
                   </div>
 
-                  <div className="p-3 bg-white rounded-lg border border-slate-200/80 space-y-0.5">
+                  <div className="p-3 bg-surface rounded-lg border border-slate-200/80 space-y-0.5">
                     <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider block">
                       Chi Phí Dự Kiến (SRS 15)
                     </span>
@@ -1231,7 +1231,7 @@ export const DishManagementPage: React.FC = () => {
                 </div>
 
                 {/* Bảng phân bổ Macro Dinh Dưỡng (SRS Module 11) - Gam màu trung tính thanh lịch */}
-                <div className="p-4 bg-white rounded-lg border border-slate-200/80 space-y-2.5">
+                <div className="p-4 bg-surface rounded-lg border border-slate-200/80 space-y-2.5">
                   <div className="flex items-center justify-between">
                     <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
                       Cân Bằng Dinh Dưỡng (Macro)
@@ -1241,8 +1241,8 @@ export const DishManagementPage: React.FC = () => {
 
                   <div className="grid grid-cols-4 gap-2 text-center pt-1">
                     <div className="p-2 rounded-lg bg-indigo-50/70 border border-indigo-100">
-                      <span className="text-[10px] text-indigo-600 font-bold block">Protein</span>
-                      <strong className="text-xs font-extrabold text-indigo-950 font-['Outfit'] block mt-0.5">
+                      <span className="text-[10px] text-slate-800 font-bold block">Protein</span>
+                      <strong className="text-xs font-extrabold text-slate-950 font-['Outfit'] block mt-0.5">
                         {viewingDish.macro.protein}g
                       </strong>
                     </div>
@@ -1259,8 +1259,8 @@ export const DishManagementPage: React.FC = () => {
                       </strong>
                     </div>
                     <div className="p-2 rounded-lg bg-indigo-50/70 border border-indigo-100">
-                      <span className="text-[10px] text-indigo-600 font-bold block">Chất Xơ</span>
-                      <strong className="text-xs font-extrabold text-indigo-950 font-['Outfit'] block mt-0.5">
+                      <span className="text-[10px] text-slate-800 font-bold block">Chất Xơ</span>
+                      <strong className="text-xs font-extrabold text-slate-950 font-['Outfit'] block mt-0.5">
                         {viewingDish.macro.fiber || 0}g
                       </strong>
                     </div>
@@ -1269,7 +1269,7 @@ export const DishManagementPage: React.FC = () => {
               </div>
 
               {/* CỘT PHẢI (7 phần): Nguyên Liệu Chi Tiết + Quy Trình Nấu Timeline + Thay Thế Nguyên Liệu */}
-              <div className="lg:col-span-7 p-6 overflow-y-auto space-y-6 bg-white">
+              <div className="lg:col-span-7 p-6 overflow-y-auto space-y-6 bg-surface">
                 {/* 1. Danh sách nguyên liệu & định lượng dạng table nhỏ gọn */}
                 <div className="space-y-2.5">
                   <div className="flex items-center justify-between">
@@ -1318,9 +1318,9 @@ export const DishManagementPage: React.FC = () => {
                     {viewingDish.steps.map((step) => (
                       <div
                         key={step.stepNumber}
-                        className="p-3.5 rounded-lg border border-slate-200/80 hover:border-slate-300 transition-colors flex items-start gap-3 bg-white"
+                        className="p-3.5 rounded-lg border border-slate-200/80 hover:border-slate-300 transition-colors flex items-start gap-3 bg-surface"
                       >
-                        <span className="w-6 h-6 rounded bg-slate-900 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
+                        <span className="w-6 h-6 rounded bg-panel-900 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
                           {step.stepNumber}
                         </span>
                         <div className="flex-1 min-w-0">
@@ -1377,13 +1377,13 @@ export const DishManagementPage: React.FC = () => {
                     setViewingDish(null);
                     handleOpenDishModal(current);
                   }}
-                  className="px-3.5 py-1.5 bg-white hover:bg-slate-100 text-slate-700 text-xs font-semibold rounded-lg border border-slate-200 transition-colors"
+                  className="px-3.5 py-1.5 bg-surface hover:bg-slate-100 text-slate-700 text-xs font-semibold rounded-lg border border-slate-200 transition-colors"
                 >
                   Chỉnh Sửa Món Này
                 </button>
                 <button
                   onClick={() => setViewingDish(null)}
-                  className="px-4 py-1.5 bg-slate-900 hover:bg-black text-white text-xs font-bold rounded-lg transition-colors"
+                  className="px-4 py-1.5 bg-panel-900 hover:bg-black text-white text-xs font-bold rounded-lg transition-colors"
                 >
                   Đóng Cửa Sổ
                 </button>
@@ -1397,8 +1397,8 @@ export const DishManagementPage: React.FC = () => {
           MODAL: XEM CHI TIẾT NGUYÊN LIỆU
       ========================================================================== */}
       {viewingIngredient && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs animate-in fade-in duration-200">
-          <div className="bg-white w-full max-w-lg rounded-3xl border border-slate-200 shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 p-6 space-y-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-panel-900/50 backdrop-blur-xs animate-in fade-in duration-200">
+          <div className="bg-surface w-full max-w-lg rounded-3xl border border-slate-200 shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 p-6 space-y-4">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <div>
                 <h3 className="text-base font-bold text-slate-900 font-['Outfit']">{viewingIngredient.name}</h3>
@@ -1434,7 +1434,7 @@ export const DishManagementPage: React.FC = () => {
             <div className="flex justify-end pt-2">
               <button
                 onClick={() => setViewingIngredient(null)}
-                className="px-4 py-2 bg-slate-800 text-white text-xs font-bold rounded-xl"
+                className="px-4 py-2 bg-panel-800 text-white text-xs font-bold rounded-xl"
               >
                 Đóng
               </button>
@@ -1447,10 +1447,10 @@ export const DishManagementPage: React.FC = () => {
           MODAL: THÊM / CHỈNH SỬA MÓN ĂN (LAYOUT RỘNG GẦN FULL MÀN HÌNH, BO NHẸ, 2 CỘT TỐI GIẢN)
       ========================================================================== */}
       {showDishModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/60 backdrop-blur-xs animate-in fade-in duration-200">
-          <div className="bg-white w-full max-w-6xl h-[92vh] rounded-xl border border-slate-200/90 shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 flex flex-col text-slate-800">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-panel-950/60 backdrop-blur-xs animate-in fade-in duration-200">
+          <div className="bg-surface w-full max-w-6xl h-[92vh] rounded-xl border border-slate-200/90 shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 flex flex-col text-slate-800">
             {/* Topbar tối giản */}
-            <div className="px-6 py-3.5 border-b border-slate-200/80 flex items-center justify-between bg-white shrink-0">
+            <div className="px-6 py-3.5 border-b border-slate-200/80 flex items-center justify-between bg-surface shrink-0">
               <div className="flex items-center gap-2.5">
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-900 font-['Outfit']">
                   {editingDish ? 'Chỉnh Sửa Hồ Sơ Món Ăn' : 'Thêm Món Ăn Mới'}
@@ -1477,15 +1477,12 @@ export const DishManagementPage: React.FC = () => {
                 <div className="space-y-1.5">
                   <div className="relative aspect-[16/10] w-full rounded-lg overflow-hidden border border-slate-200 bg-slate-100 shadow-2xs">
                     <img
-                      src={formDishImage || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600'}
-                      alt="Preview"
+                      src={resolveRecipeImage(formDishImage)}
+                      alt="Ảnh đại diện món ăn"
                       className="w-full h-full object-cover"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src =
-                          'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600';
-                      }}
+                      onError={handleImageError}
                     />
-                    <span className="absolute bottom-2.5 left-2.5 px-2.5 py-0.5 rounded bg-slate-900/80 backdrop-blur-md text-white text-[10px] font-medium">
+                    <span className="absolute bottom-2.5 left-2.5 px-2.5 py-0.5 rounded bg-panel-900/80 backdrop-blur-md text-white text-[10px] font-medium">
                       Hình ảnh đại diện món ăn
                     </span>
                   </div>
@@ -1498,7 +1495,7 @@ export const DishManagementPage: React.FC = () => {
                       value={formDishImage}
                       onChange={(e) => setFormDishImage(e.target.value)}
                       placeholder="https://images.unsplash.com/..."
-                      className="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-slate-300"
+                      className="w-full px-3 py-1.5 bg-surface border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-slate-300"
                     />
                   </div>
                 </div>
@@ -1507,7 +1504,7 @@ export const DishManagementPage: React.FC = () => {
                 <div className="space-y-2.5">
                   <div>
                     <label className="block text-[10.5px] font-bold text-slate-500 uppercase mb-1">
-                      Tên Món Ăn <span className="text-rose-500">*</span>
+                      Tên Món Ăn <span className="text-rose-700">*</span>
                     </label>
                     <input
                       type="text"
@@ -1515,7 +1512,7 @@ export const DishManagementPage: React.FC = () => {
                       placeholder="VD: Bò Bít Tết Sốt Tiêu Đen..."
                       value={formDishTitle}
                       onChange={(e) => setFormDishTitle(e.target.value)}
-                      className="w-full px-3.5 py-2 bg-white border border-slate-200 rounded-lg text-xs font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-300"
+                      className="w-full px-3.5 py-2 bg-surface border border-slate-200 rounded-lg text-xs font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-300"
                     />
                   </div>
 
@@ -1528,7 +1525,7 @@ export const DishManagementPage: React.FC = () => {
                       placeholder="Mô tả hương vị, điểm đặc sắc của món..."
                       value={formDishDesc}
                       onChange={(e) => setFormDishDesc(e.target.value)}
-                      className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-slate-300"
+                      className="w-full px-3 py-2 bg-surface border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-slate-300"
                     />
                   </div>
                 </div>
@@ -1542,7 +1539,7 @@ export const DishManagementPage: React.FC = () => {
                     <select
                       value={formDishCat}
                       onChange={(e) => setFormDishCat(e.target.value)}
-                      className="w-full px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg text-xs"
+                      className="w-full px-2.5 py-1.5 bg-surface border border-slate-200 rounded-lg text-xs"
                     >
                       {dishCategories.filter((c) => c !== 'Tất cả').map((cat) => (
                         <option key={cat} value={cat}>
@@ -1561,7 +1558,7 @@ export const DishManagementPage: React.FC = () => {
                       placeholder="VD: Món Âu, Canh..."
                       value={formDishSubCat}
                       onChange={(e) => setFormDishSubCat(e.target.value)}
-                      className="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs"
+                      className="w-full px-3 py-1.5 bg-surface border border-slate-200 rounded-lg text-xs"
                     />
                   </div>
 
@@ -1573,7 +1570,7 @@ export const DishManagementPage: React.FC = () => {
                       type="text"
                       value={formDishAuthor}
                       onChange={(e) => setFormDishAuthor(e.target.value)}
-                      className="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs"
+                      className="w-full px-3 py-1.5 bg-surface border border-slate-200 rounded-lg text-xs"
                     />
                   </div>
 
@@ -1586,14 +1583,14 @@ export const DishManagementPage: React.FC = () => {
                       placeholder="Healthy, Low Carb..."
                       value={formDishTags}
                       onChange={(e) => setFormDishTags(e.target.value)}
-                      className="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs"
+                      className="w-full px-3 py-1.5 bg-surface border border-slate-200 rounded-lg text-xs"
                     />
                   </div>
                 </div>
 
                 {/* 4 Thẻ Thông số: Thời gian, Khẩu phần, Độ khó, Chi phí */}
                 <div className="grid grid-cols-2 gap-2 pt-1">
-                  <div className="p-2.5 bg-white rounded-lg border border-slate-200/80 space-y-1">
+                  <div className="p-2.5 bg-surface rounded-lg border border-slate-200/80 space-y-1">
                     <label className="block text-[10px] font-bold text-slate-400 uppercase">
                       Thời Gian Chuẩn Bị / Nấu (p)
                     </label>
@@ -1618,7 +1615,7 @@ export const DishManagementPage: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="p-2.5 bg-white rounded-lg border border-slate-200/80 space-y-1">
+                  <div className="p-2.5 bg-surface rounded-lg border border-slate-200/80 space-y-1">
                     <label className="block text-[10px] font-bold text-slate-400 uppercase">
                       Khẩu Phần / Độ Khó
                     </label>
@@ -1642,7 +1639,7 @@ export const DishManagementPage: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="col-span-2 p-2.5 bg-white rounded-lg border border-slate-200/80 flex items-center justify-between">
+                  <div className="col-span-2 p-2.5 bg-surface rounded-lg border border-slate-200/80 flex items-center justify-between">
                     <div>
                       <span className="text-[10px] font-bold text-slate-400 uppercase block">
                         Chi Phí Ước Tính (SRS Module 15)
@@ -1665,7 +1662,7 @@ export const DishManagementPage: React.FC = () => {
                 </div>
 
                 {/* Macro Dinh dưỡng */}
-                <div className="p-3 bg-white rounded-lg border border-slate-200/80 space-y-2">
+                <div className="p-3 bg-surface rounded-lg border border-slate-200/80 space-y-2">
                   <div className="flex items-center justify-between">
                     <span className="text-[10.5px] font-bold text-slate-500 uppercase tracking-wider">
                       Thông Số Dinh Dưỡng (SRS Module 11)
@@ -1723,7 +1720,7 @@ export const DishManagementPage: React.FC = () => {
               </div>
 
               {/* CỘT PHẢI (7 phần): Nhập liệu Nguyên Liệu & Quy Trình Nấu Từng Bước */}
-              <div className="lg:col-span-7 p-6 overflow-y-auto space-y-5 bg-white text-xs">
+              <div className="lg:col-span-7 p-6 overflow-y-auto space-y-5 bg-surface text-xs">
                 {/* 1. Nhập danh sách nguyên liệu */}
                 <div className="space-y-1.5">
                   <div className="flex items-center justify-between">
@@ -1738,7 +1735,7 @@ export const DishManagementPage: React.FC = () => {
                     rows={6}
                     value={formDishIngredientsRaw}
                     onChange={(e) => setFormDishIngredientsRaw(e.target.value)}
-                    className="w-full p-3.5 bg-slate-50/70 border border-slate-200/90 rounded-lg text-xs font-mono focus:outline-none focus:bg-white focus:ring-2 focus:ring-slate-300 leading-relaxed"
+                    className="w-full p-3.5 bg-slate-50/70 border border-slate-200/90 rounded-lg text-xs font-mono focus:outline-none focus:bg-surface focus:ring-2 focus:ring-slate-300 leading-relaxed"
                     placeholder="Thịt bò thăn ngoại (350g) - Chọn loại có vân mỡ đều&#10;Măng tây xanh (150g) - Bỏ phần gốc già&#10;Bơ lạt (20g)&#10;Tiêu đen xay vỡ (10g)"
                   />
                   <span className="text-[11px] text-slate-400 block">
@@ -1760,7 +1757,7 @@ export const DishManagementPage: React.FC = () => {
                     rows={8}
                     value={formDishStepsRaw}
                     onChange={(e) => setFormDishStepsRaw(e.target.value)}
-                    className="w-full p-3.5 bg-slate-50/70 border border-slate-200/90 rounded-lg text-xs font-mono focus:outline-none focus:bg-white focus:ring-2 focus:ring-slate-300 leading-relaxed"
+                    className="w-full p-3.5 bg-slate-50/70 border border-slate-200/90 rounded-lg text-xs font-mono focus:outline-none focus:bg-surface focus:ring-2 focus:ring-slate-300 leading-relaxed"
                     placeholder="Ướp thịt bò với muối biển, tiêu đen trong 15 phút (Timer: 15)&#10;Áp chảo mỗi mặt 2-3 phút để đạt độ chín vừa (Timer: 5)&#10;Cho bơ, tỏi đập dập rưới đều lên mặt thịt rồi cho thịt nghỉ 5 phút (Timer: 5)&#10;Áp chảo măng tây và rưới nước sốt lên đĩa thưởng thức (Timer: 3)"
                   />
                   <span className="text-[11px] text-slate-400 block">
@@ -1784,7 +1781,7 @@ export const DishManagementPage: React.FC = () => {
                   </button>
                   <button
                     type="submit"
-                    className="px-5 py-1.5 text-xs font-bold text-white bg-slate-900 hover:bg-black rounded-lg transition-colors shadow-2xs"
+                    className="px-5 py-1.5 text-xs font-bold text-white bg-panel-900 hover:bg-black rounded-lg transition-colors shadow-2xs"
                   >
                     {editingDish ? 'Lưu Thay Đổi Món Ăn' : 'Hoàn Tất Tạo Món'}
                   </button>
@@ -1799,8 +1796,8 @@ export const DishManagementPage: React.FC = () => {
           MODAL: THÊM / SỬA NGUYÊN LIỆU (CRUD)
       ========================================================================== */}
       {showIngModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs animate-in fade-in duration-200">
-          <div className="bg-white w-full max-w-md rounded-3xl border border-slate-200 shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 p-6 space-y-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-panel-900/50 backdrop-blur-xs animate-in fade-in duration-200">
+          <div className="bg-surface w-full max-w-md rounded-3xl border border-slate-200 shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 p-6 space-y-4">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <h3 className="text-base font-bold text-slate-900 font-['Outfit']">
                 {editingIng ? 'Chỉnh Sửa Nguyên Liệu' : 'Thêm Nguyên Liệu Mới'}
@@ -1894,8 +1891,8 @@ export const DishManagementPage: React.FC = () => {
 
       {/* ================= MODAL XÁC NHẬN XÓA MÓN ĂN ================= */}
       {deleteDishId && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
-          <div className="bg-white max-w-sm w-full p-5 rounded-3xl border border-slate-200 shadow-2xl space-y-3">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-panel-900/50 backdrop-blur-xs">
+          <div className="bg-surface max-w-sm w-full p-5 rounded-3xl border border-slate-200 shadow-2xl space-y-3">
             <h4 className="font-bold text-slate-900 text-sm">Xác nhận xóa món ăn?</h4>
             <p className="text-xs text-slate-500 leading-relaxed">
               Thao tác này sẽ xóa công thức khỏi cơ sở dữ liệu hệ thống SmartCook. Bạn có chắc chắn muốn tiếp tục?
@@ -1909,7 +1906,7 @@ export const DishManagementPage: React.FC = () => {
               </button>
               <button
                 onClick={handleConfirmDeleteDish}
-                className="px-4 py-1.5 rounded-xl text-xs font-bold text-white bg-rose-600 hover:bg-rose-700 shadow-xs"
+                className="px-4 py-1.5 rounded-xl text-xs font-bold text-white bg-rose-600 hover:bg-danger-action-hover shadow-xs"
               >
                 Xóa Vĩnh Viễn
               </button>
@@ -1920,8 +1917,8 @@ export const DishManagementPage: React.FC = () => {
 
       {/* ================= MODAL XÁC NHẬN XÓA NGUYÊN LIỆU ================= */}
       {deleteIngId && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
-          <div className="bg-white max-w-sm w-full p-5 rounded-3xl border border-slate-200 shadow-2xl space-y-3">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-panel-900/50 backdrop-blur-xs">
+          <div className="bg-surface max-w-sm w-full p-5 rounded-3xl border border-slate-200 shadow-2xl space-y-3">
             <h4 className="font-bold text-slate-900 text-sm">Xác nhận xóa nguyên liệu?</h4>
             <p className="text-xs text-slate-500 leading-relaxed">
               Nguyên liệu này sẽ bị xóa khỏi từ điển taxonomy. Bạn có chắc chắn không?
@@ -1935,7 +1932,7 @@ export const DishManagementPage: React.FC = () => {
               </button>
               <button
                 onClick={handleConfirmDeleteIng}
-                className="px-4 py-1.5 rounded-xl text-xs font-bold text-white bg-rose-600 hover:bg-rose-700 shadow-xs"
+                className="px-4 py-1.5 rounded-xl text-xs font-bold text-white bg-rose-600 hover:bg-danger-action-hover shadow-xs"
               >
                 Xóa
               </button>
@@ -1946,8 +1943,8 @@ export const DishManagementPage: React.FC = () => {
 
       {/* ================= MODAL TỪ CHỐI DUYỆT BÀI ĐÓNG GÓP ================= */}
       {rejectModalId && (
-        <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-sm w-full p-5 space-y-3 shadow-2xl border border-slate-200">
+        <div className="fixed inset-0 z-50 bg-panel-900/50 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-surface rounded-3xl max-w-sm w-full p-5 space-y-3 shadow-2xl border border-slate-200">
             <h4 className="text-sm font-bold text-slate-900">Từ Chối Công Thức Đóng Góp</h4>
             <textarea
               rows={3}
@@ -1971,7 +1968,7 @@ export const DishManagementPage: React.FC = () => {
                     setRejectionReason('');
                   }
                 }}
-                className="px-4 py-1.5 text-xs font-bold text-white bg-rose-600 hover:bg-rose-700 rounded-xl"
+                className="px-4 py-1.5 text-xs font-bold text-white bg-rose-600 hover:bg-danger-action-hover rounded-xl"
               >
                 Xác Nhận Từ Chối
               </button>

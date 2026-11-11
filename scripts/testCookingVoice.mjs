@@ -29,18 +29,26 @@ try {
       ['mở video hướng dẫn nấu ăn', { type: 'open' }],
       ['Bạn có thể mở video hướng dẫn giúp mình không?', { type: 'open' }],
       ['Tua nhanh 30s', { type: 'seek', seconds: 30 }],
+      ['Tua nhanh 15s', { type: 'seek', seconds: 15 }],
+      ['Tua nhanh video 20 giây', { type: 'seek', seconds: 20 }],
       ['Tua nhanh 1p', { type: 'seek', seconds: 60 }],
       ['Tua chậm 1p', { type: 'seek', seconds: -60 }],
+      ['Tua ngược lại video cho mình', { type: 'seek', seconds: -10 }],
+      ['Tua ngược lại video 30 giây cho mình', { type: 'seek', seconds: -30 }],
+      ['Tua ngược lại 20s video', { type: 'seek', seconds: -20 }],
+      ['Tua ngược lại 1p', { type: 'seek', seconds: -60 }],
       ['Tua lùi một phút ba mươi giây', { type: 'seek', seconds: -90 }],
       ['Tua tới nửa phút', { type: 'seek', seconds: 30 }],
       ['Tua chậm', { type: 'rate', direction: 'slower' }],
       ['Phát video nhanh hơn', { type: 'rate', direction: 'faster' }],
       ['Tốc độ bình thường', { type: 'rate', direction: 'normal' }],
       ['Dừng lại', { type: 'pause' }],
+      ['Dừng video', { type: 'pause' }],
       ['Tiếp tục phát video', { type: 'play' }],
       ['Đóng video', { type: 'close' }],
       ['Đừng mở video', { type: 'ignore' }],
       ['Đừng dừng video', { type: 'ignore' }],
+      ['Đừng tua ngược lại video', { type: 'ignore' }],
       ['Tua lùi -30s', { type: 'invalid-time' }],
       ['Tua lùi 10000 phút', { type: 'invalid-time' }],
       ['Thêm 2 phút', null],
@@ -67,12 +75,89 @@ try {
     }
     assert.deepEqual(calls, [[54, true], [0, true], 0.5, 1.5, 'pause', 'play']);
   });
+  await check('video seeks add or subtract from the current playhead and pause resumes from the same position', () => {
+    let currentTime = 0;
+    let playing = true;
+    const player = {
+      getCurrentTime: () => currentTime,
+      getDuration: () => 120,
+      seekTo: (position) => { currentTime = position; },
+      pauseVideo: () => { playing = false; },
+      playVideo: () => { playing = true; },
+    };
+    for (const [start, text, target] of [
+      [15, 'Tua nhanh 30s', 45],
+      [13, 'Tua nhân 30 giây.', 43],
+      [23, 'Tua nhanh 30s', 53],
+      [23, 'Tua nhanh 15s', 38],
+      [23, 'Tua nhanh 20s', 43],
+      [23, 'Tua nhanh 1p', 83],
+      [53, 'Tua ngược lại 30s', 23],
+      [83, 'Tua ngược lại 1p', 23],
+      [15, 'Tua ngược lại 30s', 0],
+      [110, 'Tua nhanh 20s', 120],
+    ]) {
+      currentTime = start;
+      controlYouTubeVideo(player, parseRecipeVideoCommand(text));
+      assert.equal(currentTime, target, `${start}s + "${text}"`);
+      assert.equal(playing, true);
+    }
+    currentTime = 23;
+    controlYouTubeVideo(player, parseRecipeVideoCommand('Dừng video'));
+    assert.equal(playing, false);
+    controlYouTubeVideo(player, parseRecipeVideoCommand('Tua nhanh 30s'));
+    assert.equal(currentTime, 53);
+    assert.equal(playing, false);
+    controlYouTubeVideo(player, parseRecipeVideoCommand('Tiếp tục phát video'));
+    assert.equal(playing, true);
+    assert.equal(currentTime, 53);
+  });
+  await check('video microphone transcripts stay scoped even when recognition drops the verb or hears a timer command', () => {
+    for (const [text, seconds] of [
+      ['Tua lùi 15s trên video', -15],
+      ['Lùi 15 giây', -15],
+      ['Nhanh 30 giây', 30],
+      ['Tua nhanh ba mươi giây', 30],
+      ['Tua nhân 30 giây.', 30],
+      ['Tua nhân một phút.', 60],
+    ]) {
+      assert.deepEqual(parseRecipeVideoCommand(text, 'video'), { type: 'seek', seconds }, text);
+    }
+    for (const text of ['Trừ 15 giây', 'Thêm một phút', 'Chuyển sang bước hai', 'Nói gì đó không rõ', 'Tua nhân', 'Nhân 30 giây']) {
+      assert.deepEqual(parseRecipeVideoCommand(text, 'video'), { type: 'unrecognized' }, text);
+    }
+    assert.deepEqual(parseRecipeVideoCommand('Lùi 15 giây trên video'), { type: 'seek', seconds: -15 });
+    assert.deepEqual(parseRecipeVideoCommand('Trừ 15 giây trên video'), { type: 'unrecognized' });
+    assert.equal(parseRecipeVideoCommand('Lùi 15 giây'), null);
+    assert.equal(localCookingReply({ ...request, userVoiceText: 'Lùi 15 giây' }).action, 'REDUCE_TIMER');
+  });
   let requests = [];
   apiClient.defaults.adapter = async (config) => {
     requests.push(config);
     return { status: 200, statusText: 'OK', headers: {}, config,
-      data: { data: { action: 'TROUBLESHOOT', speechReply: 'Tiếp tục hầm lửa nhỏ và kiểm tra độ mềm của xương.', suggestedQuickReplies: ['Thêm 2 phút'] } } };
+      data: { success: true, data: { action: 'TROUBLESHOOT', speechReply: 'Tiếp tục hầm lửa nhỏ và kiểm tra độ mềm của xương.', suggestedQuickReplies: ['Thêm 2 phút'] } } };
   };
+  await check('spoken step questions and ingredient aliases return recipe facts without changing state or calling AI', async () => {
+    const context = { ...request, recipeContext: { ...request.recipeContext, ingredients: [
+      { name: 'Nước tương (Xì dầu)', amount: '3 muỗng canh' },
+      { name: 'Mật ong', amount: '2 muỗng canh' },
+    ] } };
+    const before = requests.length;
+    for (const [question, expected] of [
+      ['Bây giờ mình phải làm gì?', /Hầm xương bò với gừng/],
+      ['Tiếp theo mình làm gì?', /Trụng bánh phở/],
+      ['Xì dầu cần mấy muỗng?', /3 muỗng canh/],
+      ['Công thức cần bao nhiêu nước tương?', /3 muỗng canh/],
+      ['Nguyên liệu cần những gì?', /Nước tương.*Mật ong/],
+    ]) {
+      const answer = await cookingVoiceApi.ask({ ...context, userVoiceText: question }, signal);
+      assert.equal(answer.action, 'NONE', question);
+      assert.match(answer.speechReply, expected);
+    }
+    assert.equal(localCookingReply({ ...context, userVoiceText: 'Trừ ba mươi giây' }).actionPayload.reduceSeconds, 30);
+    assert.equal(localCookingReply({ ...context, userVoiceText: 'Nấu thêm 5 phút cho mềm' }), null);
+    assert.equal(requests.length, before);
+  });
   await check('step command from mobile example updates the matching timer without an API call', async () => {
     const reply = await cookingVoiceApi.ask({ ...request, userVoiceText: 'Chuyển sang bước thứ hai nấu ăn cho mình.' }, signal);
     assert.equal(reply.action, 'GO_TO_STEP');
@@ -167,7 +252,7 @@ try {
   });
   await check('unexpected model control actions are rejected, never executed', async () => {
     apiClient.defaults.adapter = async (config) => ({ status: 200, statusText: 'OK', headers: {}, config,
-      data: { data: { action: 'EXTEND_TIMER', speechReply: 'Thêm giờ', actionPayload: { extendSeconds: 999 } } } });
+      data: { success: true, data: { action: 'EXTEND_TIMER', speechReply: 'Thêm giờ', actionPayload: { extendSeconds: 999 } } } });
     await assert.rejects(cookingVoiceApi.ask({ ...request, userVoiceText: 'Thịt bò chưa chín thì làm sao?' }, signal), /chưa hợp lệ/);
   });
   await check('network failure stays an error rather than fabricated cooking advice', async () => {
@@ -190,10 +275,10 @@ try {
     apiClient.defaults.adapter = async (config) => {
       assert.equal(config.url, '/ai/cooking-transcription');
       assert.deepEqual(JSON.parse(config.data), { audioBase64: 'YWJj', mimeType: 'audio/webm' });
-      return { status: 200, statusText: 'OK', headers: {}, config, data: { data: { text: 'Chuyển sang bước hai' } } };
+      return { status: 200, statusText: 'OK', headers: {}, config, data: { success: true, data: { text: 'Chuyển sang bước hai' } } };
     };
     assert.equal(await cookingVoiceApi.transcribe('YWJj', 'audio/webm', signal), 'Chuyển sang bước hai');
-    apiClient.defaults.adapter = async (config) => ({ status: 200, statusText: 'OK', headers: {}, config, data: { data: { text: '' } } });
+    apiClient.defaults.adapter = async (config) => ({ status: 200, statusText: 'OK', headers: {}, config, data: { success: true, data: { text: '' } } });
     await assert.rejects(cookingVoiceApi.transcribe('YWJj', 'audio/webm', signal), /Chưa nghe rõ/);
   });
   await check('command/scope/timer behavior stays identical to the mobile implementation', async () => {
@@ -414,6 +499,12 @@ try {
     staleResult({ results: [{ isFinal: true, 0: { transcript: 'Bước tiếp theo' } }] });
     staleEnd();
     assert.deepEqual(received, ['quay lại bước một'], 'Leaving a step cannot submit old speech');
+    listenCookingCommand(Recognition, callbacks);
+    instance.onresult({ results: [{ isFinal: false, 0: { transcript: 'tua nhanh 30 giây' } }] });
+    instance.onend();
+    assert.deepEqual(received, ['quay lại bước một'], 'Interim text can be edited but cannot execute controls');
+    assert.equal(partial.at(-1), 'tua nhanh 30 giây');
+    assert.match(errors.pop(), /kết quả nhận diện hoàn chỉnh/);
     listenCookingCommand(Recognition, callbacks);
     instance.onerror({ error: 'not-allowed' });
     assert.match(errors[0], /quyền/);

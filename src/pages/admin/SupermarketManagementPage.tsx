@@ -172,10 +172,10 @@ export const SupermarketManagementPage: React.FC = () => {
     <div className="space-y-6">
 
       {/* HEADER QUẢN TRỊ */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 rounded-3xl border border-slate-200/80 shadow-xs">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-surface p-5 rounded-3xl border border-slate-200/80 shadow-xs">
         <div>
           <h2 className="text-xl font-bold text-slate-900 font-['Outfit'] flex items-center gap-2">
-            <Store className="w-6 h-6 text-indigo-600" />
+            <Store className="w-6 h-6 text-slate-800" />
             <span>Quản Lý Chuỗi Siêu Thị & Điểm Bán GPS</span>
           </h2>
           <p className="text-xs text-slate-400 mt-1">
@@ -189,7 +189,7 @@ export const SupermarketManagementPage: React.FC = () => {
             className="p-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-600 transition-colors"
             title="Làm mới dữ liệu"
           >
-            <RotateCw className={`w-4 h-4 ${isLoading ? 'animate-spin text-indigo-600' : ''}`} />
+            <RotateCw className={`w-4 h-4 ${isLoading ? 'animate-spin text-slate-800' : ''}`} />
           </button>
           <button
             onClick={handleOpenAdd}
@@ -203,35 +203,35 @@ export const SupermarketManagementPage: React.FC = () => {
 
       {/* KPI STATS CARDS */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white p-4.5 rounded-2xl border border-slate-200/80 shadow-xs space-y-1">
+        <div className="bg-surface p-4.5 rounded-2xl border border-slate-200/80 shadow-xs space-y-1">
           <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Tổng Điểm Bán</span>
           <div className="text-2xl font-black text-slate-900 font-['Outfit']">{stores.length}</div>
-          <p className="text-[11px] text-emerald-600 font-semibold flex items-center gap-1">
+          <p className="text-[11px] text-emerald-700 font-semibold flex items-center gap-1">
             <CheckCircle className="w-3.5 h-3.5" /> Phủ sóng toàn quốc
           </p>
         </div>
 
-        <div className="bg-white p-4.5 rounded-2xl border border-slate-200/80 shadow-xs space-y-1">
+        <div className="bg-surface p-4.5 rounded-2xl border border-slate-200/80 shadow-xs space-y-1">
           <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Chuỗi Thương Hiệu</span>
-          <div className="text-2xl font-black text-indigo-600 font-['Outfit']">7+ Chuỗi</div>
+          <div className="text-2xl font-black text-slate-800 font-['Outfit']">7+ Chuỗi</div>
           <p className="text-[11px] text-slate-500">WinMart, Co.op, Bách Hóa Xanh...</p>
         </div>
 
-        <div className="bg-white p-4.5 rounded-2xl border border-slate-200/80 shadow-xs space-y-1">
+        <div className="bg-surface p-4.5 rounded-2xl border border-slate-200/80 shadow-xs space-y-1">
           <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Tọa Độ Định Vị GPS</span>
-          <div className="text-2xl font-black text-amber-600 font-['Outfit']">GeoJSON 2dsphere</div>
+          <div className="text-2xl font-black text-amber-700 font-['Outfit']">GeoJSON 2dsphere</div>
           <p className="text-[11px] text-slate-500">Độ trễ tính khoảng cách &lt; 5ms</p>
         </div>
 
-        <div className="bg-white p-4.5 rounded-2xl border border-slate-200/80 shadow-xs space-y-1">
+        <div className="bg-surface p-4.5 rounded-2xl border border-slate-200/80 shadow-xs space-y-1">
           <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Tích Hợp Người Dùng</span>
-          <div className="text-2xl font-black text-rose-600 font-['Outfit']">1-Click Chỉ Đường</div>
+          <div className="text-2xl font-black text-rose-700 font-['Outfit']">1-Click Chỉ Đường</div>
           <p className="text-[11px] text-slate-500">Đồng bộ giỏ hàng & Google Maps</p>
         </div>
       </div>
 
       {/* FILTER & SEARCH BAR */}
-      <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs space-y-3">
+      <div className="bg-surface p-4 rounded-2xl border border-slate-200/80 shadow-xs space-y-3">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="relative w-full sm:w-80">
             <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -240,7 +240,7 @@ export const SupermarketManagementPage: React.FC = () => {
               placeholder="Tìm theo tên chi nhánh, địa chỉ..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
+              className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-focus/20 focus:border-focus"
             />
           </div>
 
@@ -253,7 +253,7 @@ export const SupermarketManagementPage: React.FC = () => {
                 className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all border ${
                   selectedBrand === brand
                     ? 'bg-indigo-600 text-white border-indigo-600 shadow-xs'
-                    : 'bg-slate-50 text-slate-600 border-slate-200 hover:border-indigo-200 hover:text-indigo-600'
+                    : 'bg-slate-50 text-slate-600 border-slate-200 hover:border-indigo-200 hover:text-slate-800'
                 }`}
               >
                 {brand}
@@ -264,7 +264,7 @@ export const SupermarketManagementPage: React.FC = () => {
       </div>
 
       {/* STORES TABLE */}
-      <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
+      <div className="bg-surface rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead className="bg-slate-50/80 border-b border-slate-200/80 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
@@ -281,7 +281,7 @@ export const SupermarketManagementPage: React.FC = () => {
               {isLoading ? (
                 <tr>
                   <td colSpan={6} className="py-12 text-center text-slate-400">
-                    <RotateCw className="w-6 h-6 animate-spin mx-auto text-indigo-500 mb-2" />
+                    <RotateCw className="w-6 h-6 animate-spin mx-auto text-slate-700 mb-2" />
                     <span>Đang tải danh sách điểm bán siêu thị...</span>
                   </td>
                 </tr>
@@ -299,7 +299,7 @@ export const SupermarketManagementPage: React.FC = () => {
                     <td className="py-3.5 px-4 text-slate-400 font-bold">{index + 1}</td>
                     <td className="py-3.5 px-4">
                       <div className="flex items-center gap-2.5">
-                        <div className="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-black text-xs shrink-0 border border-indigo-100">
+                        <div className="w-8 h-8 rounded-lg bg-indigo-50 text-slate-800 flex items-center justify-center font-black text-xs shrink-0 border border-indigo-100">
                           {store.brand?.slice(0, 2).toUpperCase() || 'ST'}
                         </div>
                         <div>
@@ -312,7 +312,7 @@ export const SupermarketManagementPage: React.FC = () => {
                     </td>
                     <td className="py-3.5 px-4 max-w-xs">
                       <div className="flex items-start gap-1 text-slate-600">
-                        <MapPin className="w-3.5 h-3.5 text-rose-500 shrink-0 mt-0.5" />
+                        <MapPin className="w-3.5 h-3.5 text-rose-700 shrink-0 mt-0.5" />
                         <span className="line-clamp-2">{store.address}</span>
                       </div>
                     </td>
@@ -337,7 +337,7 @@ export const SupermarketManagementPage: React.FC = () => {
                           href={`https://www.google.com/maps/dir/?api=1&destination=${store.latitude},${store.longitude}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 transition-colors"
+                          className="p-1.5 rounded-lg text-slate-400 hover:text-slate-800 hover:bg-indigo-50 transition-colors"
                           title="Mở Google Maps dẫn đường"
                         >
                           <Navigation className="w-4 h-4" />
@@ -345,7 +345,7 @@ export const SupermarketManagementPage: React.FC = () => {
                         {/* Sửa */}
                         <button
                           onClick={() => handleOpenEdit(store)}
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-amber-600 hover:bg-amber-50 transition-colors"
+                          className="p-1.5 rounded-lg text-slate-400 hover:text-amber-700 hover:bg-amber-50 transition-colors"
                           title="Chỉnh sửa thông tin"
                         >
                           <Edit2 className="w-4 h-4" />
@@ -353,7 +353,7 @@ export const SupermarketManagementPage: React.FC = () => {
                         {/* Xóa */}
                         <button
                           onClick={() => handleDelete(store)}
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors"
+                          className="p-1.5 rounded-lg text-slate-400 hover:text-rose-700 hover:bg-rose-50 transition-colors"
                           title="Xóa siêu thị này"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -370,11 +370,11 @@ export const SupermarketManagementPage: React.FC = () => {
 
       {/* MODAL THÊM / CHỈNH SỬA SIÊU THỊ */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
-          <div className="bg-white rounded-3xl p-6 max-w-lg w-full shadow-2xl border border-slate-100 space-y-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-panel-900/60 backdrop-blur-xs">
+          <div className="bg-surface rounded-3xl p-6 max-w-lg w-full shadow-2xl border border-slate-100 space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
               <h3 className="font-extrabold text-base text-slate-900 flex items-center gap-2">
-                <Store className="w-5 h-5 text-indigo-600" />
+                <Store className="w-5 h-5 text-slate-800" />
                 <span>{editingStore ? 'Chỉnh Sửa Điểm Bán Siêu Thị' : 'Thêm Mới Điểm Bán Siêu Thị'}</span>
               </h3>
               <button
@@ -394,7 +394,7 @@ export const SupermarketManagementPage: React.FC = () => {
                   placeholder="Vd: WinMart+ Nguyễn Thị Minh Khai"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-focus/20"
                 />
               </div>
 
@@ -404,7 +404,7 @@ export const SupermarketManagementPage: React.FC = () => {
                   <select
                     value={formData.brand}
                     onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-focus/20"
                   >
                     <option value="WinMart">WinMart</option>
                     <option value="Co.opmart">Co.opmart</option>
@@ -423,7 +423,7 @@ export const SupermarketManagementPage: React.FC = () => {
                     placeholder="1900 1908"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-focus/20"
                   />
                 </div>
               </div>
@@ -436,7 +436,7 @@ export const SupermarketManagementPage: React.FC = () => {
                   placeholder="Vd: 123 Nguyễn Thị Minh Khai, P. Bến Thành, Quận 1, TP.HCM"
                   value={formData.address}
                   onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-focus/20"
                 />
               </div>
 
@@ -450,7 +450,7 @@ export const SupermarketManagementPage: React.FC = () => {
                     placeholder="10.7769"
                     value={formData.latitude}
                     onChange={(e) => setFormData({ ...formData, latitude: parseFloat(e.target.value) || 0 })}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 font-mono"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-focus/20 font-mono"
                   />
                 </div>
                 <div>
@@ -462,7 +462,7 @@ export const SupermarketManagementPage: React.FC = () => {
                     placeholder="106.6909"
                     value={formData.longitude}
                     onChange={(e) => setFormData({ ...formData, longitude: parseFloat(e.target.value) || 0 })}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 font-mono"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-focus/20 font-mono"
                   />
                 </div>
               </div>
@@ -474,7 +474,7 @@ export const SupermarketManagementPage: React.FC = () => {
                   placeholder="06:30 - 22:00"
                   value={formData.openHours}
                   onChange={(e) => setFormData({ ...formData, openHours: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-focus/20"
                 />
               </div>
 

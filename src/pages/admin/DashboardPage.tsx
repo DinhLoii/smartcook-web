@@ -88,7 +88,7 @@ export const DashboardPage: React.FC = () => {
       calories: '540 kcal',
       cookingTime: '25 phút',
       status: 'Đã Duyệt',
-      statusColor: 'text-emerald-600 bg-emerald-50 border border-emerald-200/60',
+      statusColor: 'text-emerald-700 bg-emerald-50 border border-emerald-200/60',
       image: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=300&auto=format&fit=crop&q=80',
     },
     {
@@ -98,7 +98,7 @@ export const DashboardPage: React.FC = () => {
       calories: '290 kcal',
       cookingTime: '15 phút',
       status: 'Đã Duyệt',
-      statusColor: 'text-emerald-600 bg-emerald-50 border border-emerald-200/60',
+      statusColor: 'text-emerald-700 bg-emerald-50 border border-emerald-200/60',
       image: 'https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=300&auto=format&fit=crop&q=80',
     },
     {
@@ -108,7 +108,7 @@ export const DashboardPage: React.FC = () => {
       calories: '320 kcal',
       cookingTime: '30 phút',
       status: 'Chờ Duyệt',
-      statusColor: 'text-amber-600 bg-amber-50 border border-amber-200/60',
+      statusColor: 'text-amber-700 bg-amber-50 border border-amber-200/60',
       image: 'https://images.unsplash.com/photo-1547592180-85f173990554?w=300&auto=format&fit=crop&q=80',
     },
   ];
@@ -116,47 +116,47 @@ export const DashboardPage: React.FC = () => {
   return (
     <div className="space-y-5">
       {/* Live Core Backend Stats Banner */}
-      <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl p-4 shadow-md border border-indigo-900/40 flex flex-wrap items-center justify-between gap-4">
+      <div className="theme-inverse bg-panel-900 text-white rounded-2xl p-4 shadow-md border border-indigo-900/40 flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-xl bg-indigo-500/20 text-media-muted border border-indigo-500/30 flex items-center justify-center">
             <Database className="w-5 h-5 animate-pulse" />
           </div>
           <div>
             <div className="flex items-center gap-2">
               <h2 className="text-sm font-bold tracking-tight">SmartCook Core Backend Services</h2>
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-green-300 border border-emerald-500/30">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
                 Live API
               </span>
             </div>
-            <p className="text-xs text-slate-400">Đồng bộ dữ liệu thời gian thực từ MongoDB Cloud & AI Vision Engine</p>
+            <p className="text-xs text-media-muted">Đồng bộ dữ liệu thời gian thực từ MongoDB Cloud & AI Vision Engine</p>
           </div>
         </div>
 
         <div className="flex items-center gap-6 text-center text-xs">
           <div>
-            <p className="text-[11px] text-slate-400">Thành viên</p>
+            <p className="text-[11px] text-media-muted">Thành viên</p>
             <p className="text-lg font-black text-white font-['Outfit']">
               {(liveStats?.kpis.totalUsers ?? kpi.totalUsers).toLocaleString()}
             </p>
           </div>
-          <div className="w-px h-8 bg-slate-800" />
+          <div className="w-px h-8 bg-panel-800" />
           <div>
-            <p className="text-[11px] text-slate-400">Công thức</p>
+            <p className="text-[11px] text-media-muted">Công thức</p>
             <p className="text-lg font-black text-amber-400 font-['Outfit']">
               {(liveStats?.kpis.totalRecipes ?? kpi.publishedRecipes).toLocaleString()}
             </p>
           </div>
-          <div className="w-px h-8 bg-slate-800" />
+          <div className="w-px h-8 bg-panel-800" />
           <div>
-            <p className="text-[11px] text-slate-400">Kho nguyên liệu</p>
+            <p className="text-[11px] text-media-muted">Kho nguyên liệu</p>
             <p className="text-lg font-black text-cyan-400 font-['Outfit']">
               {(liveStats?.kpis.totalIngredients ?? 450).toLocaleString()}
             </p>
           </div>
-          <div className="w-px h-8 bg-slate-800" />
+          <div className="w-px h-8 bg-panel-800" />
           <div>
-            <p className="text-[11px] text-slate-400">Quét Tủ Lạnh Hôm Nay</p>
+            <p className="text-[11px] text-media-muted">Quét Tủ Lạnh Hôm Nay</p>
             <p className="text-lg font-black text-emerald-400 font-['Outfit']">
               {(liveStats?.kpis.aiScansToday ?? kpi.aiScansCount).toLocaleString()}
             </p>
@@ -180,10 +180,10 @@ export const DashboardPage: React.FC = () => {
           {/* 4 Health & Performance Metric Cards - HIỆN ĐẠI & SANG TRỌNG VỚI 2 MÀU PHA BÊN DƯỚI */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
             {/* Card 1: App Mobile Uptime (Emerald -> Teal) */}
-            <div className="group relative overflow-hidden bg-white rounded-2xl border border-slate-200/90 shadow-xs hover:shadow-md hover:border-emerald-200/80 transition-all duration-300 p-4 flex flex-col justify-between">
+            <div className="group relative overflow-hidden bg-surface rounded-2xl border border-slate-200/90 shadow-xs hover:shadow-md hover:border-emerald-200/80 transition-all duration-300 p-4 flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-2.5">
-                  <div className="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center group-hover:scale-105 transition-transform">
+                  <div className="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-700 flex items-center justify-center group-hover:scale-105 transition-transform">
                     <Smartphone className="w-4 h-4" />
                   </div>
                   <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/70 shadow-2xs">
@@ -197,7 +197,7 @@ export const DashboardPage: React.FC = () => {
 
               <div className="mt-3 pt-2 border-t border-slate-100 text-[10.5px] text-slate-400 font-medium flex items-center justify-between">
                 <span>Trạng thái:</span>
-                <span className="text-emerald-600 font-bold">Tốt</span>
+                <span className="text-emerald-700 font-bold">Tốt</span>
               </div>
 
               {/* Dải 2 màu pha bên dưới khung (Emerald -> Cyan/Teal) */}
@@ -205,13 +205,13 @@ export const DashboardPage: React.FC = () => {
             </div>
 
             {/* Card 2: Web Portal Uptime (Indigo -> Purple) */}
-            <div className="group relative overflow-hidden bg-white rounded-2xl border border-slate-200/90 shadow-xs hover:shadow-md hover:border-indigo-200/80 transition-all duration-300 p-4 flex flex-col justify-between">
+            <div className="group relative overflow-hidden bg-surface rounded-2xl border border-slate-200/90 shadow-xs hover:shadow-md hover:border-indigo-200/80 transition-all duration-300 p-4 flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-2.5">
-                  <div className="w-8 h-8 rounded-xl bg-indigo-500/10 text-indigo-600 flex items-center justify-center group-hover:scale-105 transition-transform">
+                  <div className="w-8 h-8 rounded-xl bg-indigo-500/10 text-slate-800 flex items-center justify-center group-hover:scale-105 transition-transform">
                     <Globe className="w-4 h-4" />
                   </div>
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-200/70 shadow-2xs">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-indigo-50 text-slate-900 border border-indigo-200/70 shadow-2xs">
                     <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />
                     Đang Chạy
                   </span>
@@ -222,7 +222,7 @@ export const DashboardPage: React.FC = () => {
 
               <div className="mt-3 pt-2 border-t border-slate-100 text-[10.5px] text-slate-400 font-medium flex items-center justify-between">
                 <span>Tải trang:</span>
-                <span className="text-indigo-600 font-bold">0.38s</span>
+                <span className="text-slate-800 font-bold">0.38s</span>
               </div>
 
               {/* Dải 2 màu pha bên dưới khung (Indigo -> Purple/Violet) */}
@@ -230,7 +230,7 @@ export const DashboardPage: React.FC = () => {
             </div>
 
             {/* Card 3: Backend API Latency (Blue -> Cyan) */}
-            <div className="group relative overflow-hidden bg-white rounded-2xl border border-slate-200/90 shadow-xs hover:shadow-md hover:border-blue-200/80 transition-all duration-300 p-4 flex flex-col justify-between">
+            <div className="group relative overflow-hidden bg-surface rounded-2xl border border-slate-200/90 shadow-xs hover:shadow-md hover:border-blue-200/80 transition-all duration-300 p-4 flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-2.5">
                   <div className="w-8 h-8 rounded-xl bg-blue-500/10 text-blue-600 flex items-center justify-center group-hover:scale-105 transition-transform">
@@ -254,10 +254,10 @@ export const DashboardPage: React.FC = () => {
             </div>
 
             {/* Card 4: AI Engine Vision Load (Amber -> Rose/Orange) */}
-            <div className="group relative overflow-hidden bg-white rounded-2xl border border-slate-200/90 shadow-xs hover:shadow-md hover:border-amber-200/80 transition-all duration-300 p-4 flex flex-col justify-between">
+            <div className="group relative overflow-hidden bg-surface rounded-2xl border border-slate-200/90 shadow-xs hover:shadow-md hover:border-amber-200/80 transition-all duration-300 p-4 flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-2.5">
-                  <div className="w-8 h-8 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center group-hover:scale-105 transition-transform">
+                  <div className="w-8 h-8 rounded-xl bg-amber-500/10 text-amber-700 flex items-center justify-center group-hover:scale-105 transition-transform">
                     <Cpu className="w-4 h-4" />
                   </div>
                   <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200/70 shadow-2xs">
@@ -270,7 +270,7 @@ export const DashboardPage: React.FC = () => {
 
               <div className="mt-3 pt-2 border-t border-slate-100 text-[10.5px] text-slate-400 font-medium flex items-center justify-between">
                 <span>Độ chính xác:</span>
-                <span className="text-emerald-600 font-bold">99.4%</span>
+                <span className="text-emerald-700 font-bold">99.4%</span>
               </div>
 
               {/* Dải 2 màu pha bên dưới khung (Amber -> Orange/Rose) */}
@@ -281,7 +281,7 @@ export const DashboardPage: React.FC = () => {
           {/* ================= ROW 1 CỦA KHỐI PHÂN TÍCH: 2 BIỂU ĐỒ DONUT (VẬN HÀNH & HẠ TẦNG) ================= */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1">
             {/* Donut Card 1: Khối Vận Hành & Khách Hàng */}
-            <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col justify-between">
+            <div className="bg-surface p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col justify-between">
               <div className="flex items-center justify-between mb-2">
                 <h4 className="font-bold text-sm text-slate-800 font-['Outfit']">Khối Vận Hành & Khách Hàng</h4>
                 <span className="text-[10px] text-slate-400">Theo module</span>
@@ -291,7 +291,7 @@ export const DashboardPage: React.FC = () => {
                 {/* Donut Chart SVG 1 */}
                 <div className="relative w-52 h-52 shrink-0 flex items-center justify-center">
                   <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="38" fill="transparent" stroke="#F1F5F9" strokeWidth="14" />
+                    <circle cx="50" cy="50" r="38" fill="transparent" stroke="var(--color-slate-200)" strokeWidth="14" />
                     {/* Segment 1: Cyan / Light Blue (35%) */}
                     <circle
                       cx="50"
@@ -378,11 +378,11 @@ export const DashboardPage: React.FC = () => {
             </div>
 
             {/* Donut Card 2: Khối Hạ Tầng & Dịch Vụ */}
-            <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col justify-between">
+            <div className="bg-surface p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col justify-between">
               <div className="flex items-center justify-between mb-2">
                 <h4 className="font-bold text-sm text-slate-800 font-['Outfit']">Khối Hạ Tầng & Dịch Vụ</h4>
                 <div className="flex items-center gap-1 bg-slate-100 p-0.5 rounded-lg text-[10px] font-semibold">
-                  <span className="px-2 py-0.5 rounded-md bg-white text-slate-700 shadow-2xs">2024</span>
+                  <span className="px-2 py-0.5 rounded-md bg-surface text-slate-700 shadow-2xs">2024</span>
                   <span className="px-2 py-0.5 text-slate-500">2025</span>
                   <span className="px-2 py-0.5 text-slate-500">2026</span>
                 </div>
@@ -392,7 +392,7 @@ export const DashboardPage: React.FC = () => {
                 {/* Donut Chart SVG 2 */}
                 <div className="relative w-52 h-52 shrink-0 flex items-center justify-center">
                   <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="38" fill="transparent" stroke="#F1F5F9" strokeWidth="14" />
+                    <circle cx="50" cy="50" r="38" fill="transparent" stroke="var(--color-slate-200)" strokeWidth="14" />
                     {/* Production / Main backend: Purple (65%) */}
                     <circle
                       cx="50"
@@ -484,18 +484,18 @@ export const DashboardPage: React.FC = () => {
       {/* ================= ROW 2 CỦA KHỐI PHÂN TÍCH: BIỂU ĐỒ SÓNG LIÊN TỤC + ĐỒ THỊ BÁN NGUYỆT GAUGE ================= */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
         {/* LEFT 8 COLS: BIỂU ĐỒ SÓNG THEO DÕI TĂNG TRƯỞNG & ĐỘ TRỄ (TƯƠNG TỰ HÌNH ẢNH MẪU) */}
-        <div className="lg:col-span-8 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col justify-between">
+        <div className="lg:col-span-8 bg-surface p-5 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col justify-between">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100">
             <div className="flex items-center gap-4">
               <h3 className="font-bold text-sm text-slate-900 font-['Outfit']">Tình Hình Tăng Trưởng App</h3>
               <div className="flex items-center gap-3 text-xs font-semibold">
                 <span className="text-slate-500">Mục tiêu: <strong className="text-slate-800">24,000</strong></span>
-                <span className="text-slate-500">Đạt được: <strong className="text-indigo-600">18,520</strong></span>
+                <span className="text-slate-500">Đạt được: <strong className="text-slate-800">18,520</strong></span>
               </div>
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="px-2.5 py-1 rounded-md bg-indigo-50 text-indigo-700 text-[10px] font-bold">
+              <span className="px-2.5 py-1 rounded-md bg-indigo-50 text-slate-900 text-[10px] font-bold">
                 Tăng trưởng +18.4%
               </span>
             </div>
@@ -576,10 +576,10 @@ export const DashboardPage: React.FC = () => {
         </div>
 
         {/* RIGHT 4 COLS: GAUGE BÁN NGUYỆT CHI PHÍ / HIỆU SUẤT TRÊN MỖI NGƯỜI DÙNG */}
-        <div className="lg:col-span-4 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col justify-between">
+        <div className="lg:col-span-4 bg-surface p-5 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col justify-between">
           <div className="flex items-center justify-between">
             <h4 className="font-bold text-sm text-slate-800 font-['Outfit']">Chi Phí Vận Hành / User</h4>
-            <span className="text-[10px] text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded-full">
+            <span className="text-[10px] text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded-full">
               Tiết kiệm 22%
             </span>
           </div>
@@ -592,7 +592,7 @@ export const DashboardPage: React.FC = () => {
                 <path
                   d="M 12 50 A 38 38 0 0 1 88 50"
                   fill="none"
-                  stroke="#F1F5F9"
+                  stroke="var(--color-slate-200)"
                   strokeWidth="13"
                   strokeLinecap="round"
                 />
@@ -632,7 +632,7 @@ export const DashboardPage: React.FC = () => {
 
           <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
             <span className="text-slate-400">Hiệu quả phân bổ:</span>
-            <span className="font-bold text-emerald-600">Rất tối ưu (94%)</span>
+            <span className="font-bold text-emerald-700">Rất tối ưu (94%)</span>
           </div>
         </div>
       </div>

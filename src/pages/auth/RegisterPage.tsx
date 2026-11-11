@@ -160,7 +160,7 @@ export const RegisterPage: React.FC = () => {
   return (
     <div className="space-y-6">
       <div className="text-left space-y-1.5">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-100 text-orange-700 text-xs font-black">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-100 text-slate-900 text-xs font-black">
           <ChefHat className="w-3.5 h-3.5" />
           <span>Tạo Tài Khoản Mới</span>
         </div>
@@ -191,7 +191,7 @@ export const RegisterPage: React.FC = () => {
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
                 placeholder="Nguyễn"
-                className="w-full pl-10 pr-3 py-3 bg-slate-50 hover:bg-orange-50/20 focus:bg-white border border-slate-200/90 rounded-2xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500 transition-all font-medium text-slate-900 placeholder-slate-400 shadow-2xs"
+                className="w-full pl-10 pr-3 py-3 bg-slate-50 hover:bg-orange-50/20 focus:bg-surface border border-slate-200/90 rounded-2xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-focus/30 focus:border-focus transition-all font-medium text-slate-900 placeholder-slate-400 shadow-2xs"
               />
             </div>
           </div>
@@ -203,7 +203,7 @@ export const RegisterPage: React.FC = () => {
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               placeholder="Văn An"
-              className="w-full px-4 py-3 bg-slate-50 hover:bg-orange-50/20 focus:bg-white border border-slate-200/90 rounded-2xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500 transition-all font-medium text-slate-900 placeholder-slate-400 shadow-2xs"
+              className="w-full px-4 py-3 bg-slate-50 hover:bg-orange-50/20 focus:bg-surface border border-slate-200/90 rounded-2xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-focus/30 focus:border-focus transition-all font-medium text-slate-900 placeholder-slate-400 shadow-2xs"
             />
           </div>
         </div>
@@ -218,7 +218,7 @@ export const RegisterPage: React.FC = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="name@example.com"
-              className="w-full pl-11 pr-4 py-3 bg-slate-50 hover:bg-orange-50/20 focus:bg-white border border-slate-200/90 rounded-2xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500 transition-all font-medium text-slate-900 placeholder-slate-400 shadow-2xs"
+              className="w-full pl-11 pr-4 py-3 bg-slate-50 hover:bg-orange-50/20 focus:bg-surface border border-slate-200/90 rounded-2xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-focus/30 focus:border-focus transition-all font-medium text-slate-900 placeholder-slate-400 shadow-2xs"
             />
           </div>
         </div>
@@ -234,7 +234,7 @@ export const RegisterPage: React.FC = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Tối thiểu 6 ký tự"
-              className="w-full pl-11 pr-11 py-3 bg-slate-50 hover:bg-orange-50/20 focus:bg-white border border-slate-200/90 rounded-2xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500 transition-all font-medium text-slate-900 placeholder-slate-400 shadow-2xs [&::-ms-reveal]:hidden [&::-ms-clear]:hidden"
+              className="w-full pl-11 pr-11 py-3 bg-slate-50 hover:bg-orange-50/20 focus:bg-surface border border-slate-200/90 rounded-2xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-focus/30 focus:border-focus transition-all font-medium text-slate-900 placeholder-slate-400 shadow-2xs [&::-ms-reveal]:hidden [&::-ms-clear]:hidden"
             />
             <button
               type="button"
@@ -258,12 +258,12 @@ export const RegisterPage: React.FC = () => {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="Nhập lại mật khẩu"
-              className={`w-full pl-11 pr-11 py-3 bg-slate-50 hover:bg-orange-50/20 focus:bg-white border rounded-2xl text-xs sm:text-sm focus:outline-none focus:ring-2 transition-all font-medium text-slate-900 placeholder-slate-400 shadow-2xs [&::-ms-reveal]:hidden [&::-ms-clear]:hidden ${
+              className={`w-full pl-11 pr-11 py-3 bg-slate-50 hover:bg-orange-50/20 focus:bg-surface border rounded-2xl text-xs sm:text-sm focus:outline-none focus:ring-2 transition-all font-medium text-slate-900 placeholder-slate-400 shadow-2xs [&::-ms-reveal]:hidden [&::-ms-clear]:hidden ${
                 confirmPassword && password !== confirmPassword
                   ? 'border-rose-300 focus:border-rose-500 focus:ring-rose-500/30'
                   : confirmPassword && password === confirmPassword
                   ? 'border-emerald-300 focus:border-emerald-500 focus:ring-emerald-500/30'
-                  : 'border-slate-200/90 focus:border-orange-500 focus:ring-orange-500/30'
+                  : 'border-slate-200/90 focus:border-focus focus:ring-focus/30'
               }`}
             />
             <button
@@ -276,12 +276,12 @@ export const RegisterPage: React.FC = () => {
             </button>
           </div>
           {confirmPassword && password !== confirmPassword && (
-            <p className="text-[11px] font-semibold text-rose-500 mt-1 pl-1">
+            <p className="text-[11px] font-semibold text-rose-700 mt-1 pl-1">
               Mật khẩu xác nhận chưa khớp
             </p>
           )}
           {confirmPassword && password === confirmPassword && (
-            <p className="text-[11px] font-semibold text-emerald-600 mt-1 pl-1 flex items-center gap-1">
+            <p className="text-[11px] font-semibold text-emerald-700 mt-1 pl-1 flex items-center gap-1">
               <CheckCircle2 className="w-3.5 h-3.5" />
               Mật khẩu xác nhận trùng khớp
             </p>
@@ -293,7 +293,7 @@ export const RegisterPage: React.FC = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 hover:from-orange-600 hover:to-amber-600 text-white font-extrabold text-xs sm:text-sm rounded-2xl shadow-md shadow-orange-500/25 hover:shadow-lg hover:shadow-orange-500/35 hover:-translate-y-0.5 active:translate-y-0 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+            className="w-full sm:w-auto px-8 py-3 bg-brand-500 hover:bg-brand-600 text-white font-extrabold text-xs sm:text-sm rounded-2xl shadow-md shadow-orange-500/25 hover:shadow-lg hover:shadow-orange-500/35 hover:-translate-y-0.5 active:translate-y-0 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
           >
             {loading ? (
               <span>Đang tạo tài khoản...</span>
@@ -312,7 +312,7 @@ export const RegisterPage: React.FC = () => {
         <div className="absolute inset-0 flex items-center">
           <div className="w-full border-t border-slate-300/60" />
         </div>
-        <span className="relative px-3 bg-[#faf8f5] text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+        <span className="relative px-3 bg-canvas text-[11px] font-bold text-slate-400 uppercase tracking-wider">
           Hoặc đăng ký nhanh bằng
         </span>
       </div>
@@ -323,7 +323,7 @@ export const RegisterPage: React.FC = () => {
           type="button"
           onClick={handleGoogleLogin}
           disabled={loading}
-          className="flex items-center justify-center gap-3 w-full py-3 px-4 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:bg-slate-50 hover:border-orange-300 hover:shadow-sm transition-all text-xs sm:text-sm font-bold text-slate-700 active:scale-98 cursor-pointer group"
+          className="flex items-center justify-center gap-3 w-full py-3 px-4 rounded-2xl bg-surface border border-slate-200/90 shadow-2xs hover:bg-slate-50 hover:border-orange-300 hover:shadow-sm transition-all text-xs sm:text-sm font-bold text-slate-700 active:scale-98 cursor-pointer group"
           title="Đăng ký tài khoản nhanh qua Google"
         >
           <svg className="w-5 h-5 shrink-0 group-hover:scale-110 transition-transform" viewBox="0 0 24 24">
@@ -353,7 +353,7 @@ export const RegisterPage: React.FC = () => {
       <div className="text-center pt-2 border-t border-slate-100">
         <p className="text-xs text-slate-500">
           Đã có tài khoản?{' '}
-          <Link to="/auth/login" className="font-extrabold text-orange-600 hover:text-orange-700 hover:underline">
+          <Link to="/auth/login" className="font-extrabold text-slate-800 hover:text-slate-900 hover:underline">
             Đăng nhập ngay
           </Link>
         </p>

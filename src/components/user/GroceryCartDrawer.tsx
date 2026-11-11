@@ -47,14 +47,14 @@ export const GroceryCartDrawer: React.FC = () => {
       {/* Backdrop mờ tối ưu */}
       <div 
         onClick={closeCart}
-        className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity duration-300 animate-in fade-in" 
+        className="fixed inset-0 bg-panel-900/50 backdrop-blur-sm transition-opacity duration-300 animate-in fade-in"
       />
 
       <div className="fixed inset-y-0 right-0 max-w-full flex pl-10 h-screen">
-        <div className="w-screen max-w-md sm:max-w-lg h-full max-h-screen bg-white shadow-2xl flex flex-col justify-between animate-in slide-in-from-right duration-300 border-l border-orange-100 relative z-10">
+        <div className="w-screen max-w-md sm:max-w-lg h-full max-h-screen bg-surface shadow-2xl flex flex-col justify-between animate-in slide-in-from-right duration-300 border-l border-orange-100 relative z-10">
           
           {/* HEADER GIỎ HÀNG */}
-          <div className="p-5 sm:p-6 border-b border-slate-100 bg-gradient-to-r from-orange-50/70 via-amber-50/40 to-white flex items-center justify-between">
+          <div className="p-5 sm:p-6 border-b border-slate-100 bg-gradient-to-r from-orange-50/70 via-amber-50/40 to-surface flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-orange-500 to-amber-500 text-white flex items-center justify-center shadow-md shadow-orange-500/20">
                 <ShoppingCart className="w-5 h-5" />
@@ -64,7 +64,7 @@ export const GroceryCartDrawer: React.FC = () => {
                   <h2 className="text-base sm:text-lg font-black text-slate-900 font-heading">
                     Giỏ Hàng Đi Chợ
                   </h2>
-                  <span className="px-2 py-0.5 rounded-full bg-orange-100 text-orange-700 text-xs font-black">
+                  <span className="px-2 py-0.5 rounded-full bg-orange-100 text-slate-900 text-xs font-black">
                     {items.length} món
                   </span>
                 </div>
@@ -78,7 +78,7 @@ export const GroceryCartDrawer: React.FC = () => {
               {items.length > 0 && (
                 <button
                   onClick={clearCart}
-                  className="p-2 rounded-xl text-slate-400 hover:text-rose-500 hover:bg-rose-50 transition-colors"
+                  className="p-2 rounded-xl text-slate-400 hover:text-rose-700 hover:bg-rose-50 transition-colors"
                   title="Xóa tất cả"
                 >
                   <Trash2 className="w-4 h-4" />
@@ -98,7 +98,7 @@ export const GroceryCartDrawer: React.FC = () => {
             <NearbyStoresCard onOpen={closeCart} />
             {items.length === 0 ? (
               <div className="text-center py-16 space-y-3">
-                <div className="w-16 h-16 rounded-3xl bg-orange-50 text-orange-400 flex items-center justify-center mx-auto shadow-inner">
+                <div className="w-16 h-16 rounded-3xl bg-orange-50 text-slate-500 flex items-center justify-center mx-auto shadow-inner">
                   <ShoppingCart className="w-8 h-8" />
                 </div>
                 <h4 className="text-base font-bold text-slate-800">Giỏ đi chợ đang trống</h4>
@@ -111,7 +111,7 @@ export const GroceryCartDrawer: React.FC = () => {
                 <div key={recipeTitle} className="space-y-3">
                   {/* Nhãn Tên Món Ăn Đi Kèm */}
                   <div className="flex items-center gap-2 pb-1 border-b border-slate-100">
-                    <Store className="w-4 h-4 text-orange-500" />
+                    <Store className="w-4 h-4 text-slate-700" />
                     <span className="text-xs font-black text-slate-800 uppercase tracking-wider">
                       Món: {recipeTitle}
                     </span>
@@ -124,7 +124,7 @@ export const GroceryCartDrawer: React.FC = () => {
                         key={item.id}
                         className={`flex items-center justify-between p-3 rounded-2xl border transition-all ${
                           item.checked
-                            ? 'bg-white border-slate-200/80 shadow-2xs hover:border-orange-200'
+                            ? 'bg-surface border-slate-200/80 shadow-2xs hover:border-orange-200'
                             : 'bg-slate-50/70 border-dashed border-slate-200 opacity-60'
                         }`}
                       >
@@ -137,7 +137,7 @@ export const GroceryCartDrawer: React.FC = () => {
                             type="checkbox"
                             checked={item.checked}
                             onChange={() => {}}
-                            className="w-4 h-4 rounded text-orange-600 focus:ring-orange-500 border-slate-300"
+                            className="w-4 h-4 rounded text-slate-800 focus:ring-focus border-slate-300"
                           />
                           <div className="min-w-0 flex-1">
                             <h5 className={`text-xs sm:text-sm font-bold truncate ${item.checked ? 'text-slate-800' : 'text-slate-400 line-through'}`}>
@@ -151,12 +151,12 @@ export const GroceryCartDrawer: React.FC = () => {
 
                         {/* Đơn giá & Nút Xóa */}
                         <div className="flex items-center gap-3 shrink-0">
-                          <span className="text-xs sm:text-sm font-black text-orange-600">
+                          <span className="text-xs sm:text-sm font-black text-slate-800">
                             {item.price.toLocaleString('vi-VN')} đ
                           </span>
                           <button
                             onClick={() => removeItem(item.id)}
-                            className="p-1 text-slate-300 hover:text-rose-500 transition-colors"
+                            className="p-1 text-slate-300 hover:text-rose-700 transition-colors"
                             title="Bỏ nguyên liệu này"
                           >
                             <X className="w-4 h-4" />
@@ -187,7 +187,7 @@ export const GroceryCartDrawer: React.FC = () => {
                 <div className="pt-2 border-t border-slate-200/60 flex items-baseline justify-between">
                   <span className="text-sm font-bold text-slate-900">Tổng tiền ước tính:</span>
                   <div className="text-right">
-                    <span className="text-xl sm:text-2xl font-black text-orange-600 font-heading">
+                    <span className="text-xl sm:text-2xl font-black text-slate-800 font-heading">
                       {totalPrice.toLocaleString('vi-VN')} đ
                     </span>
                   </div>
@@ -209,7 +209,7 @@ export const GroceryCartDrawer: React.FC = () => {
                 </button>
 
                 <p className="text-center text-[11px] text-slate-400 flex items-center justify-center gap-1">
-                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-700" />
                   <span>Xem cửa hàng và chỉ đường ngay trên web</span>
                 </p>
               </div>

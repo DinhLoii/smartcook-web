@@ -4,6 +4,16 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#F7F8F3" />
+    <script>
+      (() => {
+        let saved;
+        try { saved = localStorage.getItem('smartcook-theme'); } catch {}
+        const dark = saved === 'dark' || (saved !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+        if (dark) document.querySelector('meta[name="theme-color"]').content = '#161B17';
+      })();
+    </script>
     <title>SmartCook - Trợ Lý Nấu Ăn Thông Minh & Mạng Xã Hội Ẩm Thực</title>
     <meta name="description" content="Khám phá kho công thức món ăn chuẩn Việt, quản lý tủ lạnh thông minh, quét nguyên liệu bằng AI và kết nối cộng đồng yêu bếp." />
     
