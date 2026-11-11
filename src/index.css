@@ -1,31 +1,182 @@
 @import "tailwindcss";
 
+@theme static {
+  --color-canvas: #f7f8f3;
+  --color-surface: #fffefa;
+  --color-action: #4c624e;
+  --color-action-hover: #354439;
+  --color-on-action: #ffffff;
+  --color-focus: #4c624e;
+  --color-accent-ink: #4c624e;
+  --color-slate-50: #f2f4ee;
+  --color-slate-100: #ecefe7;
+  --color-slate-200: #e0e5da;
+  --color-slate-300: #cbd2c7;
+  --color-slate-400: #647064;
+  --color-slate-500: #596459;
+  --color-slate-600: #505c51;
+  --color-slate-700: #444f45;
+  --color-slate-800: #384139;
+  --color-slate-900: #252b26;
+  --color-slate-950: #191e1a;
+  --color-brand-50: #eff3ed;
+  --color-brand-100: #e3ebdd;
+  --color-brand-200: #d4dfcf;
+  --color-brand-300: #afbfaa;
+  --color-brand-400: #879c83;
+  --color-brand-500: #4c624e;
+  --color-brand-600: #405443;
+  --color-brand-700: #354439;
+  --color-brand-800: #2c372e;
+  --color-brand-900: #252b26;
+  --color-brand-950: #191e1a;
+  --color-panel-700: #405044;
+  --color-panel-800: #2c372e;
+  --color-panel-900: #252b26;
+  --color-panel-950: #141915;
+  --color-media-muted: #d5ddd3;
+  --color-success-action-hover: #046042;
+  --color-danger-action-hover: #9f1239;
+  --color-warning-action: #92400e;
+  --color-warning-action-hover: #78350f;
+}
+
+:root {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"],
+.theme-inverse {
+  color-scheme: dark;
+  --color-focus: #bdceb8;
+  --color-canvas: #161b17;
+  --color-surface: #202722;
+  --color-action: #bdceb8;
+  --color-action-hover: #d4dfcf;
+  --color-on-action: #252b26;
+  --color-accent-ink: #bdceb8;
+  --color-slate-50: #242c25;
+  --color-slate-100: #2b352d;
+  --color-slate-200: #3c4a3e;
+  --color-slate-300: #899589;
+  --color-slate-400: #a6b1a6;
+  --color-slate-500: #b0bcb0;
+  --color-slate-600: #c2cdc0;
+  --color-slate-700: #d0dace;
+  --color-slate-800: #e1e9de;
+  --color-slate-900: #f0f3eb;
+  --color-slate-950: #fffefa;
+  --color-brand-50: #253026;
+  --color-brand-100: #2d3b2f;
+  --color-brand-200: #405344;
+  --color-brand-300: #627764;
+  --color-brand-400: #93a88f;
+  --color-brand-500: #4c624e;
+  --color-brand-600: #556c57;
+  --color-brand-700: #354439;
+  --color-brand-800: #2c372e;
+  --color-brand-900: #d4dfcf;
+  --color-brand-950: #e3ebdd;
+  --color-emerald-50: #11251c;
+  --color-emerald-100: #173626;
+  --color-emerald-200: #23513a;
+  --color-emerald-300: #367756;
+  --color-emerald-700: #86ddb0;
+  --color-emerald-800: #a0e8c3;
+  --color-emerald-900: #c0f0d4;
+  --color-emerald-950: #101e16;
+  --color-amber-50: #292013;
+  --color-amber-100: #3c2c15;
+  --color-amber-200: #634921;
+  --color-amber-300: #805d29;
+  --color-amber-700: #f0ca7a;
+  --color-amber-800: #f6d797;
+  --color-amber-900: #fae4b5;
+  --color-rose-50: #2b171b;
+  --color-rose-100: #402026;
+  --color-rose-200: #622e3b;
+  --color-rose-300: #874353;
+  --color-rose-700: #ffacb9;
+  --color-rose-800: #ffc1cb;
+  --color-rose-900: #ffd5db;
+  --color-red-50: #2b1717;
+  --color-red-100: #402020;
+  --color-red-200: #623030;
+  --color-red-300: #864343;
+  --color-red-700: #ffacae;
+  --color-red-800: #ffc1c1;
+  --color-red-900: #ffd5d5;
+  --color-sky-50: #15232b;
+  --color-sky-100: #1c3442;
+  --color-sky-200: #2b4f62;
+  --color-sky-300: #3c6d86;
+  --color-sky-700: #a3d8f1;
+  --color-sky-800: #b9e2f5;
+  --color-sky-900: #cfeaf7;
+}
+
+.theme-inverse {
+  --color-slate-300: #d5ddd3;
+}
+
+/* Existing customer and admin utilities use the same brand palette. */
+@theme inline {
+  --color-orange-50: var(--color-brand-50);
+  --color-orange-100: var(--color-brand-100);
+  --color-orange-200: var(--color-brand-200);
+  --color-orange-300: var(--color-brand-300);
+  --color-orange-400: var(--color-brand-400);
+  --color-orange-500: var(--color-brand-500);
+  --color-orange-600: var(--color-brand-600);
+  --color-orange-700: var(--color-brand-700);
+  --color-orange-800: var(--color-brand-800);
+  --color-orange-900: var(--color-brand-900);
+  --color-orange-950: var(--color-brand-950);
+  --color-indigo-50: var(--color-brand-50);
+  --color-indigo-100: var(--color-brand-100);
+  --color-indigo-200: var(--color-brand-200);
+  --color-indigo-300: var(--color-brand-300);
+  --color-indigo-400: var(--color-brand-400);
+  --color-indigo-500: var(--color-brand-500);
+  --color-indigo-600: var(--color-brand-600);
+  --color-indigo-700: var(--color-brand-700);
+  --color-indigo-800: var(--color-brand-800);
+  --color-indigo-900: var(--color-brand-900);
+  --color-indigo-950: var(--color-brand-950);
+}
+
 @layer base {
   :root {
     --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     --font-heading: 'Outfit', system-ui, -apple-system, sans-serif;
+    --font-recipe: 'Georgia', 'Times New Roman', serif;
   }
 
   body {
     font-family: var(--font-sans);
-    color: #1e293b;
-    background-color: #f8fafc;
+    color: var(--color-slate-900);
+    background-color: var(--color-canvas);
     min-height: 100vh;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 3px;
   }
 }
 
 /* Glassmorphism effects */
 .glass {
-  background: rgba(255, 255, 255, 0.75);
+  background: color-mix(in srgb, var(--color-surface) 75%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  border: 1px solid var(--color-slate-200);
 }
 
 .glass-dark {
-  background: rgba(15, 23, 42, 0.85);
+  background: color-mix(in srgb, var(--color-panel-900) 85%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.1);
