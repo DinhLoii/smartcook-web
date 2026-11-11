@@ -1,3 +1,5 @@
+import { MediaImage } from '../../components/common/MediaImage';
+import { handleAvatarError } from '../../utils/avatar';
 import React, { useState, useMemo, useEffect } from 'react';
 import {
   Search,
@@ -147,7 +149,7 @@ export const CommunityModerationPage: React.FC = () => {
             author: {
               id: p.author?._id,
               name: p.author?.fullName || `${p.author?.firstName || ''} ${p.author?.lastName || ''}`.trim() || 'Người dùng SmartCook',
-              avatar: p.author?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+              avatar: p.author?.avatar || '/facebook-default-avatar.svg',
               badge: p.author?.role === 'admin' ? 'Quản Trị Viên' : 'Bếp Trưởng',
             },
             content: p.caption,
@@ -359,14 +361,14 @@ export const CommunityModerationPage: React.FC = () => {
   return (
     <div className="space-y-4">
       {/* ================= THANH ĐIỀU HƯỚNG TAB CHÍNH ================= */}
-      <div className="bg-white p-3.5 rounded-xl border border-slate-200/80 shadow-xs flex flex-col lg:flex-row items-center justify-between gap-3">
+      <div className="bg-surface p-3.5 rounded-xl border border-slate-200/80 shadow-xs flex flex-col lg:flex-row items-center justify-between gap-3">
         <div className="flex items-center gap-2 overflow-x-auto w-full lg:w-auto">
           <button
             onClick={() => setActiveTab('posts')}
             className={`px-4 py-2 rounded-lg text-xs font-bold transition-all shrink-0 flex items-center gap-2 ${
               activeTab === 'posts'
                 ? 'bg-gradient-to-r from-indigo-600 to-indigo-500 text-white shadow-sm shadow-indigo-500/20'
-                : 'bg-slate-50 text-slate-600 hover:bg-indigo-50/50 hover:text-indigo-600 border border-slate-200/60'
+                : 'bg-slate-50 text-slate-600 hover:bg-indigo-50/50 hover:text-slate-800 border border-slate-200/60'
             }`}
           >
             <ShieldCheck className="w-3.5 h-3.5" />
@@ -385,7 +387,7 @@ export const CommunityModerationPage: React.FC = () => {
             className={`px-4 py-2 rounded-lg text-xs font-bold transition-all shrink-0 flex items-center gap-2 ${
               activeTab === 'reports'
                 ? 'bg-gradient-to-r from-indigo-600 to-indigo-500 text-white shadow-sm shadow-indigo-500/20'
-                : 'bg-slate-50 text-slate-600 hover:bg-indigo-50/50 hover:text-indigo-600 border border-slate-200/60'
+                : 'bg-slate-50 text-slate-600 hover:bg-indigo-50/50 hover:text-slate-800 border border-slate-200/60'
             }`}
           >
             <AlertTriangle className="w-3.5 h-3.5" />
@@ -410,7 +412,7 @@ export const CommunityModerationPage: React.FC = () => {
             className={`px-4 py-2 rounded-lg text-xs font-bold transition-all shrink-0 flex items-center gap-2 ${
               activeTab === 'hashtags'
                 ? 'bg-gradient-to-r from-indigo-600 to-indigo-500 text-white shadow-sm shadow-indigo-500/20'
-                : 'bg-slate-50 text-slate-600 hover:bg-indigo-50/50 hover:text-indigo-600 border border-slate-200/60'
+                : 'bg-slate-50 text-slate-600 hover:bg-indigo-50/50 hover:text-slate-800 border border-slate-200/60'
             }`}
           >
             <Hash className="w-3.5 h-3.5" />
@@ -429,17 +431,17 @@ export const CommunityModerationPage: React.FC = () => {
         <div className="flex items-center gap-2 text-xs flex-wrap">
           {counts.spam > 0 && (
             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-rose-50 border border-rose-200 text-rose-700 rounded-lg font-bold">
-              <AlertOctagon className="w-3 h-3 text-rose-600" />
+              <AlertOctagon className="w-3 h-3 text-rose-700" />
               {counts.spam} Bài Spam
             </span>
           )}
           {counts.flagged > 0 && (
             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-amber-50 border border-amber-200 text-amber-800 rounded-lg font-bold">
-              <AlertTriangle className="w-3 h-3 text-amber-600" />
+              <AlertTriangle className="w-3 h-3 text-amber-700" />
               {counts.flagged} Bị Báo Cáo
             </span>
           )}
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-indigo-50 border border-indigo-100 rounded-lg text-indigo-700 font-medium">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-indigo-50 border border-indigo-100 rounded-lg text-slate-900 font-medium">
             <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />
             Kiểm soát nội dung cộng đồng: <strong>Active</strong>
           </span>
@@ -452,17 +454,17 @@ export const CommunityModerationPage: React.FC = () => {
       {activeTab === 'posts' && (
         <div className="space-y-4">
           {/* Thanh công cụ tìm kiếm và lọc phân loại rõ ràng: Đã Đăng, Bị Báo Cáo, Spam */}
-          <div className="bg-white p-4 rounded-xl border border-slate-200/80 shadow-xs space-y-3.5">
+          <div className="bg-surface p-4 rounded-xl border border-slate-200/80 shadow-xs space-y-3.5">
             <div className="flex flex-col lg:flex-row items-center justify-between gap-3">
               {/* Ô tìm kiếm */}
               <div className="relative w-full lg:w-80">
-                <Search className="w-4 h-4 text-indigo-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <Search className="w-4 h-4 text-slate-700 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
                   placeholder="Tìm nội dung, người đăng, hashtag..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-9 pr-3.5 py-2 bg-slate-50/80 border border-slate-200 rounded-lg text-xs font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 transition-all"
+                  className="w-full pl-9 pr-3.5 py-2 bg-slate-50/80 border border-slate-200 rounded-lg text-xs font-medium focus:outline-none focus:ring-2 focus:ring-focus/30 focus:border-focus transition-all"
                 />
               </div>
 
@@ -512,7 +514,7 @@ export const CommunityModerationPage: React.FC = () => {
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as any)}
-                  className="px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 outline-none cursor-pointer focus:ring-1 focus:ring-indigo-500"
+                  className="px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 outline-none cursor-pointer focus:ring-1 focus:ring-focus"
                 >
                   <option value="newest">Mới nhất</option>
                   <option value="reports">Bị báo cáo nhiều nhất</option>
@@ -524,7 +526,7 @@ export const CommunityModerationPage: React.FC = () => {
           </div>
 
           {/* BẢNG DỮ LIỆU TABLE CHỮ NHẬT DÀI CHUYÊN NGHIỆP */}
-          <div className="bg-white rounded-xl border border-slate-200/80 shadow-xs overflow-hidden">
+          <div className="bg-surface rounded-xl border border-slate-200/80 shadow-xs overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
@@ -554,10 +556,11 @@ export const CommunityModerationPage: React.FC = () => {
                             <img
                               src={post.author.avatar}
                               alt={post.author.name}
+                              onError={handleAvatarError}
                               className="w-9 h-9 rounded-lg object-cover border border-slate-200 shrink-0 group-hover:border-indigo-300 transition-colors"
                             />
                             <div>
-                              <span className="font-bold text-slate-900 group-hover:text-indigo-600 transition-colors block leading-tight">
+                              <span className="font-bold text-slate-900 group-hover:text-slate-800 transition-colors block leading-tight">
                                 {post.author.name}
                               </span>
                               <span className="text-[10.5px] text-amber-700 font-bold block mt-0.5">
@@ -571,9 +574,10 @@ export const CommunityModerationPage: React.FC = () => {
                         <td className="py-3.5 px-4 max-w-sm">
                           <div className="flex items-start gap-3">
                             {post.image && (
-                              <img
+                              <MediaImage
+                                compact
                                 src={post.image}
-                                alt="Post visual"
+                                alt="Ảnh bài viết"
                                 className="w-12 h-12 rounded-lg object-cover border border-slate-200 shrink-0 shadow-2xs group-hover:border-indigo-300 transition-colors"
                               />
                             )}
@@ -585,7 +589,7 @@ export const CommunityModerationPage: React.FC = () => {
                                 {post.tags.map((t, idx) => (
                                   <span
                                     key={idx}
-                                    className="px-1.5 py-0.2 rounded text-[10px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-100/60"
+                                    className="px-1.5 py-0.2 rounded text-[10px] font-bold bg-indigo-50 text-slate-900 border border-indigo-100/60"
                                   >
                                     #{t}
                                   </span>
@@ -600,7 +604,7 @@ export const CommunityModerationPage: React.FC = () => {
                           {post.reportCount && post.reportCount > 0 ? (
                             <div className="space-y-0.5">
                               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10.5px] font-extrabold bg-rose-50 text-rose-700 border border-rose-200">
-                                <AlertTriangle className="w-3 h-3 text-rose-600" />
+                                <AlertTriangle className="w-3 h-3 text-rose-700" />
                                 {post.reportCount} lượt báo cáo
                               </span>
                               {post.reportsList && post.reportsList.length > 0 && (
@@ -611,7 +615,7 @@ export const CommunityModerationPage: React.FC = () => {
                             </div>
                           ) : (
                             <span className="text-[10.5px] text-emerald-700 font-medium inline-flex items-center gap-1 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100">
-                              <CheckCircle className="w-3 h-3 text-emerald-600" />
+                              <CheckCircle className="w-3 h-3 text-emerald-700" />
                               Không có khiếu nại
                             </span>
                           )}
@@ -620,11 +624,11 @@ export const CommunityModerationPage: React.FC = () => {
                         {/* Cột 4: Tương tác */}
                         <td className="py-3.5 px-4 whitespace-nowrap text-slate-600 font-medium">
                           <div className="flex items-center gap-3">
-                            <span className="flex items-center gap-1 text-rose-500 font-bold font-['Outfit']">
-                              <Heart className="w-3.5 h-3.5 fill-rose-500 text-rose-500" />
+                            <span className="flex items-center gap-1 text-rose-700 font-bold font-['Outfit']">
+                              <Heart className="w-3.5 h-3.5 fill-rose-700 text-rose-700" />
                               {post.likes}
                             </span>
-                            <span className="flex items-center gap-1 text-indigo-600 font-bold font-['Outfit']">
+                            <span className="flex items-center gap-1 text-slate-800 font-bold font-['Outfit']">
                               <MessageCircle className="w-3.5 h-3.5" />
                               {post.comments}
                             </span>
@@ -640,19 +644,19 @@ export const CommunityModerationPage: React.FC = () => {
                         <td className="py-3.5 px-4 whitespace-nowrap">
                           {post.status === 'pinned' && (
                             <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[10.5px] font-extrabold bg-amber-50 text-amber-900 border border-amber-200">
-                              <Pin className="w-3 h-3 text-amber-600 fill-amber-600" />
+                              <Pin className="w-3 h-3 text-amber-700 fill-amber-700" />
                               Đang Ghim
                             </span>
                           )}
                           {post.status === 'spam' && (
                             <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[10.5px] font-extrabold bg-rose-100 text-rose-800 border border-rose-200">
-                              <AlertOctagon className="w-3 h-3 text-rose-600" />
+                              <AlertOctagon className="w-3 h-3 text-rose-700" />
                               Khóa Spam
                             </span>
                           )}
                           {post.status === 'flagged' && (
                             <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[10.5px] font-bold bg-amber-50 text-amber-900 border border-amber-200/80">
-                              <AlertTriangle className="w-3 h-3 text-amber-600" />
+                              <AlertTriangle className="w-3 h-3 text-amber-700" />
                               Cần Kiểm Tra
                             </span>
                           )}
@@ -675,7 +679,7 @@ export const CommunityModerationPage: React.FC = () => {
                             {/* Nút Xem Chi Tiết */}
                             <button
                               onClick={() => setViewingPost(post)}
-                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-indigo-600 bg-indigo-50 hover:bg-indigo-600 hover:text-white font-bold text-xs transition-all active:scale-95 shadow-2xs"
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-slate-800 bg-indigo-50 hover:bg-indigo-600 hover:text-white font-bold text-xs transition-all active:scale-95 shadow-2xs"
                               title="Xem chi tiết nội dung, người đăng và báo cáo"
                             >
                               <Eye className="w-3.5 h-3.5" />
@@ -685,7 +689,7 @@ export const CommunityModerationPage: React.FC = () => {
                             {/* Nút Gửi Thông Báo / Cảnh Cáo */}
                             <button
                               onClick={() => openNotifyModal(post.author.name, post.author.id, post.content)}
-                              className="p-1.5 rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 transition-colors"
+                              className="p-1.5 rounded-lg text-slate-400 hover:text-slate-800 hover:bg-indigo-50 transition-colors"
                               title="Gửi thông báo / cảnh cáo đến người đăng này"
                             >
                               <BellRing className="w-3.5 h-3.5" />
@@ -696,12 +700,12 @@ export const CommunityModerationPage: React.FC = () => {
                               onClick={() => handleTogglePinPost(post.id)}
                               className={`p-1.5 rounded-lg transition-colors ${
                                 post.status === 'pinned'
-                                  ? 'text-amber-600 bg-amber-50 hover:bg-amber-100'
-                                  : 'text-slate-400 hover:text-amber-600 hover:bg-amber-50'
+                                  ? 'text-amber-700 bg-amber-50 hover:bg-amber-100'
+                                  : 'text-slate-400 hover:text-amber-700 hover:bg-amber-50'
                               }`}
                               title={post.status === 'pinned' ? 'Bỏ ghim bài viết' : 'Ghim bài viết lên đầu'}
                             >
-                              <Pin className={`w-3.5 h-3.5 ${post.status === 'pinned' ? 'fill-amber-600' : ''}`} />
+                              <Pin className={`w-3.5 h-3.5 ${post.status === 'pinned' ? 'fill-amber-700' : ''}`} />
                             </button>
 
                             {/* Nút Khóa SPAM / Bỏ SPAM */}
@@ -718,7 +722,7 @@ export const CommunityModerationPage: React.FC = () => {
                                     dangerLevel: 'high',
                                   })
                                 }
-                                className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors"
+                                className="p-1.5 rounded-lg text-slate-400 hover:text-rose-700 hover:bg-rose-50 transition-colors"
                                 title="Đánh dấu Spam & Chặn bài"
                               >
                                 <AlertOctagon className="w-3.5 h-3.5" />
@@ -734,7 +738,7 @@ export const CommunityModerationPage: React.FC = () => {
                                   togglePostStatus(post.id, 'published');
                                   showToast(`Đã gỡ nhãn Spam cho bài viết của "${post.author.name}".`);
                                 }}
-                                className="p-1.5 rounded-lg text-emerald-600 hover:bg-emerald-50 transition-colors"
+                                className="p-1.5 rounded-lg text-emerald-700 hover:bg-emerald-50 transition-colors"
                                 title="Gỡ nhãn Spam (Cho phép hiển thị lại)"
                               >
                                 <CheckCircle className="w-3.5 h-3.5" />
@@ -773,7 +777,7 @@ export const CommunityModerationPage: React.FC = () => {
                                   dangerLevel: 'high',
                                 })
                               }
-                              className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors"
+                              className="p-1.5 rounded-lg text-slate-400 hover:text-rose-700 hover:bg-rose-50 transition-colors"
                               title="Xóa bài viết vĩnh viễn"
                             >
                               <Trash2 className="w-3.5 h-3.5" />
@@ -807,10 +811,10 @@ export const CommunityModerationPage: React.FC = () => {
       ========================================================================== */}
       {activeTab === 'reports' && (
         <div className="space-y-4">
-          <div className="bg-white rounded-xl border border-slate-200/80 shadow-xs overflow-hidden">
+          <div className="bg-surface rounded-xl border border-slate-200/80 shadow-xs overflow-hidden">
             <div className="p-4 border-b border-slate-100 flex items-center justify-between">
               <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider font-['Outfit'] flex items-center gap-2">
-                <AlertTriangle className="w-4 h-4 text-amber-500" />
+                <AlertTriangle className="w-4 h-4 text-amber-700" />
                 <span>Danh Sách Người Dùng Báo Cáo Vi Phạm Từ Ứng Dụng Mobile</span>
               </h3>
               <div className="flex items-center gap-2">
@@ -843,7 +847,7 @@ export const CommunityModerationPage: React.FC = () => {
                   {isLoadingReports ? (
                     <tr>
                       <td colSpan={6} className="py-12 text-center text-slate-400">
-                        <div className="flex items-center justify-center gap-2 text-indigo-600 font-bold">
+                        <div className="flex items-center justify-center gap-2 text-slate-800 font-bold">
                           <Loader2 className="w-4 h-4 animate-spin" />
                           <span>Đang nạp danh sách báo cáo vi phạm từ hệ thống...</span>
                         </div>
@@ -881,7 +885,7 @@ export const CommunityModerationPage: React.FC = () => {
                             </span>
                           ) : rep.status === 'resolved' ? (
                             <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[10.5px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                              <CheckCircle className="w-3 h-3 text-emerald-600" />
+                              <CheckCircle className="w-3 h-3 text-emerald-700" />
                               Đã Xử Lý (Xác nhận vi phạm)
                             </span>
                           ) : (
@@ -920,11 +924,11 @@ export const CommunityModerationPage: React.FC = () => {
       ========================================================================== */}
       {activeTab === 'hashtags' && (
         <div className="space-y-4">
-          <div className="bg-white rounded-xl border border-slate-200/80 shadow-xs p-5 space-y-4">
+          <div className="bg-surface rounded-xl border border-slate-200/80 shadow-xs p-5 space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
               <div>
                 <h3 className="font-extrabold text-sm text-slate-900 font-['Outfit'] flex items-center gap-1.5">
-                  <Hash className="w-4 h-4 text-indigo-600" />
+                  <Hash className="w-4 h-4 text-slate-800" />
                   <span>Quản Lý Hashtag Định Hướng Bảng Tin</span>
                 </h3>
                 <p className="text-xs text-slate-400 mt-0.5">
@@ -939,7 +943,7 @@ export const CommunityModerationPage: React.FC = () => {
                   placeholder="#TenHashtag..."
                   value={newTagInput}
                   onChange={(e) => setNewTagInput(e.target.value)}
-                  className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500"
+                  className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium focus:ring-2 focus:ring-focus/30 focus:border-focus"
                 />
                 <select
                   value={newTagCategory}
@@ -966,12 +970,12 @@ export const CommunityModerationPage: React.FC = () => {
               {hashtags.map((h, idx) => (
                 <div
                   key={idx}
-                  className="p-3.5 rounded-xl bg-white border border-slate-200/80 hover:border-indigo-300 hover:shadow-xs transition-all flex items-center justify-between"
+                  className="p-3.5 rounded-xl bg-surface border border-slate-200/80 hover:border-indigo-300 hover:shadow-xs transition-all flex items-center justify-between"
                 >
                   <div className="space-y-0.5">
                     <div className="flex items-center gap-2">
-                      <span className="text-xs font-extrabold text-indigo-900 font-mono">#{h.tag}</span>
-                      <span className="text-[10px] font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-100">
+                      <span className="text-xs font-extrabold text-slate-900 font-mono">#{h.tag}</span>
+                      <span className="text-[10px] font-bold text-slate-900 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-100">
                         {h.category}
                       </span>
                     </div>
@@ -983,13 +987,13 @@ export const CommunityModerationPage: React.FC = () => {
                   <div className="flex items-center gap-2">
                     {h.trending && (
                       <span className="text-[10px] font-extrabold text-amber-900 bg-amber-100 border border-amber-200 px-2 py-0.5 rounded flex items-center gap-1">
-                        <Sparkles className="w-2.5 h-2.5 text-amber-600" />
+                        <Sparkles className="w-2.5 h-2.5 text-amber-700" />
                         Trending
                       </span>
                     )}
                     <button
                       onClick={() => setHashtags(hashtags.filter((_, i) => i !== idx))}
-                      className="p-1 text-slate-400 hover:text-rose-600 rounded transition-colors"
+                      className="p-1 text-slate-400 hover:text-rose-700 rounded transition-colors"
                       title="Gỡ bỏ tag"
                     >
                       <X className="w-3.5 h-3.5" />
@@ -1006,13 +1010,13 @@ export const CommunityModerationPage: React.FC = () => {
           MODAL: XEM CHI TIẾT BÀI ĐĂNG (KHUNG TO RỘNG 2 CỘT: NGƯỜI ĐĂNG, NỘI DUNG, BÁO CÁO, CÔNG CỤ CAN THIỆP)
       ========================================================================== */}
       {viewingPost && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/60 backdrop-blur-xs animate-in fade-in duration-200">
-          <div className="bg-white w-full max-w-6xl h-[92vh] rounded-xl border border-slate-200/90 shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 flex flex-col text-slate-800">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-panel-950/60 backdrop-blur-xs animate-in fade-in duration-200">
+          <div className="bg-surface w-full max-w-6xl h-[92vh] rounded-xl border border-slate-200/90 shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 flex flex-col text-slate-800">
             {/* Header modal */}
-            <div className="px-6 py-3.5 border-b border-slate-200/80 flex items-center justify-between bg-gradient-to-r from-slate-50 via-white to-indigo-50/30 shrink-0">
+            <div className="px-6 py-3.5 border-b border-slate-200/80 flex items-center justify-between bg-gradient-to-r from-slate-50 via-surface to-indigo-50/30 shrink-0">
               <div className="flex items-center gap-3 text-xs">
-                <span className="font-extrabold text-indigo-900 uppercase font-['Outfit'] tracking-wider flex items-center gap-2">
-                  <Eye className="w-4 h-4 text-indigo-600" />
+                <span className="font-extrabold text-slate-900 uppercase font-['Outfit'] tracking-wider flex items-center gap-2">
+                  <Eye className="w-4 h-4 text-slate-800" />
                   <span>Chi Tiết Bài Đăng #{viewingPost.id}</span>
                 </span>
                 <span className="text-slate-300">|</span>
@@ -1039,23 +1043,24 @@ export const CommunityModerationPage: React.FC = () => {
               <div className="lg:col-span-6 border-r border-slate-200/80 p-5 overflow-y-auto bg-slate-50/60 flex flex-col space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-                    <Layers className="w-3.5 h-3.5 text-indigo-600" />
+                    <Layers className="w-3.5 h-3.5 text-slate-800" />
                     <span>Card Bài Đăng Hiển Thị Trực Tiếp (Mobile Feed Preview)</span>
                   </span>
-                  <span className="text-[10.5px] font-bold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2 py-0.5 rounded-full">
+                  <span className="text-[10.5px] font-bold text-slate-800 bg-indigo-50 border border-indigo-100 px-2 py-0.5 rounded-full">
                     Live Feed Card
                   </span>
                 </div>
 
                 {/* CARD BÀI ĐĂNG HOÀN CHỈNH VIEW TRỰC TIẾP */}
-                <div className="bg-white rounded-2xl border border-slate-200/90 shadow-md overflow-hidden transition-all">
+                <div className="bg-surface rounded-2xl border border-slate-200/90 shadow-md overflow-hidden transition-all">
                   {/* Card Header: Tác giả, avatar, badge & menu 3 chấm */}
-                  <div className="p-4 flex items-center justify-between border-b border-slate-100/80 bg-white">
+                  <div className="p-4 flex items-center justify-between border-b border-slate-100/80 bg-surface">
                     <div className="flex items-center gap-3">
                       <div className="relative">
                         <img
                           src={viewingPost.author.avatar}
                           alt={viewingPost.author.name}
+                          onError={handleAvatarError}
                           className="w-10 h-10 rounded-full object-cover ring-2 ring-indigo-500/20 shadow-xs"
                         />
                         <span className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-emerald-500 ring-2 ring-white flex items-center justify-center text-[8px] text-white font-bold">
@@ -1083,13 +1088,13 @@ export const CommunityModerationPage: React.FC = () => {
                     <div>
                       {viewingPost.status === 'pinned' && (
                         <span className="px-2.5 py-1 rounded-full bg-amber-50 text-amber-900 border border-amber-200 text-[10px] font-extrabold flex items-center gap-1 shadow-2xs">
-                          <Pin className="w-3 h-3 text-amber-600 fill-amber-600" />
+                          <Pin className="w-3 h-3 text-amber-700 fill-amber-700" />
                           Đang Ghim
                         </span>
                       )}
                       {viewingPost.status === 'spam' && (
                         <span className="px-2.5 py-1 rounded-full bg-rose-100 text-rose-800 border border-rose-200 text-[10px] font-extrabold flex items-center gap-1 shadow-2xs">
-                          <AlertOctagon className="w-3 h-3 text-rose-600" />
+                          <AlertOctagon className="w-3 h-3 text-rose-700" />
                           Đã Khóa Spam
                         </span>
                       )}
@@ -1119,7 +1124,7 @@ export const CommunityModerationPage: React.FC = () => {
                         {viewingPost.tags.map((tag, idx) => (
                           <span
                             key={idx}
-                            className="text-xs font-bold text-indigo-600 hover:text-indigo-800 cursor-pointer"
+                            className="text-xs font-bold text-slate-800 hover:text-slate-900 cursor-pointer"
                           >
                             #{tag}
                           </span>
@@ -1130,14 +1135,14 @@ export const CommunityModerationPage: React.FC = () => {
 
                   {/* Card Visual / Image (Tỷ lệ đẹp chuẩn mobile feed) */}
                   {viewingPost.image && (
-                    <div className="relative w-full aspect-video bg-slate-900 overflow-hidden">
-                      <img
+                    <div className="relative w-full aspect-video bg-panel-900 overflow-hidden">
+                      <MediaImage
                         src={viewingPost.image}
-                        alt="Post media"
+                        alt="Ảnh bài viết"
                         className="w-full h-full object-cover"
                       />
                       {viewingPost.status === 'spam' && (
-                        <div className="absolute inset-0 bg-slate-950/75 backdrop-blur-xs flex flex-col items-center justify-center p-4 text-center text-white space-y-1.5">
+                        <div className="absolute inset-0 bg-panel-950/75 backdrop-blur-xs flex flex-col items-center justify-center p-4 text-center text-white space-y-1.5">
                           <AlertOctagon className="w-8 h-8 text-rose-400 animate-bounce" />
                           <span className="text-xs font-black uppercase tracking-wider text-rose-300">
                             NỘI DUNG ĐÃ BỊ CÔ LẬP (SPAM RÁC)
@@ -1153,11 +1158,11 @@ export const CommunityModerationPage: React.FC = () => {
                   {/* Card Actions & Stats (Like, Comment, Share) */}
                   <div className="px-4 py-3 border-t border-slate-100 flex items-center justify-between text-xs bg-slate-50/40">
                     <div className="flex items-center gap-5">
-                      <div className="flex items-center gap-1.5 text-rose-500 font-bold">
-                        <Heart className="w-4 h-4 fill-rose-500 text-rose-500" />
+                      <div className="flex items-center gap-1.5 text-rose-700 font-bold">
+                        <Heart className="w-4 h-4 fill-rose-700 text-rose-700" />
                         <span className="font-['Outfit'] text-[13px]">{viewingPost.likes}</span>
                       </div>
-                      <div className="flex items-center gap-1.5 text-indigo-600 font-bold">
+                      <div className="flex items-center gap-1.5 text-slate-800 font-bold">
                         <MessageCircle className="w-4 h-4" />
                         <span className="font-['Outfit'] text-[13px]">{viewingPost.comments}</span>
                       </div>
@@ -1171,25 +1176,25 @@ export const CommunityModerationPage: React.FC = () => {
 
                 {/* Thống kê nhanh 4 thông số */}
                 <div className="grid grid-cols-4 gap-2 text-center text-xs pt-1">
-                  <div className="p-2.5 bg-white rounded-xl border border-indigo-100 shadow-2xs">
-                    <span className="text-[10px] text-indigo-500 font-extrabold uppercase block">Lượt Thích</span>
-                    <span className="text-sm font-extrabold text-indigo-900 font-['Outfit'] block mt-0.5">
+                  <div className="p-2.5 bg-surface rounded-xl border border-indigo-100 shadow-2xs">
+                    <span className="text-[10px] text-slate-700 font-extrabold uppercase block">Lượt Thích</span>
+                    <span className="text-sm font-extrabold text-slate-900 font-['Outfit'] block mt-0.5">
                       {viewingPost.likes}
                     </span>
                   </div>
-                  <div className="p-2.5 bg-white rounded-xl border border-amber-100 shadow-2xs">
-                    <span className="text-[10px] text-amber-600 font-extrabold uppercase block">Bình Luận</span>
+                  <div className="p-2.5 bg-surface rounded-xl border border-amber-100 shadow-2xs">
+                    <span className="text-[10px] text-amber-700 font-extrabold uppercase block">Bình Luận</span>
                     <span className="text-sm font-extrabold text-amber-900 font-['Outfit'] block mt-0.5">
                       {viewingPost.comments}
                     </span>
                   </div>
-                  <div className="p-2.5 bg-white rounded-xl border border-rose-100 shadow-2xs">
-                    <span className="text-[10px] text-rose-600 font-extrabold uppercase block">Báo Cáo</span>
+                  <div className="p-2.5 bg-surface rounded-xl border border-rose-100 shadow-2xs">
+                    <span className="text-[10px] text-rose-700 font-extrabold uppercase block">Báo Cáo</span>
                     <span className="text-sm font-extrabold text-rose-700 font-['Outfit'] block mt-0.5">
                       {viewingPost.reportCount || 0}
                     </span>
                   </div>
-                  <div className="p-2.5 bg-white rounded-xl border border-slate-200 shadow-2xs">
+                  <div className="p-2.5 bg-surface rounded-xl border border-slate-200 shadow-2xs">
                     <span className="text-[10px] text-slate-400 font-bold uppercase block">Trạng Thái</span>
                     <span className="text-xs font-bold text-slate-800 uppercase block mt-1 truncate">
                       {viewingPost.status}
@@ -1199,7 +1204,7 @@ export const CommunityModerationPage: React.FC = () => {
 
                 {/* Ghi chú quản trị */}
                 <div className="p-3 bg-indigo-50/70 rounded-xl border border-indigo-100 text-[11px] text-slate-600 flex items-start gap-2">
-                  <Info className="w-4 h-4 text-indigo-600 shrink-0 mt-0.5" />
+                  <Info className="w-4 h-4 text-slate-800 shrink-0 mt-0.5" />
                   <p className="leading-relaxed">
                     Card trên mô phỏng chính xác giao diện hiển thị cho người dùng ứng dụng SmartCook. Bạn có thể can thiệp ngay ở cột bên phải.
                   </p>
@@ -1207,19 +1212,20 @@ export const CommunityModerationPage: React.FC = () => {
               </div>
 
               {/* CỘT PHẢI (6/12): Người đăng, Danh sách báo cáo vi phạm & CÔNG CỤ CAN THIỆP */}
-              <div className="lg:col-span-6 p-6 overflow-y-auto space-y-5 bg-white text-xs">
+              <div className="lg:col-span-6 p-6 overflow-y-auto space-y-5 bg-surface text-xs">
                 {/* 1. Ai đã đăng (Thông tin người đăng bài) */}
                 <div className="p-4 rounded-xl border border-slate-200/80 bg-slate-50/50 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <img
                       src={viewingPost.author.avatar}
                       alt={viewingPost.author.name}
+                      onError={handleAvatarError}
                       className="w-12 h-12 rounded-xl object-cover border border-slate-200 shadow-2xs"
                     />
                     <div>
                       <div className="flex items-center gap-2">
                         <h4 className="font-extrabold text-sm text-slate-900">{viewingPost.author.name}</h4>
-                        <span className="text-[10px] text-indigo-700 bg-indigo-50 border border-indigo-200 px-2 py-0.2 rounded font-bold">
+                        <span className="text-[10px] text-slate-900 bg-indigo-50 border border-indigo-200 px-2 py-0.2 rounded font-bold">
                           Người Đăng Bài
                         </span>
                       </div>
@@ -1232,7 +1238,7 @@ export const CommunityModerationPage: React.FC = () => {
                   <div className="text-right">
                     <button
                       onClick={() => openNotifyModal(viewingPost.author.name, viewingPost.author.id, viewingPost.content)}
-                      className="px-3 py-1.5 text-xs font-bold text-indigo-600 bg-indigo-50 hover:bg-indigo-600 hover:text-white rounded-lg transition-colors border border-indigo-200/60 inline-flex items-center gap-1.5 shadow-2xs"
+                      className="px-3 py-1.5 text-xs font-bold text-slate-800 bg-indigo-50 hover:bg-indigo-600 hover:text-white rounded-lg transition-colors border border-indigo-200/60 inline-flex items-center gap-1.5 shadow-2xs"
                     >
                       <BellRing className="w-3.5 h-3.5" />
                       <span>Gửi Cảnh Cáo</span>
@@ -1244,10 +1250,10 @@ export const CommunityModerationPage: React.FC = () => {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <label className="text-xs font-extrabold text-slate-800 uppercase tracking-wider flex items-center gap-1.5 font-['Outfit']">
-                      <AlertTriangle className="w-4 h-4 text-amber-600" />
+                      <AlertTriangle className="w-4 h-4 text-amber-700" />
                       <span>Bài Viết Này Bị Báo Cáo Gì?</span>
                     </label>
-                    <span className="text-[11px] font-extrabold text-rose-600 bg-rose-50 border border-rose-200 px-2 py-0.5 rounded-full">
+                    <span className="text-[11px] font-extrabold text-rose-700 bg-rose-50 border border-rose-200 px-2 py-0.5 rounded-full">
                       {viewingPost.reportCount || 0} lượt phản ánh vi phạm
                     </span>
                   </div>
@@ -1283,7 +1289,7 @@ export const CommunityModerationPage: React.FC = () => {
 
                 {/* 3. CÔNG CỤ CAN THIỆP & QUYỀN HÀNH ĐỘNG (GỬI THÔNG BÁO, XÓA BÀI, CHẶN USER, GẮN SPAM) */}
                 <div className="p-4.5 rounded-xl border-2 border-indigo-100 bg-gradient-to-br from-indigo-50/40 to-slate-50 space-y-3.5">
-                  <span className="text-xs font-extrabold text-indigo-900 uppercase tracking-wider block font-['Outfit']">
+                  <span className="text-xs font-extrabold text-slate-900 uppercase tracking-wider block font-['Outfit']">
                     Công Cụ Quản Trị & Xử Lý Vi Phạm
                   </span>
 
@@ -1292,9 +1298,9 @@ export const CommunityModerationPage: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => openNotifyModal(viewingPost.author.name, viewingPost.author.id, viewingPost.content)}
-                      className="p-2.5 rounded-xl border border-indigo-200 bg-white hover:bg-indigo-50 text-indigo-700 font-bold text-xs flex flex-col items-center justify-center gap-1.5 transition-all active:scale-95 shadow-2xs"
+                      className="p-2.5 rounded-xl border border-indigo-200 bg-surface hover:bg-indigo-50 text-slate-900 font-bold text-xs flex flex-col items-center justify-center gap-1.5 transition-all active:scale-95 shadow-2xs"
                     >
-                      <BellRing className="w-4 h-4 text-indigo-600" />
+                      <BellRing className="w-4 h-4 text-slate-800" />
                       <span>Gửi Cảnh Cáo</span>
                     </button>
 
@@ -1315,10 +1321,10 @@ export const CommunityModerationPage: React.FC = () => {
                       className={`p-2.5 rounded-xl border font-bold text-xs flex flex-col items-center justify-center gap-1.5 transition-all active:scale-95 shadow-2xs ${
                         viewingPost.status === 'spam'
                           ? 'border-rose-300 bg-rose-100 text-rose-800'
-                          : 'border-slate-200 bg-white hover:bg-rose-50 text-rose-700'
+                          : 'border-slate-200 bg-surface hover:bg-rose-50 text-rose-700'
                       }`}
                     >
-                      <AlertOctagon className="w-4 h-4 text-rose-600" />
+                      <AlertOctagon className="w-4 h-4 text-rose-700" />
                       <span>{viewingPost.status === 'spam' ? 'Đã Khóa Spam' : 'Khóa Spam'}</span>
                     </button>
 
@@ -1336,7 +1342,7 @@ export const CommunityModerationPage: React.FC = () => {
                           dangerLevel: 'high',
                         })
                       }
-                      className="p-2.5 rounded-xl border border-amber-200 bg-white hover:bg-amber-50 text-amber-900 font-bold text-xs flex flex-col items-center justify-center gap-1.5 transition-all active:scale-95 shadow-2xs"
+                      className="p-2.5 rounded-xl border border-amber-200 bg-surface hover:bg-amber-50 text-amber-900 font-bold text-xs flex flex-col items-center justify-center gap-1.5 transition-all active:scale-95 shadow-2xs"
                     >
                       <UserX className="w-4 h-4 text-amber-700" />
                       <span>Chặn User Này</span>
@@ -1356,9 +1362,9 @@ export const CommunityModerationPage: React.FC = () => {
                           dangerLevel: 'high',
                         })
                       }
-                      className="p-2.5 rounded-xl border border-rose-200 bg-white hover:bg-rose-600 hover:text-white text-rose-700 font-bold text-xs flex flex-col items-center justify-center gap-1.5 transition-all active:scale-95 shadow-2xs group"
+                      className="p-2.5 rounded-xl border border-rose-200 bg-surface hover:bg-rose-600 hover:text-white text-rose-700 font-bold text-xs flex flex-col items-center justify-center gap-1.5 transition-all active:scale-95 shadow-2xs group"
                     >
-                      <Trash2 className="w-4 h-4 text-rose-600 group-hover:text-white" />
+                      <Trash2 className="w-4 h-4 text-rose-700 group-hover:text-white" />
                       <span>Xóa Bài Viết</span>
                     </button>
                   </div>
@@ -1376,7 +1382,7 @@ export const CommunityModerationPage: React.FC = () => {
                         className={`px-3 py-1 text-xs font-bold rounded-lg border ${
                           viewingPost.status === 'published'
                             ? 'bg-emerald-600 text-white border-emerald-600'
-                            : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                            : 'bg-surface text-slate-700 border-slate-200 hover:bg-slate-50'
                         }`}
                       >
                         Công Khai
@@ -1391,7 +1397,7 @@ export const CommunityModerationPage: React.FC = () => {
                         className={`px-3 py-1 text-xs font-bold rounded-lg border ${
                           viewingPost.status === 'pinned'
                             ? 'bg-amber-500 text-white border-amber-500'
-                            : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                            : 'bg-surface text-slate-700 border-slate-200 hover:bg-slate-50'
                         }`}
                       >
                         Ghim Feed
@@ -1405,8 +1411,8 @@ export const CommunityModerationPage: React.FC = () => {
                         }}
                         className={`px-3 py-1 text-xs font-bold rounded-lg border ${
                           viewingPost.status === 'hidden'
-                            ? 'bg-slate-800 text-white border-slate-800'
-                            : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                            ? 'bg-panel-800 text-white border-slate-800'
+                            : 'bg-surface text-slate-700 border-slate-200 hover:bg-slate-50'
                         }`}
                       >
                         {viewingPost.status === 'hidden' ? 'Bỏ Ẩn' : 'Ẩn Bài'}
@@ -1435,11 +1441,11 @@ export const CommunityModerationPage: React.FC = () => {
 
       {/* ================= MODAL: GỬI THÔNG BÁO / CẢNH CÁO ĐẾN USER ================= */}
       {notifyModal.isOpen && (
-        <div className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-slate-950/65 backdrop-blur-xs animate-in fade-in duration-200">
-          <div className="bg-white max-w-lg w-full rounded-xl border border-slate-200 shadow-2xl p-5 space-y-4 animate-in zoom-in-95 duration-200">
+        <div className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-panel-950/65 backdrop-blur-xs animate-in fade-in duration-200">
+          <div className="bg-surface max-w-lg w-full rounded-xl border border-slate-200 shadow-2xl p-5 space-y-4 animate-in zoom-in-95 duration-200">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <h3 className="text-sm font-extrabold text-slate-900 font-['Outfit'] flex items-center gap-2">
-                <BellRing className="w-4 h-4 text-indigo-600" />
+                <BellRing className="w-4 h-4 text-slate-800" />
                 <span>Gửi Thông Báo / Cảnh Cáo Đến "{notifyModal.recipientName}"</span>
               </h3>
               <button onClick={() => setNotifyModal({ ...notifyModal, isOpen: false })} className="text-slate-400 hover:text-slate-600">
@@ -1456,7 +1462,7 @@ export const CommunityModerationPage: React.FC = () => {
                   type="text"
                   value={notifyTitle}
                   onChange={(e) => setNotifyTitle(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 outline-none"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium focus:ring-2 focus:ring-focus/30 focus:border-focus outline-none"
                   placeholder="Nhập tiêu đề cảnh cáo..."
                   required
                 />
@@ -1470,14 +1476,14 @@ export const CommunityModerationPage: React.FC = () => {
                   rows={4}
                   value={notifyContent}
                   onChange={(e) => setNotifyContent(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 outline-none leading-relaxed"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-focus/30 focus:border-focus outline-none leading-relaxed"
                   placeholder="Nêu rõ lý do vi phạm hoặc điều cần điều chỉnh..."
                   required
                 />
               </div>
 
               <div className="p-2.5 rounded-lg bg-amber-50 border border-amber-200 text-amber-900 text-[11px] flex items-center gap-2">
-                <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0" />
+                <AlertTriangle className="w-4 h-4 text-amber-700 shrink-0" />
                 <span>Thông báo này sẽ gửi trực tiếp đến hộp thư ứng dụng của người dùng.</span>
               </div>
 
@@ -1504,13 +1510,13 @@ export const CommunityModerationPage: React.FC = () => {
 
       {/* ================= POPUP CONFIRM CẢNH BÁO AN TOÀN (XÓA BÀI, KHÓA SPAM, CHẶN USER) ================= */}
       {confirmModal.isOpen && (
-        <div className="fixed inset-0 z-65 flex items-center justify-center p-4 bg-slate-950/65 backdrop-blur-xs animate-in fade-in duration-150">
-          <div className="bg-white max-w-md w-full rounded-xl border border-slate-200 shadow-2xl p-5 space-y-4 animate-in zoom-in-95 duration-150">
+        <div className="fixed inset-0 z-65 flex items-center justify-center p-4 bg-panel-950/65 backdrop-blur-xs animate-in fade-in duration-150">
+          <div className="bg-surface max-w-md w-full rounded-xl border border-slate-200 shadow-2xl p-5 space-y-4 animate-in zoom-in-95 duration-150">
             <div className="flex items-start gap-3">
               <div
                 className={`p-2.5 rounded-xl shrink-0 ${
                   confirmModal.actionType === 'delete_post' || confirmModal.actionType === 'mark_spam'
-                    ? 'bg-rose-50 text-rose-600'
+                    ? 'bg-rose-50 text-rose-700'
                     : 'bg-amber-50 text-amber-700'
                 }`}
               >
@@ -1539,12 +1545,12 @@ export const CommunityModerationPage: React.FC = () => {
                 onClick={handleExecuteConfirm}
                 className={`px-4 py-2 text-xs font-extrabold text-white rounded-lg shadow-sm transition-all active:scale-95 ${
                   confirmModal.actionType === 'delete_post'
-                    ? 'bg-rose-600 hover:bg-rose-700'
+                    ? 'bg-rose-600 hover:bg-danger-action-hover'
                     : confirmModal.actionType === 'mark_spam'
-                    ? 'bg-rose-600 hover:bg-rose-700'
+                    ? 'bg-rose-600 hover:bg-danger-action-hover'
                     : confirmModal.actionType === 'ban_user'
-                    ? 'bg-amber-700 hover:bg-amber-800'
-                    : 'bg-slate-800 hover:bg-slate-900'
+                    ? 'bg-warning-action hover:bg-warning-action-hover'
+                    : 'bg-panel-800 hover:bg-panel-900'
                 }`}
               >
                 Xác Nhận Thực Hiện
@@ -1556,11 +1562,11 @@ export const CommunityModerationPage: React.FC = () => {
 
       {/* ================= MODAL: XỬ LÝ KHIẾU NẠI & BÁO CÁO ================= */}
       {handlingReport && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs animate-in fade-in duration-200">
-          <div className="bg-white max-w-lg w-full rounded-xl border border-slate-200 shadow-2xl p-5 space-y-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-panel-950/60 backdrop-blur-xs animate-in fade-in duration-200">
+          <div className="bg-surface max-w-lg w-full rounded-xl border border-slate-200 shadow-2xl p-5 space-y-4">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <h3 className="text-sm font-extrabold text-slate-900 font-['Outfit'] flex items-center gap-1.5">
-                <AlertTriangle className="w-4 h-4 text-amber-500" />
+                <AlertTriangle className="w-4 h-4 text-amber-700" />
                 <span>Xử Lý Khiếu Nại Báo Cáo #{handlingReport.id}</span>
               </h3>
               <button onClick={() => setHandlingReport(null)} className="text-slate-400 hover:text-slate-600">
@@ -1589,7 +1595,7 @@ export const CommunityModerationPage: React.FC = () => {
                   placeholder="Nhập lý do hoặc biện pháp xử lý..."
                   value={moderationNote}
                   onChange={(e) => setModerationNote(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 outline-none"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-focus/30 focus:border-focus outline-none"
                 />
               </div>
 
@@ -1607,7 +1613,7 @@ export const CommunityModerationPage: React.FC = () => {
                   type="button"
                   onClick={handleConfirmViolation}
                   disabled={isSubmittingReport}
-                  className="px-4 py-1.5 text-xs font-bold text-white bg-rose-600 hover:bg-rose-700 disabled:opacity-50 rounded-lg shadow-2xs flex items-center gap-1.5"
+                  className="px-4 py-1.5 text-xs font-bold text-white bg-rose-600 hover:bg-danger-action-hover disabled:opacity-50 rounded-lg shadow-2xs flex items-center gap-1.5"
                 >
                   {isSubmittingReport && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
                   <span>Xác Nhận Vi Phạm & Gắn Spam</span>

@@ -1,3 +1,4 @@
+import { ThemeToggle } from '../common/ThemeToggle';
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { 
@@ -29,7 +30,7 @@ import { useCartStore } from '../../store/useCartStore';
 import { useChatStore } from '../../store/useChatStore';
 import { GroceryCartDrawer } from './GroceryCartDrawer';
 import { CulinaryChatModal } from '../chat/CulinaryChatModal';
-import { getUserAvatarUrl } from '../../utils/avatar';
+import { getUserAvatarUrl, handleAvatarError } from '../../utils/avatar';
 
 interface UserHeaderProps {
   isLandingPage?: boolean;
@@ -122,12 +123,12 @@ export const UserHeader: React.FC<UserHeaderProps> = () => {
     <header className="sticky top-0 z-50 transition-all">
       {/* BĂNG RÔN DÀI NHẮC NHỞ USER MUA KHI CÓ NGUYÊN LIỆU TRONG GIỎ HÀNG */}
       {cartTotalCount > 0 && !isReminderDismissed && (
-        <div className="w-full bg-gradient-to-r from-orange-600 via-amber-500 to-orange-500 text-white text-xs sm:text-sm py-2 px-4 shadow-md flex items-center justify-between border-b border-amber-300/30 animate-in slide-in-from-top-2 duration-300">
+        <div className="w-full bg-brand-600 text-white text-xs sm:text-sm py-2 px-4 shadow-md flex items-center justify-between border-b border-brand-300/30 animate-in slide-in-from-top-2 duration-300">
           <div className="max-w-[1920px] mx-auto w-full flex items-center justify-between gap-3">
             <div className="flex items-center gap-2.5 min-w-0">
               <span className="flex h-2.5 w-2.5 relative shrink-0">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-white"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-surface opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-surface"></span>
               </span>
               <ShoppingCart className="w-4 h-4 text-white shrink-0 hidden sm:inline" />
               <p className="font-semibold truncate">
@@ -138,7 +139,7 @@ export const UserHeader: React.FC<UserHeaderProps> = () => {
             <div className="flex items-center gap-2 shrink-0">
               <button
                 onClick={openCart}
-                className="px-3.5 py-1 bg-white text-orange-600 hover:bg-orange-50 font-extrabold text-xs rounded-xl shadow-xs hover:shadow-sm hover:scale-105 active:scale-95 transition-all flex items-center gap-1.5"
+                className="px-3.5 py-1 bg-surface text-slate-800 hover:bg-orange-50 font-extrabold text-xs rounded-xl shadow-xs hover:shadow-sm hover:scale-105 active:scale-95 transition-all flex items-center gap-1.5"
               >
                 <span>Xem & Đặt Mua Ngay</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -155,26 +156,23 @@ export const UserHeader: React.FC<UserHeaderProps> = () => {
         </div>
       )}
 
-      <div className="backdrop-blur-2xl bg-[#faf8f5]/92 border-b border-orange-200/50 shadow-[0_4px_25px_rgba(234,88,12,0.03)]">
-        <div className="w-full max-w-[1920px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 h-20 flex items-center justify-between">
+      <div className="backdrop-blur-2xl bg-canvas/92 border-b border-slate-200 shadow-xs">
+        <div className="w-full max-w-[1920px] mx-auto px-4 sm:px-6 2xl:px-10 h-20 flex items-center justify-between gap-3">
           
           {/* 1. CỘT TRÁI: LOGO & THƯƠNG HIỆU */}
           <Link to="/" className="flex items-center gap-2 sm:gap-3 group shrink-0">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-orange-500 via-amber-500 to-orange-400 flex items-center justify-center shadow-md shadow-orange-500/25 group-hover:scale-105 group-hover:shadow-orange-500/40 transition-all duration-300">
-              <ChefHat className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-action flex items-center justify-center shadow-md shadow-orange-500/25 group-hover:scale-105 group-hover:shadow-orange-500/40 transition-all duration-300">
+              <ChefHat className="w-6 h-6 sm:w-7 sm:h-7 text-on-action" />
             </div>
           <div className="hidden min-[360px]:block">
             <span className="text-lg sm:text-2xl font-black tracking-tight text-slate-900 flex items-center font-heading">
-              Smart<span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600">Cook</span>
-            </span>
-            <span className="text-[9px] sm:text-[10px] font-extrabold text-orange-600 tracking-widest uppercase block -mt-1">
-              AI Culinary Companion
+              Smart<span className="text-slate-700">Cook</span>
             </span>
           </div>
         </Link>
 
         {/* 2. CỘT GIỮA: NAVIGATION THOÁNG ĐÃNG, CHỮ NẰM NGANG, KHÔNG ĐÓNG KHUNG MÀU */}
-        <nav className="hidden 2xl:flex items-center gap-5 2xl:gap-7 h-full">
+        <nav className="hidden 2xl:flex items-center gap-4 min-[1800px]:gap-6 h-full whitespace-nowrap" aria-label="Điều hướng chính">
           {isAuthenticated ? (
             authenticatedNavItems.map((item) => {
               const isActive = location.pathname === item.path;
@@ -183,25 +181,26 @@ export const UserHeader: React.FC<UserHeaderProps> = () => {
                 <Link
                   key={item.path}
                   to={item.path}
+                  aria-current={isActive ? "page" : undefined}
                   className={`group relative flex items-center gap-2 py-7 text-sm font-bold tracking-tight whitespace-nowrap transition-colors duration-200 ${
                     isActive
-                      ? 'text-orange-600'
-                      : 'text-slate-600 hover:text-orange-500'
+                      ? 'text-accent-ink'
+                      : 'text-slate-600 hover:text-slate-700'
                   }`}
                 >
                   <Icon className={`w-4 h-4 transition-transform group-hover:scale-110 duration-200 ${
-                    isActive ? 'text-orange-600' : 'text-slate-400 group-hover:text-orange-500'
+                    isActive ? 'text-accent-ink' : 'text-slate-400 group-hover:text-slate-700'
                   }`} />
                   
                   <span>{item.label}</span>
 
                   {item.sparkle && (
-                    <Sparkles className="w-3.5 h-3.5 text-amber-500 animate-pulse" />
+                    <Sparkles className="w-3.5 h-3.5 text-slate-700" />
                   )}
 
                   {/* VẠCH MÀU CHỈ BÁO NẰM DƯỚI ĐÁY HEADER */}
                   {isActive && (
-                    <div className="absolute bottom-0 left-0 right-0 h-[3px] rounded-full bg-gradient-to-r from-orange-500 via-amber-400 to-orange-600 shadow-[0_2px_10px_rgba(234,88,12,0.6)] animate-in fade-in duration-300" />
+                    <div className="absolute bottom-0 left-0 right-0 h-[3px] rounded-full bg-accent-ink animate-in fade-in duration-300" />
                   )}
 
                   {/* Vạch mờ khi hover */}
@@ -212,96 +211,101 @@ export const UserHeader: React.FC<UserHeaderProps> = () => {
               );
             })
           ) : (
-            <div className="flex items-center gap-6 lg:gap-8 h-full">
+            <div className="flex items-center gap-4 min-[1800px]:gap-6 h-full">
               <Link 
-                to="/" 
+                to="/"
+                aria-current={location.pathname === '/' ? "page" : undefined}
                 className={`group relative flex items-center gap-2 py-7 text-sm font-bold tracking-tight transition-colors ${
-                  location.pathname === '/' ? 'text-orange-600' : 'text-slate-600 hover:text-orange-500'
+                  location.pathname === '/' ? 'text-accent-ink' : 'text-slate-600 hover:text-slate-700'
                 }`}
               >
-                <Compass className="w-4 h-4 text-orange-600" />
+                <Compass className="w-4 h-4" />
                 <span>Khám Phá</span>
                 {location.pathname === '/' && (
-                  <div className="absolute bottom-0 left-0 right-0 h-[3px] rounded-full bg-gradient-to-r from-orange-500 via-amber-400 to-orange-600 shadow-[0_2px_10px_rgba(234,88,12,0.6)]" />
+                  <div className="absolute bottom-0 left-0 right-0 h-[3px] rounded-full bg-accent-ink" />
                 )}
               </Link>
 
               <Link 
-                to="/recipes" 
+                to="/recipes"
+                aria-current={location.pathname.startsWith('/recipes') ? "page" : undefined}
                 className={`group relative flex items-center gap-2 py-7 text-sm font-bold tracking-tight transition-colors ${
-                  location.pathname.startsWith('/recipes') ? 'text-orange-600' : 'text-slate-600 hover:text-orange-500'
+                  location.pathname.startsWith('/recipes') ? 'text-accent-ink' : 'text-slate-600 hover:text-slate-700'
                 }`}
               >
                 <Utensils className="w-4 h-4" />
                 <span>Kho Món Ăn</span>
                 {location.pathname.startsWith('/recipes') && (
-                  <div className="absolute bottom-0 left-0 right-0 h-[3px] rounded-full bg-gradient-to-r from-orange-500 via-amber-400 to-orange-600 shadow-[0_2px_10px_rgba(234,88,12,0.6)]" />
+                  <div className="absolute bottom-0 left-0 right-0 h-[3px] rounded-full bg-accent-ink" />
                 )}
               </Link>
 
               <Link 
-                to="/my-kitchen" 
+                to="/my-kitchen"
+                aria-current={location.pathname === '/my-kitchen' ? "page" : undefined}
                 className={`group relative flex items-center gap-2 py-7 text-sm font-bold tracking-tight transition-colors ${
-                  location.pathname === '/my-kitchen' ? 'text-orange-600' : 'text-slate-600 hover:text-orange-500'
+                  location.pathname === '/my-kitchen' ? 'text-accent-ink' : 'text-slate-600 hover:text-slate-700'
                 }`}
               >
-                <Refrigerator className="w-4 h-4 text-orange-500" />
+                <Refrigerator className="w-4 h-4 text-slate-700" />
                 <span>Tủ Lạnh Thông Minh</span>
-                <Sparkles className="w-3.5 h-3.5 text-amber-500 animate-pulse" />
                 {location.pathname === '/my-kitchen' && (
-                  <div className="absolute bottom-0 left-0 right-0 h-[3px] rounded-full bg-gradient-to-r from-orange-500 via-amber-400 to-orange-600 shadow-[0_2px_10px_rgba(234,88,12,0.6)]" />
+                  <div className="absolute bottom-0 left-0 right-0 h-[3px] rounded-full bg-accent-ink" />
                 )}
               </Link>
 
               <Link 
-                to="/scan" 
+                to="/scan"
+                aria-current={location.pathname === '/scan' ? "page" : undefined}
                 className={`group relative flex items-center gap-2 py-7 text-sm font-bold tracking-tight transition-colors ${
-                  location.pathname === '/scan' ? 'text-orange-600' : 'text-slate-600 hover:text-orange-500'
+                  location.pathname === '/scan' ? 'text-accent-ink' : 'text-slate-600 hover:text-slate-700'
                 }`}
               >
-                <Camera className="w-4 h-4 text-orange-500" />
+                <Camera className="w-4 h-4 text-slate-700" />
                 <span>AI Camera</span>
-                <Sparkles className="w-3.5 h-3.5 text-amber-500" />
                 {location.pathname === '/scan' && (
-                  <div className="absolute bottom-0 left-0 right-0 h-[3px] rounded-full bg-gradient-to-r from-orange-500 via-amber-400 to-orange-600 shadow-[0_2px_10px_rgba(234,88,12,0.6)]" />
+                  <div className="absolute bottom-0 left-0 right-0 h-[3px] rounded-full bg-accent-ink" />
                 )}
               </Link>
 
               <Link 
-                to="/community" 
+                to="/community"
+                aria-current={location.pathname === '/community' ? "page" : undefined}
                 className={`group relative flex items-center gap-2 py-7 text-sm font-bold tracking-tight transition-colors ${
-                  location.pathname === '/community' ? 'text-orange-600' : 'text-slate-600 hover:text-orange-500'
+                  location.pathname === '/community' ? 'text-accent-ink' : 'text-slate-600 hover:text-slate-700'
                 }`}
               >
-                <MessageCircle className="w-4 h-4 text-orange-500" />
+                <MessageCircle className="w-4 h-4 text-slate-700" />
                 <span>Cộng Đồng</span>
                 {location.pathname === '/community' && (
-                  <div className="absolute bottom-0 left-0 right-0 h-[3px] rounded-full bg-gradient-to-r from-orange-500 via-amber-400 to-orange-600 shadow-[0_2px_10px_rgba(234,88,12,0.6)]" />
+                  <div className="absolute bottom-0 left-0 right-0 h-[3px] rounded-full bg-accent-ink" />
                 )}
               </Link>
             </div>
           )}
-          {!isAuthenticated && <Link to="/supermarkets" className={`flex items-center gap-2 py-7 text-sm font-bold whitespace-nowrap ${location.pathname === '/supermarkets' ? 'text-orange-600' : 'text-slate-600 hover:text-orange-500'}`}><MapPin className="w-4 h-4" />Siêu thị</Link>}
+          {!isAuthenticated && <Link to="/supermarkets" className={`flex items-center gap-2 py-7 text-sm font-bold whitespace-nowrap ${location.pathname === '/supermarkets' ? 'text-slate-800' : 'text-slate-600 hover:text-slate-700'}`}><MapPin className="w-4 h-4" />Siêu thị</Link>}
         </nav>
 
         {/* 3. CỘT PHẢI: TẢI APP, GIỎ HÀNG & TÀI KHOẢN NGƯỜI DÙNG */}
-        <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          <ThemeToggle />
           
           {/* NÚT TIN NHẮN BẾP (CULINARY CHAT LOUNGE) */}
           <button
             onClick={toggleChat}
-            className={`relative hidden sm:inline-flex items-center gap-2 px-3.5 py-2.5 rounded-2xl transition-all duration-200 shadow-2xs hover:shadow-xs group cursor-pointer ${
+            aria-label="Nhắn tin"
+            className={`relative hidden sm:inline-flex min-h-10 min-w-10 items-center justify-center gap-2 px-2.5 min-[1800px]:px-3.5 py-2.5 rounded-xl transition-colors group cursor-pointer ${
               isAuthenticated
-                ? 'bg-white hover:bg-orange-50/80 border border-slate-200/90 hover:border-orange-300'
-                : 'bg-gradient-to-r from-orange-50/90 via-amber-50/80 to-white hover:from-orange-100/90 hover:to-amber-100/90 border border-orange-200/90 hover:border-orange-300 text-slate-800 hover:scale-[1.02] active:scale-95'
+                ? 'bg-surface hover:bg-orange-50/80 border border-slate-200/90 hover:border-orange-300'
+                : 'bg-brand-50 hover:bg-brand-100 border border-orange-200/90 hover:border-orange-300 text-slate-800 hover:scale-[1.02] active:scale-95'
             }`}
             title={isAuthenticated ? "Mở phòng chat giao lưu ẩm thực" : "Giao lưu bếp & Nhắn tin đầu bếp (Yêu cầu đăng nhập)"}
           >
             <div className="relative">
-              <MessageCircle className="w-4 h-4 text-orange-600 group-hover:scale-110 transition-transform" />
+              <MessageCircle className="w-4 h-4 text-slate-800 group-hover:scale-110 transition-transform" />
               {totalUnreadChats > 0 && (
-                <span className="absolute -top-2 -right-2 min-w-[18px] h-[18px] px-1 rounded-full bg-rose-500 text-white text-[10px] font-black flex items-center justify-center shadow-md shadow-rose-500/40 ring-2 ring-white">
-                  <span className="absolute -inset-0.5 rounded-full bg-rose-400 animate-ping opacity-50"></span>
+                <span className="absolute -top-2 -right-2 min-w-[18px] h-[18px] px-1 rounded-full bg-action text-on-action text-[10px] font-black flex items-center justify-center shadow-md shadow-brand-500/25 ring-2 ring-white">
+                  <span className="absolute -inset-0.5 rounded-full bg-brand-400 animate-ping opacity-50"></span>
                   <span className="relative z-10">{totalUnreadChats}</span>
                 </span>
               )}
@@ -312,31 +316,27 @@ export const UserHeader: React.FC<UserHeaderProps> = () => {
                 </span>
               )}
             </div>
-            <span className="hidden sm:inline font-bold text-xs text-slate-800 group-hover:text-orange-600 transition-colors">
+            <span className="hidden min-[1800px]:inline font-bold text-xs text-slate-800">
               Nhắn tin
             </span>
-            {!isAuthenticated && (
-              <span className="hidden lg:inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full bg-orange-500/10 text-orange-600 text-[9px] font-extrabold tracking-tight">
-                Live
-              </span>
-            )}
           </button>
 
           {/* NÚT GIỎ HÀNG ĐI CHỢ (NỔI BẬT Ở HEADER) */}
           <button
             onClick={toggleCart}
-            className="relative inline-flex items-center gap-2 px-3.5 py-2.5 rounded-2xl bg-white hover:bg-orange-50/80 border border-slate-200/90 hover:border-orange-300 transition-all duration-200 shadow-2xs hover:shadow-xs group"
+            aria-label="Mở giỏ đi chợ"
+            className="relative inline-flex min-h-10 min-w-10 items-center justify-center gap-2 px-2.5 min-[1800px]:px-3.5 py-2.5 rounded-xl bg-surface hover:bg-slate-100 border border-slate-200 transition-colors group"
             title="Mở giỏ hàng đi chợ"
           >
             <div className="relative">
-              <ShoppingCart className="w-4 h-4 text-orange-600 group-hover:scale-110 transition-transform" />
+              <ShoppingCart className="w-4 h-4 text-slate-800 group-hover:scale-110 transition-transform" />
               {cartTotalCount > 0 && (
-                <span className="absolute -top-2 -right-2 min-w-[18px] h-[18px] px-1 rounded-full bg-gradient-to-r from-orange-500 to-rose-500 text-white text-[10px] font-black flex items-center justify-center shadow-xs animate-in zoom-in-50 duration-200">
+                <span className="absolute -top-2 -right-2 min-w-[18px] h-[18px] px-1 rounded-full bg-action text-on-action text-[10px] font-black flex items-center justify-center shadow-xs animate-in zoom-in-50 duration-200">
                   {cartTotalCount}
                 </span>
               )}
             </div>
-            <span className="hidden sm:inline font-bold text-xs text-slate-800 group-hover:text-orange-600 transition-colors">
+            <span className="hidden min-[1800px]:inline font-bold text-xs text-slate-800">
               Giỏ đi chợ
             </span>
           </button>
@@ -344,18 +344,19 @@ export const UserHeader: React.FC<UserHeaderProps> = () => {
           {/* Nút Tải App: Hiện đại, thanh thoát */}
           <a
             href="/#download"
-            className="hidden sm:inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs text-slate-700 hover:text-orange-600 bg-white hover:bg-orange-50/70 border border-slate-200/90 hover:border-orange-300 transition-all shadow-xs"
+            aria-label="Tải ứng dụng SmartCook"
+            className="hidden sm:inline-flex min-h-10 min-w-10 items-center justify-center gap-2 px-2.5 min-[1800px]:px-3.5 py-2.5 rounded-xl font-bold text-xs text-slate-700 bg-surface hover:bg-slate-100 border border-slate-200 transition-colors"
             title="Tải ứng dụng SmartCook trên điện thoại di động"
           >
-            <Smartphone className="w-4 h-4 text-orange-500" />
-            <span>Tải App</span>
+            <Smartphone className="w-4 h-4 text-slate-700" />
+            <span className="hidden min-[1800px]:inline">Tải App</span>
           </a>
 
           {/* Dành cho Admin portal (nếu là Admin) */}
           {isAdmin && (
             <Link
               to="/admin/dashboard"
-              className="hidden lg:inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold text-purple-700 bg-purple-50 hover:bg-purple-100 border border-purple-200 transition-all"
+              className="hidden lg:inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold text-slate-900 bg-brand-50 hover:bg-brand-100 border border-brand-200 transition-all"
             >
               <ShieldCheck className="w-3.5 h-3.5" />
               <span>Admin</span>
@@ -367,16 +368,14 @@ export const UserHeader: React.FC<UserHeaderProps> = () => {
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setIsUserMenuOpen((prev) => !prev)}
-                className="flex items-center gap-2.5 p-1.5 pr-3 rounded-2xl bg-white hover:bg-orange-50/40 border border-slate-200/90 hover:border-orange-300 shadow-2xs hover:shadow-xs transition-all group"
+                className="flex items-center gap-2.5 p-1.5 pr-3 rounded-2xl bg-surface hover:bg-orange-50/40 border border-slate-200/90 hover:border-orange-300 shadow-2xs hover:shadow-xs transition-all group"
               >
                 <div className="relative shrink-0">
                   <img
                     src={getUserAvatarUrl(user)}
                     alt={user.fullName || user.firstName}
-                    onError={(e) => {
-                      (e.currentTarget as HTMLImageElement).src = '/facebook-default-avatar.svg';
-                    }}
-                    className="w-8 h-8 rounded-full object-cover border border-orange-300 group-hover:scale-105 transition-transform bg-[#E4E6EB]"
+                    onError={handleAvatarError}
+                    className="w-8 h-8 rounded-full object-cover border border-orange-300 group-hover:scale-105 transition-transform bg-slate-200"
                   />
                   <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-white shadow-2xs" />
                 </div>
@@ -385,7 +384,7 @@ export const UserHeader: React.FC<UserHeaderProps> = () => {
                   <span className="text-xs font-bold text-slate-800 leading-tight">
                     {user.fullName || `${user.lastName || ''} ${user.firstName || 'Bếp Trưởng'}`.trim()}
                   </span>
-                  <span className="text-[10px] text-orange-600 font-semibold">
+                  <span className="text-[10px] text-slate-800 font-semibold">
                     {user.level || 'Đầu Bếp'}
                   </span>
                 </div>
@@ -395,14 +394,14 @@ export const UserHeader: React.FC<UserHeaderProps> = () => {
 
               {/* Menu thả xuống */}
               {isUserMenuOpen && (
-                <div className="absolute right-0 mt-2 w-60 rounded-2xl bg-white shadow-xl border border-slate-100 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="absolute right-0 mt-2 w-60 rounded-2xl bg-surface shadow-xl border border-slate-100 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
                   <div className="px-4 py-3 border-b border-slate-100">
                     <p className="text-xs font-bold text-slate-900 truncate">
                       {user.fullName || `${user.lastName || ''} ${user.firstName || ''}`.trim()}
                     </p>
                     <p className="text-[11px] text-slate-400 truncate">{user.email}</p>
-                    <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-orange-50 text-orange-700 text-[10px] font-bold border border-orange-200/60">
-                      <Flame className="w-3 h-3 text-orange-500" />
+                    <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-orange-50 text-slate-900 text-[10px] font-bold border border-orange-200/60">
+                      <Flame className="w-3 h-3 text-slate-700" />
                       <span>{user.chefExp || 120} Điểm kinh nghiệm (XP)</span>
                     </div>
                   </div>
@@ -411,7 +410,7 @@ export const UserHeader: React.FC<UserHeaderProps> = () => {
                     <Link
                       to="/profile"
                       onClick={() => setIsUserMenuOpen(false)}
-                      className="flex items-center gap-3 px-4 py-2.5 text-xs font-semibold text-slate-700 hover:bg-orange-50 hover:text-orange-600 transition-colors"
+                      className="flex items-center gap-3 px-4 py-2.5 text-xs font-semibold text-slate-700 hover:bg-orange-50 hover:text-slate-800 transition-colors"
                     >
                       <UserIcon className="w-4 h-4 text-slate-400" />
                       <span>Hồ sơ & Khẩu vị</span>
@@ -420,7 +419,7 @@ export const UserHeader: React.FC<UserHeaderProps> = () => {
                     <Link
                       to="/recipes"
                       onClick={() => setIsUserMenuOpen(false)}
-                      className="flex items-center gap-3 px-4 py-2.5 text-xs font-semibold text-slate-700 hover:bg-orange-50 hover:text-orange-600 transition-colors"
+                      className="flex items-center gap-3 px-4 py-2.5 text-xs font-semibold text-slate-700 hover:bg-orange-50 hover:text-slate-800 transition-colors"
                     >
                       <Utensils className="w-4 h-4 text-slate-400" />
                       <span>Món ăn yêu thích</span>
@@ -430,9 +429,9 @@ export const UserHeader: React.FC<UserHeaderProps> = () => {
                       <Link
                         to="/admin/dashboard"
                         onClick={() => setIsUserMenuOpen(false)}
-                        className="flex items-center gap-3 px-4 py-2.5 text-xs font-semibold text-purple-700 hover:bg-purple-50 transition-colors"
+                        className="flex items-center gap-3 px-4 py-2.5 text-xs font-semibold text-slate-900 hover:bg-brand-50 transition-colors"
                       >
-                        <ShieldCheck className="w-4 h-4 text-purple-500" />
+                        <ShieldCheck className="w-4 h-4 text-slate-700" />
                         <span>Quản Trị Admin</span>
                       </Link>
                     )}
@@ -441,9 +440,9 @@ export const UserHeader: React.FC<UserHeaderProps> = () => {
                   <div className="pt-1 border-t border-slate-100">
                     <button
                       onClick={handleLogout}
-                      className="w-full flex items-center gap-3 px-4 py-2.5 text-xs font-bold text-rose-600 hover:bg-rose-50 transition-colors"
+                      className="w-full flex items-center gap-3 px-4 py-2.5 text-xs font-bold text-rose-700 hover:bg-rose-50 transition-colors"
                     >
-                      <LogOut className="w-4 h-4 text-rose-500" />
+                      <LogOut className="w-4 h-4 text-rose-700" />
                       <span>Đăng xuất</span>
                     </button>
                   </div>
@@ -455,15 +454,15 @@ export const UserHeader: React.FC<UserHeaderProps> = () => {
             <div className="hidden sm:flex items-center gap-2">
               <Link
                 to="/auth/login"
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-700 hover:text-orange-600 hover:bg-orange-100/50 transition-all"
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-700 hover:text-slate-800 hover:bg-orange-100/50 transition-all"
               >
-                <LogIn className="w-4 h-4 text-orange-500" />
+                <LogIn className="w-4 h-4 text-slate-700" />
                 <span>Đăng nhập</span>
               </Link>
 
               <Link
                 to="/auth/register"
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl font-bold text-xs sm:text-sm text-white bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 hover:from-orange-600 hover:to-amber-600 shadow-md shadow-orange-500/25 hover:scale-105 active:scale-95 transition-all duration-300"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl font-bold text-xs sm:text-sm text-on-action bg-action hover:bg-action-hover shadow-md shadow-orange-500/25 hover:scale-105 active:scale-95 transition-all duration-300"
               >
                 <UserPlus className="w-4 h-4" />
                 <span>Đăng ký</span>
@@ -474,8 +473,8 @@ export const UserHeader: React.FC<UserHeaderProps> = () => {
           {/* Nút Mobile Hamburger */}
           <button
             onClick={() => setIsMobileMenuOpen((prev) => !prev)}
-            className="2xl:hidden p-2 rounded-xl text-slate-600 hover:text-orange-600 hover:bg-orange-50 transition-colors"
-            aria-label="Toggle menu"
+            className="2xl:hidden p-2 rounded-xl text-slate-600 hover:text-slate-800 hover:bg-orange-50 transition-colors"
+            aria-label="Menu điều hướng" aria-expanded={isMobileMenuOpen}
           >
             {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -485,7 +484,7 @@ export const UserHeader: React.FC<UserHeaderProps> = () => {
 
       {/* MOBILE DRAWER */}
       {isMobileMenuOpen && (
-        <div className="2xl:hidden bg-[#faf8f5] border-b border-orange-200/80 px-4 pt-2 pb-6 space-y-3 animate-in slide-in-from-top-4 duration-200">
+        <div className="2xl:hidden bg-canvas border-b border-orange-200/80 px-4 pt-2 pb-6 space-y-3 animate-in slide-in-from-top-4 duration-200">
           <div className="space-y-1">
             {isAuthenticated ? (
               authenticatedNavItems.map((item) => {
@@ -495,10 +494,11 @@ export const UserHeader: React.FC<UserHeaderProps> = () => {
                   <Link
                     key={item.path}
                     to={item.path}
+                    aria-current={isActive ? "page" : undefined}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold transition-colors ${
                       isActive
-                        ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-md shadow-orange-500/25'
+                        ? 'bg-action text-on-action shadow-md shadow-orange-500/25'
                         : 'text-slate-800 hover:bg-orange-100/60'
                     }`}
                   >
@@ -514,6 +514,7 @@ export const UserHeader: React.FC<UserHeaderProps> = () => {
                 <Link to="/supermarkets" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-slate-800 hover:bg-orange-50"><MapPin className="w-4 h-4" />Siêu thị gần bạn</Link>
                 <Link
                   to="/"
+                  aria-current={location.pathname === '/' ? "page" : undefined}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold ${
                     location.pathname === '/' ? 'bg-orange-500 text-white' : 'text-slate-800 hover:bg-orange-50'
@@ -525,6 +526,7 @@ export const UserHeader: React.FC<UserHeaderProps> = () => {
 
                 <Link
                   to="/recipes"
+                  aria-current={location.pathname.startsWith('/recipes') ? "page" : undefined}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold ${
                     location.pathname.startsWith('/recipes') ? 'bg-orange-500 text-white' : 'text-slate-800 hover:bg-orange-50'
@@ -536,6 +538,7 @@ export const UserHeader: React.FC<UserHeaderProps> = () => {
 
                 <Link
                   to="/my-kitchen"
+                  aria-current={location.pathname === '/my-kitchen' ? "page" : undefined}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold ${
                     location.pathname === '/my-kitchen' ? 'bg-orange-500 text-white' : 'text-slate-800 hover:bg-orange-50'
@@ -545,11 +548,12 @@ export const UserHeader: React.FC<UserHeaderProps> = () => {
                     <Refrigerator className="w-4 h-4" />
                     <span>Tủ Lạnh Thông Minh</span>
                   </div>
-                  <Sparkles className="w-4 h-4 text-amber-500" />
+                  <Sparkles className="w-4 h-4" />
                 </Link>
 
                 <Link
                   to="/scan"
+                  aria-current={location.pathname === '/scan' ? "page" : undefined}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold ${
                     location.pathname === '/scan' ? 'bg-orange-500 text-white' : 'text-slate-800 hover:bg-orange-50'
@@ -559,11 +563,12 @@ export const UserHeader: React.FC<UserHeaderProps> = () => {
                     <Camera className="w-4 h-4" />
                     <span>AI Camera Scan</span>
                   </div>
-                  <Sparkles className="w-4 h-4 text-amber-500" />
+                  <Sparkles className="w-4 h-4" />
                 </Link>
 
                 <Link
                   to="/community"
+                  aria-current={location.pathname === '/community' ? "page" : undefined}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold ${
                     location.pathname === '/community' ? 'bg-orange-500 text-white' : 'text-slate-800 hover:bg-orange-50'
@@ -580,7 +585,7 @@ export const UserHeader: React.FC<UserHeaderProps> = () => {
             <a
               href="/#download"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-orange-700 bg-orange-100/80 hover:bg-orange-200"
+              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-slate-900 bg-orange-100/80 hover:bg-orange-200"
             >
               <Smartphone className="w-4 h-4" />
               <span>Tải App SmartCook Mobile</span>
@@ -589,9 +594,9 @@ export const UserHeader: React.FC<UserHeaderProps> = () => {
             {isAuthenticated ? (
               <button
                 onClick={handleLogout}
-                className="w-full flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-rose-600 hover:bg-rose-50"
+                className="w-full flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-rose-700 hover:bg-rose-50"
               >
-                <LogOut className="w-4 h-4 text-rose-500" />
+                <LogOut className="w-4 h-4 text-rose-700" />
                 <span>Đăng xuất</span>
               </button>
             ) : (
@@ -599,15 +604,15 @@ export const UserHeader: React.FC<UserHeaderProps> = () => {
                 <Link
                   to="/auth/login"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-slate-700 bg-white border border-slate-200"
+                  className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-slate-700 bg-surface border border-slate-200"
                 >
-                  <LogIn className="w-4 h-4 text-orange-500" />
+                  <LogIn className="w-4 h-4 text-slate-700" />
                   <span>Đăng nhập</span>
                 </Link>
                 <Link
                   to="/auth/register"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-orange-500 to-amber-500 shadow-md shadow-orange-500/25"
+                  className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-on-action bg-action shadow-md shadow-orange-500/25"
                 >
                   <UserPlus className="w-4 h-4" />
                   <span>Đăng ký</span>

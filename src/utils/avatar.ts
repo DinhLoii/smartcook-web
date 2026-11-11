@@ -1,6 +1,12 @@
 import type { User } from '../types';
+import type { SyntheticEvent } from 'react';
 
 export const FACEBOOK_DEFAULT_AVATAR_PATH = '/facebook-default-avatar.svg';
+
+export function handleAvatarError({ currentTarget }: SyntheticEvent<HTMLImageElement>) {
+  const fallback = new URL(FACEBOOK_DEFAULT_AVATAR_PATH, currentTarget.baseURI).href;
+  if (currentTarget.src !== fallback) currentTarget.src = fallback;
+}
 
 /**
  * Checks if a URL is from Google OAuth / Google Account

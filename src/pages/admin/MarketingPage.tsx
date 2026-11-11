@@ -70,7 +70,7 @@ export const MarketingPage: React.FC = () => {
       activeUsers: 840,
       monthlyRevenue: '41,160,000 đ',
       highlightColor: 'from-blue-500/10 to-indigo-50 border-indigo-200',
-      badgeColor: 'bg-indigo-50 text-indigo-700 border-indigo-200',
+      badgeColor: 'bg-indigo-50 text-slate-900 border-indigo-200',
       features: [
         'Không quảng cáo banner và video toàn app',
         'Quét nhận diện tủ lạnh Vision AI không giới hạn',
@@ -86,7 +86,7 @@ export const MarketingPage: React.FC = () => {
       isPopular: true,
       activeUsers: 1950,
       monthlyRevenue: '77,350,000 đ',
-      highlightColor: 'from-amber-500/15 via-orange-50/50 to-white border-amber-300 ring-2 ring-amber-400/30',
+      highlightColor: 'from-amber-500/15 via-orange-50/50 to-surface border-amber-300 ring-2 ring-amber-400/30',
       badgeColor: 'bg-amber-500 text-white shadow-xs',
       features: [
         'Tất cả quyền lợi của gói VIP tháng',
@@ -187,14 +187,14 @@ export const MarketingPage: React.FC = () => {
   return (
     <div className="space-y-4">
       {/* ================= THANH ĐIỀU HƯỚNG TÍNH NĂNG CHÍNH ================= */}
-      <div className="bg-white p-3.5 rounded-xl border border-slate-200/80 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div className="bg-surface p-3.5 rounded-xl border border-slate-200/80 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-3">
         <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto">
           <button
             onClick={() => setActiveTab('campaign_studio')}
             className={`px-4 py-2 rounded-lg text-xs font-bold transition-all shrink-0 flex items-center gap-2 ${
               activeTab === 'campaign_studio'
                 ? 'bg-gradient-to-r from-indigo-600 to-indigo-500 text-white shadow-sm shadow-indigo-500/20'
-                : 'bg-slate-50 text-slate-600 hover:bg-indigo-50/50 hover:text-indigo-600 border border-slate-200/60'
+                : 'bg-slate-50 text-slate-600 hover:bg-indigo-50/50 hover:text-slate-800 border border-slate-200/60'
             }`}
           >
             <Radio className="w-3.5 h-3.5 animate-pulse" />
@@ -206,7 +206,7 @@ export const MarketingPage: React.FC = () => {
             className={`px-4 py-2 rounded-lg text-xs font-bold transition-all shrink-0 flex items-center gap-2 ${
               activeTab === 'subscriptions'
                 ? 'bg-gradient-to-r from-indigo-600 to-indigo-500 text-white shadow-sm shadow-indigo-500/20'
-                : 'bg-slate-50 text-slate-600 hover:bg-indigo-50/50 hover:text-indigo-600 border border-slate-200/60'
+                : 'bg-slate-50 text-slate-600 hover:bg-indigo-50/50 hover:text-slate-800 border border-slate-200/60'
             }`}
           >
             <Crown className="w-3.5 h-3.5 text-amber-400" />
@@ -218,7 +218,7 @@ export const MarketingPage: React.FC = () => {
             className={`px-4 py-2 rounded-lg text-xs font-bold transition-all shrink-0 flex items-center gap-2 ${
               activeTab === 'promotions'
                 ? 'bg-gradient-to-r from-indigo-600 to-indigo-500 text-white shadow-sm shadow-indigo-500/20'
-                : 'bg-slate-50 text-slate-600 hover:bg-indigo-50/50 hover:text-indigo-600 border border-slate-200/60'
+                : 'bg-slate-50 text-slate-600 hover:bg-indigo-50/50 hover:text-slate-800 border border-slate-200/60'
             }`}
           >
             <Tag className="w-3.5 h-3.5" />
@@ -229,7 +229,7 @@ export const MarketingPage: React.FC = () => {
         {/* Thông số tổng quan hệ thống VIP */}
         <div className="flex items-center gap-2 text-xs">
           <div className="flex items-center gap-1.5 px-3 py-1 bg-amber-50/80 border border-amber-200/80 rounded-lg text-amber-800 font-medium">
-            <Crown className="w-3.5 h-3.5 text-amber-500" />
+            <Crown className="w-3.5 h-3.5 text-amber-700" />
             <span>Hội viên VIP đang hoạt động:</span>
             <strong className="font-extrabold font-['Outfit'] text-amber-900">3,410</strong>
           </div>
@@ -244,10 +244,10 @@ export const MarketingPage: React.FC = () => {
           {/* CỘT TRÁI (7 phần): Bảng điều khiển cấu hình & gửi Push Notification */}
           <div className="lg:col-span-7 space-y-4">
             {/* Thẻ soạn thảo chiến dịch */}
-            <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
+            <div className="bg-surface p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
               <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center border border-indigo-100">
+                  <div className="w-8 h-8 rounded-lg bg-indigo-50 text-slate-800 flex items-center justify-center border border-indigo-100">
                     <Send className="w-4 h-4" />
                   </div>
                   <div>
@@ -270,7 +270,7 @@ export const MarketingPage: React.FC = () => {
                         setNotifBody(tpl.body);
                         setNotifCategory(tpl.cat);
                       }}
-                      className="px-2 py-1 rounded-md text-[10.5px] font-bold bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 text-slate-700 transition-colors"
+                      className="px-2 py-1 rounded-md text-[10.5px] font-bold bg-slate-100 hover:bg-indigo-50 hover:text-slate-800 text-slate-700 transition-colors"
                     >
                       {tpl.label}
                     </button>
@@ -289,7 +289,7 @@ export const MarketingPage: React.FC = () => {
                     value={notifTitle}
                     onChange={(e) => setNotifTitle(e.target.value)}
                     placeholder="VD: 🍲 Gợi ý bữa trưa..."
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 transition-all"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-focus/30 focus:border-focus transition-all"
                   />
                 </div>
 
@@ -303,7 +303,7 @@ export const MarketingPage: React.FC = () => {
                     value={notifBody}
                     onChange={(e) => setNotifBody(e.target.value)}
                     placeholder="Nhập nội dung ngắn gọn, kích thích người dùng mở app nấu ăn..."
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 leading-relaxed focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 transition-all"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 leading-relaxed focus:outline-none focus:ring-2 focus:ring-focus/30 focus:border-focus transition-all"
                   />
                 </div>
 
@@ -329,7 +329,7 @@ export const MarketingPage: React.FC = () => {
                     </label>
                     <div className="w-full px-3.5 py-2.5 bg-emerald-50/80 border border-emerald-200 rounded-xl text-xs font-bold text-emerald-800 flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <Smartphone className="w-4 h-4 text-emerald-600" />
+                        <Smartphone className="w-4 h-4 text-emerald-700" />
                         <span>Chuyên Biệt Hệ Điều Hành Android</span>
                       </div>
                       <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-600 text-white font-extrabold">
@@ -398,7 +398,7 @@ export const MarketingPage: React.FC = () => {
                       value={scheduledTime}
                       onChange={(e) => setScheduledTime(e.target.value)}
                       placeholder="11:00 Hôm nay"
-                      className="px-3 py-1 bg-white border border-slate-200 rounded-lg text-xs font-bold text-indigo-700"
+                      className="px-3 py-1 bg-surface border border-slate-200 rounded-lg text-xs font-bold text-slate-900"
                     />
                   )}
                 </div>
@@ -418,7 +418,7 @@ export const MarketingPage: React.FC = () => {
             </div>
 
             {/* Bảng theo dõi lịch sử thông báo gần đây */}
-            <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs p-4 space-y-3">
+            <div className="bg-surface rounded-2xl border border-slate-200/80 shadow-xs p-4 space-y-3">
               <h4 className="font-extrabold text-xs text-slate-900 uppercase tracking-wider font-['Outfit'] flex items-center justify-between">
                 <span>Lịch Sử Phát Lệnh Push Gần Nhất</span>
                 <span className="text-[11px] text-slate-400 lowercase font-normal">
@@ -438,7 +438,7 @@ export const MarketingPage: React.FC = () => {
 
                     <div className="flex items-center gap-2 shrink-0">
                       {item.clicksCount !== undefined && item.clicksCount > 0 ? (
-                        <span className="text-[11px] font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded">
+                        <span className="text-[11px] font-bold text-slate-800 bg-indigo-50 px-2 py-0.5 rounded">
                           {item.clicksCount} lượt mở
                         </span>
                       ) : (
@@ -448,7 +448,7 @@ export const MarketingPage: React.FC = () => {
                         className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
                           item.status === 'sent'
                             ? 'bg-emerald-50 text-emerald-700'
-                            : 'bg-indigo-50 text-indigo-700'
+                            : 'bg-indigo-50 text-slate-900'
                         }`}
                       >
                         {item.status === 'sent' ? 'Đã phát' : 'Hẹn giờ'}
@@ -461,11 +461,11 @@ export const MarketingPage: React.FC = () => {
           </div>
 
           {/* CỘT PHẢI (5 phần): Chiếc điện thoại Android Live Simulator chân thực, màn hình sáng */}
-          <div className="lg:col-span-5 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col items-center justify-center space-y-4">
+          <div className="lg:col-span-5 bg-surface p-5 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col items-center justify-center space-y-4">
             <div className="w-full flex items-center justify-between border-b border-slate-100 pb-2.5">
               <span className="text-xs font-extrabold text-slate-900 uppercase tracking-wider font-['Outfit'] flex items-center gap-1.5">
-                <Smartphone className="w-4 h-4 text-emerald-600" />
-                <span>Mô Phỏng Android Phone (Live Preview Màn Hình Sáng)</span>
+                <Smartphone className="w-4 h-4 text-emerald-700" />
+                <span>Xem trước thông báo trên Android</span>
               </span>
               <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-extrabold border border-emerald-200">
                 Android 15 • Realtime
@@ -473,16 +473,16 @@ export const MarketingPage: React.FC = () => {
             </div>
 
             {/* Chiếc điện thoại Android chân thực viền kim loại bạc, màn hình sáng rực rỡ */}
-            <div className="relative w-[290px] sm:w-[320px] h-[610px] bg-slate-900 rounded-[38px] p-2.5 shadow-2xl border-4 border-slate-300 ring-1 ring-slate-400/50 flex flex-col justify-between select-none">
+            <div className="relative w-[290px] sm:w-[320px] h-[610px] bg-panel-900 rounded-[38px] p-2.5 shadow-2xl border-4 border-slate-300 ring-1 ring-slate-400/50 flex flex-col justify-between select-none">
               {/* Vỏ màn hình bên trong với hình nền sáng hiện đại */}
-              <div className="w-full h-full bg-gradient-to-b from-sky-50 via-indigo-50/40 to-slate-100 rounded-[30px] overflow-hidden flex flex-col justify-between relative border border-slate-200 shadow-inner">
+              <div className="w-full h-full bg-canvas rounded-[30px] overflow-hidden flex flex-col justify-between relative border border-slate-200 shadow-inner">
                 {/* 1. Android Status Bar trên cùng */}
                 <div className="px-5 pt-3 pb-1 flex items-center justify-between text-slate-800 text-[11px] font-bold shrink-0 z-10">
                   {/* Đồng hồ góc trái Android */}
                   <span className="font-['Outfit'] tracking-tight">11:30</span>
 
                   {/* Nốt ruồi camera đục lỗ chính giữa (Punch hole camera) */}
-                  <div className="w-3.5 h-3.5 rounded-full bg-slate-900 border border-slate-700 shadow-xs" />
+                  <div className="w-3.5 h-3.5 rounded-full bg-panel-900 border border-slate-700 shadow-xs" />
 
                   {/* Icon sóng, wifi, pin góc phải */}
                   <div className="flex items-center gap-1.5 text-slate-700">
@@ -493,7 +493,7 @@ export const MarketingPage: React.FC = () => {
                     </svg>
                     {/* Battery icon */}
                     <div className="w-5 h-2.5 border border-slate-700 rounded-xs p-0.5 flex items-center">
-                      <div className="w-full h-full bg-slate-800 rounded-2xs" />
+                      <div className="w-full h-full bg-panel-800 rounded-2xs" />
                     </div>
                   </div>
                 </div>
@@ -512,7 +512,7 @@ export const MarketingPage: React.FC = () => {
 
                 {/* 3. Khung Thông Báo Chuẩn Android Material You (Trắng sáng, nổi bật, font chữ rõ nét) */}
                 <div className="px-3.5 my-auto space-y-2.5 z-10">
-                  <div className="bg-white/95 backdrop-blur-md rounded-2xl p-3.5 border border-indigo-100/80 shadow-md shadow-slate-200/80 space-y-2 transition-all hover:scale-[1.01]">
+                  <div className="bg-surface rounded-2xl p-3.5 border border-slate-200 shadow-md space-y-2 transition-transform hover:scale-[1.01]">
                     {/* Header thông báo app Android */}
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
@@ -522,7 +522,7 @@ export const MarketingPage: React.FC = () => {
                         <span className="text-xs font-bold text-slate-900 tracking-tight flex items-center gap-1">
                           SmartCook
                           <span className="w-1 h-1 rounded-full bg-slate-400" />
-                          <span className="text-[10px] text-indigo-600 font-semibold">Trợ Lý Bếp</span>
+                          <span className="text-[10px] text-slate-800 font-semibold">Trợ Lý Bếp</span>
                         </span>
                       </div>
                       <span className="text-[10.5px] text-slate-400 font-medium">Vừa xong</span>
@@ -558,7 +558,7 @@ export const MarketingPage: React.FC = () => {
 
                   {/* Hướng dẫn người dùng */}
                   <div className="text-center">
-                    <span className="text-[10.5px] text-slate-500 bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full border border-slate-200/60 font-semibold shadow-2xs inline-block">
+                    <span className="text-[10.5px] text-slate-500 bg-surface/80 backdrop-blur-sm px-3 py-1 rounded-full border border-slate-200/60 font-semibold shadow-2xs inline-block">
                       Chạm để mở công thức nấu ăn trực tiếp
                     </span>
                   </div>
@@ -567,10 +567,10 @@ export const MarketingPage: React.FC = () => {
                 {/* 4. Đáy màn hình Android: Shortcut máy ảnh / cuộc gọi & Thanh gạch cử chỉ (Gesture bar) */}
                 <div className="pb-3 px-6 flex flex-col items-center gap-2">
                   <div className="w-full flex items-center justify-between text-slate-500 text-xs">
-                    <div className="w-8 h-8 rounded-full bg-white/80 border border-slate-200 flex items-center justify-center shadow-xs text-slate-700">
+                    <div className="w-8 h-8 rounded-full bg-surface/80 border border-slate-200 flex items-center justify-center shadow-xs text-slate-700">
                       📞
                     </div>
-                    <div className="w-8 h-8 rounded-full bg-white/80 border border-slate-200 flex items-center justify-center shadow-xs text-slate-700">
+                    <div className="w-8 h-8 rounded-full bg-surface/80 border border-slate-200 flex items-center justify-center shadow-xs text-slate-700">
                       📷
                     </div>
                   </div>
@@ -597,7 +597,7 @@ export const MarketingPage: React.FC = () => {
             {subscriptionTiers.map((tier) => (
               <div
                 key={tier.id}
-                className={`bg-white rounded-2xl border p-5 flex flex-col justify-between relative shadow-xs transition-all hover:shadow-md ${tier.highlightColor}`}
+                className={`bg-surface rounded-2xl border p-5 flex flex-col justify-between relative shadow-xs transition-all hover:shadow-md ${tier.highlightColor}`}
               >
                 {tier.isPopular && (
                   <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3.5 py-0.5 rounded-full bg-amber-500 text-white text-[10.5px] font-extrabold shadow-sm flex items-center gap-1">
@@ -627,7 +627,7 @@ export const MarketingPage: React.FC = () => {
                     </span>
                     {tier.features.map((f, fIdx) => (
                       <div key={fIdx} className="flex items-center gap-2 text-xs text-slate-700">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700 shrink-0" />
                         <span>{f}</span>
                       </div>
                     ))}
@@ -637,7 +637,7 @@ export const MarketingPage: React.FC = () => {
                 <div className="pt-4 border-t border-slate-200/60 mt-5 space-y-3">
                   <div className="flex items-center justify-between text-xs">
                     <span className="text-slate-500">Người dùng kích hoạt:</span>
-                    <strong className="text-indigo-900 font-bold font-['Outfit'] text-sm">
+                    <strong className="text-slate-900 font-bold font-['Outfit'] text-sm">
                       {tier.activeUsers} tài khoản
                     </strong>
                   </div>
@@ -655,7 +655,7 @@ export const MarketingPage: React.FC = () => {
                       setTierPriceInput(tier.price);
                       setTierDiscountInput(tier.badge);
                     }}
-                    className="w-full py-2 bg-white hover:bg-slate-50 text-indigo-700 border border-slate-200 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-2xs active:scale-95"
+                    className="w-full py-2 bg-surface hover:bg-slate-50 text-slate-900 border border-slate-200 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-2xs active:scale-95"
                   >
                     <Edit className="w-3.5 h-3.5" />
                     <span>Cấu Hình Bảng Giá & Ưu Đãi</span>
@@ -672,11 +672,11 @@ export const MarketingPage: React.FC = () => {
       ========================================================================== */}
       {activeTab === 'promotions' && (
         <div className="space-y-4">
-          <div className="bg-white rounded-xl border border-slate-200/80 shadow-xs overflow-hidden">
+          <div className="bg-surface rounded-xl border border-slate-200/80 shadow-xs overflow-hidden">
             <div className="p-4 border-b border-slate-100 flex items-center justify-between">
               <div>
                 <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider font-['Outfit'] flex items-center gap-2">
-                  <Tag className="w-4 h-4 text-indigo-600" />
+                  <Tag className="w-4 h-4 text-slate-800" />
                   <span>Danh Sách Mã Khuyến Mãi Kích Hoạt VIP</span>
                 </h3>
                 <p className="text-xs text-slate-400 mt-0.5">
@@ -700,7 +700,7 @@ export const MarketingPage: React.FC = () => {
                 <tbody className="divide-y divide-slate-100 text-xs">
                   {promoCodes.map((promo, idx) => (
                     <tr key={idx} className="hover:bg-indigo-50/30 transition-colors">
-                      <td className="py-3.5 px-5 font-mono font-extrabold text-indigo-700 whitespace-nowrap">
+                      <td className="py-3.5 px-5 font-mono font-extrabold text-slate-900 whitespace-nowrap">
                         <span className="px-2.5 py-1 bg-indigo-50 border border-indigo-200 rounded-lg">
                           {promo.code}
                         </span>
@@ -734,11 +734,11 @@ export const MarketingPage: React.FC = () => {
 
       {/* MODAL CẤU HÌNH BẢNG GIÁ */}
       {editingTier && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs animate-in fade-in duration-200">
-          <div className="bg-white max-w-md w-full rounded-2xl border border-slate-200 shadow-2xl p-6 space-y-4 animate-in zoom-in-95 duration-200 text-slate-800">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-panel-950/60 backdrop-blur-xs animate-in fade-in duration-200">
+          <div className="bg-surface max-w-md w-full rounded-2xl border border-slate-200 shadow-2xl p-6 space-y-4 animate-in zoom-in-95 duration-200 text-slate-800">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <h3 className="text-sm font-extrabold text-slate-900 font-['Outfit'] flex items-center gap-1.5">
-                <Crown className="w-4 h-4 text-amber-500" />
+                <Crown className="w-4 h-4 text-amber-700" />
                 <span>Cấu Hình Gói {editingTier.name}</span>
               </h3>
               <button onClick={() => setEditingTier(null)} className="text-slate-400 hover:text-slate-600">

@@ -1,3 +1,4 @@
+import { handleAvatarError } from '../../utils/avatar';
 import React, { useState, useMemo, useEffect } from 'react';
 import {
   Search,
@@ -252,14 +253,14 @@ export const UserManagementPage: React.FC = () => {
   return (
     <div className="space-y-4">
       {/* ================= THANH ĐIỀU HƯỚNG TAB CHÍNH + THẺ CHỈ SỐ BẮT MẮT ================= */}
-      <div className="bg-white p-3.5 rounded-xl border border-slate-200/80 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div className="bg-surface p-3.5 rounded-xl border border-slate-200/80 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-3">
         <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto">
           <button
             onClick={() => setActiveTab('users')}
             className={`px-4 py-2 rounded-lg text-xs font-bold transition-all shrink-0 flex items-center gap-2 ${
               activeTab === 'users'
                 ? 'bg-gradient-to-r from-indigo-600 to-indigo-500 text-white shadow-sm shadow-indigo-500/20'
-                : 'bg-slate-50 text-slate-600 hover:bg-indigo-50/50 hover:text-indigo-600 border border-slate-200/60'
+                : 'bg-slate-50 text-slate-600 hover:bg-indigo-50/50 hover:text-slate-800 border border-slate-200/60'
             }`}
           >
             <Smartphone className="w-3.5 h-3.5" />
@@ -278,7 +279,7 @@ export const UserManagementPage: React.FC = () => {
             className={`px-4 py-2 rounded-lg text-xs font-bold transition-all shrink-0 flex items-center gap-2 ${
               activeTab === 'rbac'
                 ? 'bg-gradient-to-r from-indigo-600 to-indigo-500 text-white shadow-sm shadow-indigo-500/20'
-                : 'bg-slate-50 text-slate-600 hover:bg-indigo-50/50 hover:text-indigo-600 border border-slate-200/60'
+                : 'bg-slate-50 text-slate-600 hover:bg-indigo-50/50 hover:text-slate-800 border border-slate-200/60'
             }`}
           >
             <ShieldCheck className="w-3.5 h-3.5" />
@@ -295,21 +296,21 @@ export const UserManagementPage: React.FC = () => {
 
         {/* Tóm tắt nhanh số liệu (Indigo & Amber & Trạng thái bảo mật) */}
         <div className="flex items-center gap-2 text-xs flex-wrap">
-          <div className="flex items-center gap-1.5 px-2.5 py-1 bg-indigo-50/70 border border-indigo-100 rounded-lg text-indigo-700 font-medium">
+          <div className="flex items-center gap-1.5 px-2.5 py-1 bg-indigo-50/70 border border-indigo-100 rounded-lg text-slate-900 font-medium">
             <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />
             <span>Hoạt động:</span>
             <strong className="font-extrabold font-['Outfit']">{activeUsersCount}</strong>
           </div>
 
           <div className="flex items-center gap-1.5 px-2.5 py-1 bg-amber-50/80 border border-amber-200/70 rounded-lg text-amber-800 font-medium">
-            <Crown className="w-3 h-3 text-amber-500" />
+            <Crown className="w-3 h-3 text-amber-700" />
             <span>Hội viên VIP:</span>
             <strong className="font-extrabold font-['Outfit']">{vipUsersCount}</strong>
           </div>
 
           {(suspendedUsersCount > 0 || bannedUsersCount > 0) && (
             <div className="flex items-center gap-1 px-2.5 py-1 bg-rose-50 border border-rose-200 rounded-lg text-rose-700 font-bold">
-              <Lock className="w-3 h-3 text-rose-500" />
+              <Lock className="w-3 h-3 text-rose-700" />
               <span>Khóa/Cấm:</span>
               <strong className="font-['Outfit']">{suspendedUsersCount + bannedUsersCount}</strong>
             </div>
@@ -333,17 +334,17 @@ export const UserManagementPage: React.FC = () => {
       {activeTab === 'users' && (
         <div className="space-y-4">
           {/* Thanh công cụ tìm kiếm & bộ lọc */}
-          <div className="bg-white p-4 rounded-xl border border-slate-200/80 shadow-xs space-y-3">
+          <div className="bg-surface p-4 rounded-xl border border-slate-200/80 shadow-xs space-y-3">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
               {/* Ô tìm kiếm */}
               <div className="relative w-full sm:w-80">
-                <Search className="w-4 h-4 text-indigo-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <Search className="w-4 h-4 text-slate-700 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
                   placeholder="Tìm theo tên, email, khẩu vị..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-9 pr-3.5 py-2 bg-slate-50/80 border border-slate-200 rounded-lg text-xs font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 transition-all"
+                  className="w-full pl-9 pr-3.5 py-2 bg-slate-50/80 border border-slate-200 rounded-lg text-xs font-medium focus:outline-none focus:ring-2 focus:ring-focus/30 focus:border-focus transition-all"
                 />
               </div>
 
@@ -402,7 +403,7 @@ export const UserManagementPage: React.FC = () => {
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as any)}
-                  className="px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 outline-none cursor-pointer focus:ring-1 focus:ring-indigo-500"
+                  className="px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 outline-none cursor-pointer focus:ring-1 focus:ring-focus"
                 >
                   <option value="newest">Mới nhất</option>
                   <option value="posts">Nhiều bài đăng</option>
@@ -414,7 +415,7 @@ export const UserManagementPage: React.FC = () => {
           </div>
 
           {/* BẢNG DỮ LIỆU TABLE CHỮ NHẬT DÀI */}
-          <div className="bg-white rounded-xl border border-slate-200/80 shadow-xs overflow-hidden">
+          <div className="bg-surface rounded-xl border border-slate-200/80 shadow-xs overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
@@ -445,6 +446,7 @@ export const UserManagementPage: React.FC = () => {
                               <img
                                 src={u.avatar}
                                 alt={u.fullName}
+                                onError={handleAvatarError}
                                 className="w-9 h-9 rounded-lg object-cover border border-slate-200 shadow-2xs group-hover:border-indigo-300 transition-colors"
                               />
                               {u.tier === 'VIP Premium' && (
@@ -454,7 +456,7 @@ export const UserManagementPage: React.FC = () => {
                               )}
                             </div>
                             <div>
-                              <span className="font-bold text-slate-900 group-hover:text-indigo-600 transition-colors block leading-tight">
+                              <span className="font-bold text-slate-900 group-hover:text-slate-800 transition-colors block leading-tight">
                                 {u.fullName}
                               </span>
                               <span className="text-[11px] text-slate-400 font-mono block mt-0.5">
@@ -466,7 +468,7 @@ export const UserManagementPage: React.FC = () => {
 
                         {/* Cột 2: Khẩu vị & Chế độ ăn (SRS Module 2: Personalization) */}
                         <td className="py-3.5 px-4 whitespace-nowrap">
-                          <span className="inline-flex items-center px-2.5 py-1 rounded-md bg-indigo-50 text-indigo-700 font-semibold text-[11px] border border-indigo-100/60">
+                          <span className="inline-flex items-center px-2.5 py-1 rounded-md bg-indigo-50 text-slate-900 font-semibold text-[11px] border border-indigo-100/60">
                             {u.dietPreference}
                           </span>
                         </td>
@@ -474,7 +476,7 @@ export const UserManagementPage: React.FC = () => {
                         {/* Cột 3: Cấp độ huy hiệu đầu bếp */}
                         <td className="py-3.5 px-4 whitespace-nowrap">
                           <div className="flex items-center gap-1.5">
-                            <ChefHat className="w-3.5 h-3.5 text-amber-500" />
+                            <ChefHat className="w-3.5 h-3.5 text-amber-700" />
                             <select
                               value={u.badge}
                               onChange={(e) =>
@@ -507,7 +509,7 @@ export const UserManagementPage: React.FC = () => {
                         {/* Cột 5: Hoạt động */}
                         <td className="py-3.5 px-4 whitespace-nowrap text-slate-600 text-[11px]">
                           <div>
-                            <strong className="text-indigo-600 font-['Outfit'] font-bold">{u.postsCount}</strong> bài đăng
+                            <strong className="text-slate-800 font-['Outfit'] font-bold">{u.postsCount}</strong> bài đăng
                           </div>
                           <div className="text-slate-400">
                             <strong className="text-slate-700 font-['Outfit'] font-bold">{u.savedRecipesCount}</strong> món đã lưu
@@ -524,13 +526,13 @@ export const UserManagementPage: React.FC = () => {
                           )}
                           {u.status === 'suspended' && (
                             <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[10.5px] font-bold text-amber-700 bg-amber-50 border border-amber-200/70">
-                              <Lock className="w-3 h-3 text-amber-600" />
+                              <Lock className="w-3 h-3 text-amber-700" />
                               Tạm khóa
                             </span>
                           )}
                           {u.status === 'banned' && (
                             <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[10.5px] font-bold text-rose-700 bg-rose-50 border border-rose-200/70">
-                              <Ban className="w-3 h-3 text-rose-600" />
+                              <Ban className="w-3 h-3 text-rose-700" />
                               Bị cấm
                             </span>
                           )}
@@ -542,7 +544,7 @@ export const UserManagementPage: React.FC = () => {
                             {/* Nút Xem Hồ Sơ */}
                             <button
                               onClick={() => setViewingUser(u)}
-                              className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-indigo-600 bg-indigo-50 hover:bg-indigo-600 hover:text-white font-bold text-xs transition-all active:scale-95 shadow-2xs"
+                              className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-slate-800 bg-indigo-50 hover:bg-indigo-600 hover:text-white font-bold text-xs transition-all active:scale-95 shadow-2xs"
                               title="Xem toàn bộ hồ sơ thành viên"
                             >
                               <Eye className="w-3.5 h-3.5" />
@@ -552,7 +554,7 @@ export const UserManagementPage: React.FC = () => {
                             {/* Nút Sửa Thông Tin */}
                             <button
                               onClick={() => handleOpenEditModal(u)}
-                              className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-slate-700 bg-slate-100 hover:bg-slate-900 hover:text-white font-bold text-xs transition-all active:scale-95"
+                              className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-slate-700 bg-slate-100 hover:bg-panel-900 hover:text-white font-bold text-xs transition-all active:scale-95"
                               title="Chỉnh sửa thông tin thành viên"
                             >
                               <Edit className="w-3.5 h-3.5" />
@@ -605,7 +607,7 @@ export const UserManagementPage: React.FC = () => {
                                     reason: '',
                                   })
                                 }
-                                className="p-1.5 rounded-lg text-rose-600 bg-rose-50 hover:bg-rose-600 hover:text-white border border-rose-200/80 transition-all active:scale-95"
+                                className="p-1.5 rounded-lg text-rose-700 bg-rose-50 hover:bg-rose-600 hover:text-white border border-rose-200/80 transition-all active:scale-95"
                                 title="Chặn cấm tài khoản vĩnh viễn"
                               >
                                 <Ban className="w-3.5 h-3.5" />
@@ -659,7 +661,7 @@ export const UserManagementPage: React.FC = () => {
                 role: 'Super Admin',
                 desc: 'Toàn quyền cấu hình máy chủ, API keys, quản lý thanh toán VIP.',
                 count: staff.filter((s) => s.role === 'Super Admin').length,
-                theme: 'from-indigo-500/10 to-indigo-50 border-indigo-200/80 text-indigo-700',
+                theme: 'from-indigo-500/10 to-indigo-50 border-indigo-200/80 text-slate-900',
                 badgeBg: 'bg-indigo-600 text-white',
               },
               {
@@ -673,7 +675,7 @@ export const UserManagementPage: React.FC = () => {
                 role: 'Community Moderator',
                 desc: 'Duyệt bài đăng, kiểm duyệt báo cáo vi phạm, quản lý hashtag xu hướng.',
                 count: staff.filter((s) => s.role === 'Community Moderator').length,
-                theme: 'from-indigo-500/10 to-indigo-50 border-indigo-200/80 text-indigo-700',
+                theme: 'from-indigo-500/10 to-indigo-50 border-indigo-200/80 text-slate-900',
                 badgeBg: 'bg-indigo-600 text-white',
               },
               {
@@ -700,10 +702,10 @@ export const UserManagementPage: React.FC = () => {
           </div>
 
           {/* Table danh sách nhân sự quản trị */}
-          <div className="bg-white rounded-xl border border-slate-200/80 shadow-xs overflow-hidden">
+          <div className="bg-surface rounded-xl border border-slate-200/80 shadow-xs overflow-hidden">
             <div className="p-4 border-b border-slate-100 flex items-center justify-between">
               <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider font-['Outfit'] flex items-center gap-2">
-                <Shield className="w-4 h-4 text-indigo-600" />
+                <Shield className="w-4 h-4 text-slate-800" />
                 <span>Danh Sách Nhân Sự Đang Được Trao Quyền Hệ Thống</span>
               </h3>
               <span className="text-xs text-slate-400">Phân quyền theo vai trò (RBAC)</span>
@@ -725,7 +727,7 @@ export const UserManagementPage: React.FC = () => {
                     <tr key={st.id} className="hover:bg-indigo-50/30 transition-colors">
                       <td className="py-3.5 px-5 whitespace-nowrap">
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-xs font-['Outfit'] border border-indigo-200">
+                          <div className="w-8 h-8 rounded-lg bg-indigo-100 text-slate-900 flex items-center justify-center font-bold text-xs font-['Outfit'] border border-indigo-200">
                             {st.name.substring(0, 2).toUpperCase()}
                           </div>
                           <div>
@@ -739,7 +741,7 @@ export const UserManagementPage: React.FC = () => {
                         <span
                           className={`inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold ${
                             st.role === 'Super Admin'
-                              ? 'bg-indigo-100 text-indigo-700 border border-indigo-200'
+                              ? 'bg-indigo-100 text-slate-900 border border-indigo-200'
                               : st.role === 'Content Editor'
                               ? 'bg-amber-100 text-amber-800 border border-amber-200'
                               : 'bg-slate-100 text-slate-700 border border-slate-200'
@@ -763,7 +765,7 @@ export const UserManagementPage: React.FC = () => {
                       <td className="py-3.5 px-5 text-right whitespace-nowrap">
                         <button
                           onClick={() => alert(`Chỉnh sửa phân quyền cho ${st.name}`)}
-                          className="px-3 py-1.5 bg-indigo-50 hover:bg-indigo-600 hover:text-white text-indigo-700 text-xs font-bold rounded-lg transition-all active:scale-95 shadow-2xs"
+                          className="px-3 py-1.5 bg-indigo-50 hover:bg-indigo-600 hover:text-white text-slate-900 text-xs font-bold rounded-lg transition-all active:scale-95 shadow-2xs"
                         >
                           Đổi Quyền
                         </button>
@@ -785,13 +787,13 @@ export const UserManagementPage: React.FC = () => {
       {viewingUser && (() => {
         const currentUserData = users.find((u) => u.id === viewingUser.id) || viewingUser;
         return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-slate-950/65 backdrop-blur-xs animate-in fade-in duration-200">
-          <div className="bg-white w-full max-w-6xl h-[92vh] rounded-2xl border border-slate-200 shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 flex flex-col text-slate-800">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-panel-950/65 backdrop-blur-xs animate-in fade-in duration-200">
+          <div className="bg-surface w-full max-w-6xl h-[92vh] rounded-2xl border border-slate-200 shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 flex flex-col text-slate-800">
             {/* Topbar Header */}
-            <div className="px-6 py-3.5 border-b border-slate-200 flex items-center justify-between bg-gradient-to-r from-slate-50 via-white to-indigo-50/40 shrink-0">
+            <div className="px-6 py-3.5 border-b border-slate-200 flex items-center justify-between bg-gradient-to-r from-slate-50 via-surface to-indigo-50/40 shrink-0">
               <div className="flex items-center gap-3 text-xs">
-                <span className="font-extrabold text-indigo-900 uppercase font-['Outfit'] tracking-wider flex items-center gap-2">
-                  <UserCheck className="w-4 h-4 text-indigo-600" />
+                <span className="font-extrabold text-slate-900 uppercase font-['Outfit'] tracking-wider flex items-center gap-2">
+                  <UserCheck className="w-4 h-4 text-slate-800" />
                   <span>Hồ Sơ Toàn Diện Thành Viên #{viewingUser.id}</span>
                 </span>
                 <span className="text-slate-300">|</span>
@@ -799,7 +801,7 @@ export const UserManagementPage: React.FC = () => {
                   Phân hạng VIP:{' '}
                   <strong
                     className={
-                      viewingUser.tier === 'VIP Premium' ? 'text-amber-600 font-extrabold' : 'text-slate-800 font-bold'
+                      viewingUser.tier === 'VIP Premium' ? 'text-amber-700 font-extrabold' : 'text-slate-800 font-bold'
                     }
                   >
                     {viewingUser.tier}
@@ -823,12 +825,13 @@ export const UserManagementPage: React.FC = () => {
               {/* CỘT TRÁI (5/12): THÔNG TIN TÀI KHOẢN & ĐẶC TÍNH SỨC KHỎE TRÊN APP */}
               <div className="lg:col-span-5 border-r border-slate-200 p-6 overflow-y-auto space-y-4 bg-slate-50/50 text-xs">
                 {/* 1. Header Card Cá Nhân */}
-                <div className="p-4 bg-white rounded-xl border border-slate-200/90 shadow-2xs space-y-3">
+                <div className="p-4 bg-surface rounded-xl border border-slate-200/90 shadow-2xs space-y-3">
                   <div className="flex items-center gap-3.5">
                     <div className="relative shrink-0">
                       <img
                         src={viewingUser.avatar}
                         alt={viewingUser.fullName}
+                        onError={handleAvatarError}
                         className="w-16 h-16 rounded-xl object-cover border-2 border-indigo-100 shadow-sm"
                       />
                       {viewingUser.tier === 'VIP Premium' && (
@@ -857,7 +860,7 @@ export const UserManagementPage: React.FC = () => {
                   <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
                     <div className="flex items-center gap-1.5">
                       <span className="px-2 py-0.5 rounded-md bg-amber-50 text-amber-900 border border-amber-200 font-extrabold text-[10.5px] flex items-center gap-1">
-                        <ChefHat className="w-3 h-3 text-amber-600" />
+                        <ChefHat className="w-3 h-3 text-amber-700" />
                         <span>{viewingUser.badge}</span>
                       </span>
                       <span
@@ -880,9 +883,9 @@ export const UserManagementPage: React.FC = () => {
                 </div>
 
                 {/* 2. Thông tin tài khoản chi tiết */}
-                <div className="p-4 bg-white rounded-xl border border-slate-200/90 shadow-2xs space-y-2.5">
-                  <span className="text-[11px] font-extrabold text-indigo-900 uppercase tracking-wider flex items-center gap-1.5 font-['Outfit']">
-                    <Shield className="w-3.5 h-3.5 text-indigo-600" />
+                <div className="p-4 bg-surface rounded-xl border border-slate-200/90 shadow-2xs space-y-2.5">
+                  <span className="text-[11px] font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-1.5 font-['Outfit']">
+                    <Shield className="w-3.5 h-3.5 text-slate-800" />
                     <span>Dữ Liệu Đăng Ký Tài Khoản</span>
                   </span>
                   <div className="space-y-1.5 divide-y divide-slate-100 text-xs">
@@ -892,7 +895,7 @@ export const UserManagementPage: React.FC = () => {
                     </div>
                     <div className="flex justify-between items-center pt-1.5">
                       <span className="text-slate-400">Gói thành viên:</span>
-                      <span className="font-extrabold text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
+                      <span className="font-extrabold text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
                         {viewingUser.tier}
                       </span>
                     </div>
@@ -903,7 +906,7 @@ export const UserManagementPage: React.FC = () => {
                     <div className="flex justify-between items-center pt-1.5">
                       <span className="text-slate-400">Thiết bị truy cập:</span>
                       <span className="font-semibold text-slate-800 flex items-center gap-1">
-                        <Smartphone className="w-3.5 h-3.5 text-indigo-600" />
+                        <Smartphone className="w-3.5 h-3.5 text-slate-800" />
                         <span>Android App (SmartCook Mobile)</span>
                       </span>
                     </div>
@@ -911,9 +914,9 @@ export const UserManagementPage: React.FC = () => {
                 </div>
 
                 {/* 3. Dữ liệu cá nhân hóa ăn uống & sức khỏe trên App (SRS Module 2) */}
-                <div className="p-4 bg-white rounded-xl border border-slate-200/90 shadow-2xs space-y-3">
-                  <span className="text-[11px] font-extrabold text-indigo-900 uppercase tracking-wider flex items-center gap-1.5 font-['Outfit']">
-                    <Target className="w-3.5 h-3.5 text-indigo-600" />
+                <div className="p-4 bg-surface rounded-xl border border-slate-200/90 shadow-2xs space-y-3">
+                  <span className="text-[11px] font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-1.5 font-['Outfit']">
+                    <Target className="w-3.5 h-3.5 text-slate-800" />
                     <span>Hồ Sơ Dinh Dưỡng & Khẩu Vị Trên App</span>
                   </span>
                   <div className="space-y-2 text-xs">
@@ -973,20 +976,20 @@ export const UserManagementPage: React.FC = () => {
                 {/* Nút chỉnh sửa hồ sơ */}
                 <button
                   onClick={() => handleOpenEditModal(viewingUser)}
-                  className="w-full py-2.5 bg-white hover:bg-slate-50 border border-slate-200 text-slate-800 font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 transition-all shadow-2xs active:scale-95"
+                  className="w-full py-2.5 bg-surface hover:bg-slate-50 border border-slate-200 text-slate-800 font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 transition-all shadow-2xs active:scale-95"
                 >
-                  <Edit className="w-3.5 h-3.5 text-indigo-600" />
+                  <Edit className="w-3.5 h-3.5 text-slate-800" />
                   <span>Chỉnh Sửa Thông Tin Thành Viên</span>
                 </button>
               </div>
 
               {/* CỘT PHẢI (7/12): THỐNG KÊ VẬN HÀNH & CÔNG CỤ QUẢN TRỊ CHUYÊN NGHIỆP */}
-              <div className="lg:col-span-7 p-6 overflow-y-auto space-y-4 bg-white text-xs">
+              <div className="lg:col-span-7 p-6 overflow-y-auto space-y-4 bg-surface text-xs">
                 {/* 1. BẢNG DỮ LIỆU SỬ DỤNG TÍNH NĂNG TRÊN APP MOBILE (THIẾT KẾ CHUẨN DATA TABLE QUẢN LÝ) */}
                 <div className="border border-slate-200 rounded-xl overflow-hidden shadow-xs">
                   <div className="px-4 py-2.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
                     <span className="text-[11px] font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
-                      <Layers className="w-3.5 h-3.5 text-indigo-600" />
+                      <Layers className="w-3.5 h-3.5 text-slate-800" />
                       <span>Thông Số Sử Dụng Trên App Mobile</span>
                     </span>
                     <span className="text-[10px] text-slate-400 font-mono">Dữ liệu đồng bộ Real-time</span>
@@ -1002,7 +1005,7 @@ export const UserManagementPage: React.FC = () => {
                           {currentUserData.smartFridgeItemsCount ?? 15} <span className="font-normal text-slate-500 text-[11px]">nguyên liệu tồn kho</span>
                         </td>
                         <td className="py-2.5 px-4 text-right">
-                          <span className="text-[10.5px] px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 font-semibold border border-indigo-100">
+                          <span className="text-[10.5px] px-2 py-0.5 rounded bg-indigo-50 text-slate-900 font-semibold border border-indigo-100">
                             Ngăn mát & đông
                           </span>
                         </td>
@@ -1057,7 +1060,7 @@ export const UserManagementPage: React.FC = () => {
                 <div className="border border-slate-200 rounded-xl p-4 space-y-3.5 bg-slate-50/40">
                   <div className="flex items-center justify-between border-b border-slate-200 pb-2">
                     <span className="text-[11px] font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
-                      <Shield className="w-3.5 h-3.5 text-indigo-600" />
+                      <Shield className="w-3.5 h-3.5 text-slate-800" />
                       <span>Thao Tác Quản Trị & Trạng Thái Tài Khoản</span>
                     </span>
                     <span className="text-[10px] text-slate-500 font-medium">Quyền Admin Cấp Cao</span>
@@ -1080,8 +1083,8 @@ export const UserManagementPage: React.FC = () => {
                         }
                         className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 border ${
                           currentUserData.status === 'active'
-                            ? 'bg-slate-900 text-white border-slate-900'
-                            : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                            ? 'bg-panel-900 text-white border-slate-900'
+                            : 'bg-surface text-slate-700 border-slate-200 hover:bg-slate-50'
                         }`}
                       >
                         <CheckCircle2 className="w-3.5 h-3.5" />
@@ -1100,7 +1103,7 @@ export const UserManagementPage: React.FC = () => {
                         className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 border ${
                           currentUserData.status === 'suspended'
                             ? 'bg-amber-600 text-white border-amber-600'
-                            : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                            : 'bg-surface text-slate-700 border-slate-200 hover:bg-slate-50'
                         }`}
                       >
                         <Lock className="w-3.5 h-3.5" />
@@ -1119,7 +1122,7 @@ export const UserManagementPage: React.FC = () => {
                         className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 border ${
                           currentUserData.status === 'banned'
                             ? 'bg-rose-600 text-white border-rose-600'
-                            : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                            : 'bg-surface text-slate-700 border-slate-200 hover:bg-slate-50'
                         }`}
                       >
                         <Ban className="w-3.5 h-3.5" />
@@ -1135,7 +1138,7 @@ export const UserManagementPage: React.FC = () => {
                             reason: '',
                           })
                         }
-                        className="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 text-rose-700 bg-white hover:bg-rose-50 border border-rose-200 ml-auto"
+                        className="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 text-rose-700 bg-surface hover:bg-rose-50 border border-rose-200 ml-auto"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                         <span>Xóa User</span>
@@ -1161,7 +1164,7 @@ export const UserManagementPage: React.FC = () => {
                           className={`py-1.5 px-2 rounded-lg text-xs font-semibold border transition-all text-center ${
                             currentUserData.badge === badge
                               ? 'bg-amber-500 text-white border-amber-600 shadow-xs'
-                              : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                              : 'bg-surface text-slate-700 border-slate-200 hover:bg-slate-50'
                           }`}
                         >
                           {badge}
@@ -1175,7 +1178,7 @@ export const UserManagementPage: React.FC = () => {
                 <div className="border border-slate-200 rounded-xl overflow-hidden">
                   <div className="px-4 py-2.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
                     <span className="text-[11px] font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
-                      <History className="w-3.5 h-3.5 text-indigo-600" />
+                      <History className="w-3.5 h-3.5 text-slate-800" />
                       <span>Nhật Ký Tương Tác Gần Đây</span>
                     </span>
                     <span className="text-[10.5px] text-slate-500">
@@ -1244,12 +1247,12 @@ export const UserManagementPage: React.FC = () => {
           POPUP MODAL 1: CHỈNH SỬA THÔNG TIN THÀNH VIÊN (EDIT USER PROFILE POPUP)
       ========================================================================== */}
       {editingUser && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs animate-in fade-in duration-200">
-          <div className="bg-white max-w-lg w-full rounded-2xl border border-slate-200 shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 text-slate-800">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-panel-950/60 backdrop-blur-xs animate-in fade-in duration-200">
+          <div className="bg-surface max-w-lg w-full rounded-2xl border border-slate-200 shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 text-slate-800">
             {/* Header popup */}
-            <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-gradient-to-r from-slate-50 via-white to-indigo-50/40">
+            <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-gradient-to-r from-slate-50 via-surface to-indigo-50/40">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-lg bg-indigo-100 text-slate-800 flex items-center justify-center">
                   <FileEdit className="w-4 h-4" />
                 </div>
                 <div>
@@ -1279,7 +1282,7 @@ export const UserManagementPage: React.FC = () => {
                     required
                     value={editFullName}
                     onChange={(e) => setEditFullName(e.target.value)}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-focus/30 focus:border-focus"
                   />
                 </div>
 
@@ -1292,7 +1295,7 @@ export const UserManagementPage: React.FC = () => {
                     required
                     value={editEmail}
                     onChange={(e) => setEditEmail(e.target.value)}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-mono focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-mono focus:outline-none focus:ring-2 focus:ring-focus/30 focus:border-focus"
                   />
                 </div>
               </div>
@@ -1306,7 +1309,7 @@ export const UserManagementPage: React.FC = () => {
                   placeholder="VD: Eat Clean / Giảm cân, Ăn chay, Healthy..."
                   value={editDiet}
                   onChange={(e) => setEditDiet(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-focus/30 focus:border-focus"
                 />
               </div>
 
@@ -1381,14 +1384,14 @@ export const UserManagementPage: React.FC = () => {
           POPUP MODAL 2: CONFIRM HÀNH ĐỘNG BẢO MẬT (XÁC NHẬN KHÓA / CHẶN / CẤM / XÓA)
       ========================================================================== */}
       {confirmModal.isOpen && confirmModal.user && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/65 backdrop-blur-xs animate-in fade-in duration-200">
-          <div className="bg-white max-w-md w-full rounded-2xl border border-slate-200 shadow-2xl p-6 space-y-4 animate-in zoom-in-95 duration-200 text-slate-800">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-panel-950/65 backdrop-blur-xs animate-in fade-in duration-200">
+          <div className="bg-surface max-w-md w-full rounded-2xl border border-slate-200 shadow-2xl p-6 space-y-4 animate-in zoom-in-95 duration-200 text-slate-800">
             {/* Header theo loại hành động */}
             <div className="flex items-start gap-3.5">
               <div
                 className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${
                   confirmModal.type === 'delete' || confirmModal.type === 'ban'
-                    ? 'bg-rose-100 text-rose-600'
+                    ? 'bg-rose-100 text-rose-700'
                     : confirmModal.type === 'suspend'
                     ? 'bg-amber-100 text-amber-700'
                     : 'bg-emerald-100 text-emerald-700'
@@ -1462,10 +1465,10 @@ export const UserManagementPage: React.FC = () => {
                 onClick={handleExecuteConfirmAction}
                 className={`px-5 py-2 text-xs font-bold text-white rounded-xl shadow-sm transition-all active:scale-95 ${
                   confirmModal.type === 'delete' || confirmModal.type === 'ban'
-                    ? 'bg-rose-600 hover:bg-rose-700 shadow-rose-500/20'
+                    ? 'bg-rose-600 hover:bg-danger-action-hover shadow-rose-500/20'
                     : confirmModal.type === 'suspend'
-                    ? 'bg-amber-600 hover:bg-amber-700 shadow-amber-500/20'
-                    : 'bg-emerald-600 hover:bg-emerald-700 shadow-emerald-500/20'
+                    ? 'bg-amber-600 hover:bg-warning-action shadow-amber-500/20'
+                    : 'bg-emerald-600 hover:bg-success-action-hover shadow-emerald-500/20'
                 }`}
               >
                 {confirmModal.type === 'delete' && 'Xác Nhận Xóa'}
@@ -1480,11 +1483,11 @@ export const UserManagementPage: React.FC = () => {
 
       {/* ================= MODAL: THÊM NHÂN SỰ PHÂN QUYỀN MỚI (RBAC) ================= */}
       {showStaffModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs animate-in fade-in duration-200">
-          <div className="bg-white max-w-md w-full rounded-2xl border border-slate-200 shadow-2xl p-5 space-y-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-panel-950/60 backdrop-blur-xs animate-in fade-in duration-200">
+          <div className="bg-surface max-w-md w-full rounded-2xl border border-slate-200 shadow-2xl p-5 space-y-4">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <h3 className="text-sm font-extrabold text-slate-900 font-['Outfit'] flex items-center gap-1.5">
-                <ShieldCheck className="w-4 h-4 text-indigo-600" />
+                <ShieldCheck className="w-4 h-4 text-slate-800" />
                 <span>Thêm Nhân Sự Quản Trị Hệ Thống</span>
               </h3>
               <button onClick={() => setShowStaffModal(false)} className="text-slate-400 hover:text-slate-600">
@@ -1512,7 +1515,7 @@ export const UserManagementPage: React.FC = () => {
                   placeholder="VD: Nguyễn Văn A"
                   value={staffName}
                   onChange={(e) => setStaffName(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-focus/30 focus:border-focus"
                 />
               </div>
 
@@ -1526,7 +1529,7 @@ export const UserManagementPage: React.FC = () => {
                   placeholder="nhansu@smartcook.vn"
                   value={staffEmail}
                   onChange={(e) => setStaffEmail(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-mono focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-mono focus:outline-none focus:ring-2 focus:ring-focus/30 focus:border-focus"
                 />
               </div>
 
@@ -1537,7 +1540,7 @@ export const UserManagementPage: React.FC = () => {
                 <select
                   value={staffRole}
                   onChange={(e) => setStaffRole(e.target.value as any)}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-focus/30"
                 >
                   <option value="Super Admin">Super Admin (Toàn quyền)</option>
                   <option value="Content Editor">Content Editor (Biên tập nội dung)</option>

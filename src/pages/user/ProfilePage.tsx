@@ -28,7 +28,7 @@ import {
 } from 'lucide-react';
 import { useAuthStore } from '../../store/useAuthStore';
 import { UserHeader } from '../../components/user/UserHeader';
-import { getUserAvatarUrl } from '../../utils/avatar';
+import { getUserAvatarUrl, handleAvatarError } from '../../utils/avatar';
 import { authApi } from '../../api/auth.api';
 import { cookingHistoryApi, type CookingRecordDTO } from '../../api/cookingHistory.api';
 
@@ -167,7 +167,7 @@ export const ProfilePage: React.FC = () => {
     { name: 'Tập sự', minXp: 0, nextXp: 100, color: 'text-slate-700', bg: 'bg-slate-100', border: 'border-slate-200', badge: '🥉' },
     { name: 'Bếp gia đình', minXp: 100, nextXp: 300, color: 'text-blue-700', bg: 'bg-blue-50', border: 'border-blue-200', badge: '🥈' },
     { name: 'Đầu bếp tài ba', minXp: 300, nextXp: 600, color: 'text-amber-700', bg: 'bg-amber-50', border: 'border-amber-200', badge: '🥇' },
-    { name: 'Bếp trưởng SmartCook', minXp: 600, nextXp: 1000, color: 'text-orange-700', bg: 'bg-orange-50', border: 'border-orange-200', badge: '👑' },
+    { name: 'Bếp trưởng SmartCook', minXp: 600, nextXp: 1000, color: 'text-slate-900', bg: 'bg-orange-50', border: 'border-orange-200', badge: '👑' },
   ];
 
   const currentChefXp = user.chefExp ?? 0;
@@ -329,7 +329,7 @@ export const ProfilePage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#faf8f5] text-slate-900 font-sans selection:bg-orange-500 selection:text-white pb-24">
+    <div className="min-h-screen bg-canvas text-slate-900 font-sans selection:bg-orange-500 selection:text-white pb-24">
       <UserHeader />
 
       {/* Ambient background glows */}
@@ -343,7 +343,7 @@ export const ProfilePage: React.FC = () => {
         {/* ========================================================================= */}
         {/* 1. HERO PROFILE CARD */}
         {/* ========================================================================= */}
-        <div className="bg-white/90 backdrop-blur-md rounded-3xl p-6 sm:p-8 shadow-sm border border-orange-100/90 relative overflow-hidden">
+        <div className="bg-surface/90 backdrop-blur-md rounded-3xl p-6 sm:p-8 shadow-sm border border-orange-100/90 relative overflow-hidden">
           <div className="absolute -top-12 -right-12 w-48 h-48 bg-gradient-to-br from-orange-400/10 to-amber-300/10 rounded-full blur-2xl pointer-events-none" />
 
           <div className="flex flex-col md:flex-row items-center md:items-start gap-6 sm:gap-8">
@@ -354,16 +354,14 @@ export const ProfilePage: React.FC = () => {
                 <img
                   src={getUserAvatarUrl(user)}
                   alt="Chef Avatar"
-                  onError={(e) => {
-                    (e.currentTarget as HTMLImageElement).src = '/facebook-default-avatar.svg';
-                  }}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 bg-[#E4E6EB]"
+                  onError={handleAvatarError}
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 bg-slate-200"
                 />
               </div>
 
               {/* Online indicator */}
               <span className="absolute bottom-1 right-1 w-5 h-5 rounded-full bg-emerald-500 border-2 border-white shadow-sm flex items-center justify-center">
-                <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                <span className="w-2 h-2 rounded-full bg-surface animate-pulse" />
               </span>
 
               {/* Quick switch to Edit Avatar */}
@@ -394,8 +392,8 @@ export const ProfilePage: React.FC = () => {
                   <p className="text-xs sm:text-sm text-slate-500 flex items-center justify-center md:justify-start gap-1.5 font-medium">
                     <Mail className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                     <span className="truncate">{user.email}</span>
-                    <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">
-                      <ShieldCheck className="w-3 h-3 text-emerald-500" />
+                    <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">
+                      <ShieldCheck className="w-3 h-3 text-emerald-700" />
                       Đã xác thực
                     </span>
                   </p>
@@ -409,7 +407,7 @@ export const ProfilePage: React.FC = () => {
                     className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold transition-all shadow-sm ${
                       activeTab === 'edit_profile'
                         ? 'bg-orange-500 text-white shadow-orange-500/20'
-                        : 'bg-orange-50 hover:bg-orange-100 text-orange-700 border border-orange-200/80 hover:scale-105 active:scale-95'
+                        : 'bg-orange-50 hover:bg-orange-100 text-slate-900 border border-orange-200/80 hover:scale-105 active:scale-95'
                     }`}
                   >
                     <Edit3 className="w-3.5 h-3.5" />
@@ -425,7 +423,7 @@ export const ProfilePage: React.FC = () => {
                         : 'bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200/80 hover:scale-105 active:scale-95'
                     }`}
                   >
-                    <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                    <Sparkles className="w-3.5 h-3.5 text-amber-700" />
                     <span>Khẩu Vị AI</span>
                   </button>
                 </div>
@@ -434,16 +432,16 @@ export const ProfilePage: React.FC = () => {
               {/* XP Progress & Cooking Milestones */}
               <div className="pt-2 border-t border-slate-100 space-y-2">
                 <div className="flex items-center justify-between text-xs font-bold">
-                  <div className="flex items-center gap-1.5 text-orange-600">
-                    <Flame className="w-4 h-4 fill-orange-500 text-orange-500" />
+                  <div className="flex items-center gap-1.5 text-slate-800">
+                    <Flame className="w-4 h-4 fill-slate-700 text-slate-700" />
                     <span>{currentChefXp} XP Điểm Đầu Bếp</span>
                   </div>
                   {nextLevel ? (
                     <span className="text-slate-500">
-                      Còn <strong className="text-orange-600">{xpNeeded} XP</strong> để lên <span className="text-slate-800">{nextLevel.name}</span>
+                      Còn <strong className="text-slate-800">{xpNeeded} XP</strong> để lên <span className="text-slate-800">{nextLevel.name}</span>
                     </span>
                   ) : (
-                    <span className="text-emerald-600 font-bold">Cấp bậc Bếp Trưởng Tối Đa 👑</span>
+                    <span className="text-emerald-700 font-bold">Cấp bậc Bếp Trưởng Tối Đa 👑</span>
                   )}
                 </div>
 
@@ -457,11 +455,11 @@ export const ProfilePage: React.FC = () => {
 
                 {/* Badges preview row */}
                 <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 pt-1 text-[11px] font-bold">
-                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-orange-50 text-orange-700 border border-orange-200/70">
+                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-orange-50 text-slate-900 border border-orange-200/70">
                     🍳 {safeHistory.length} món đã nấu
                   </span>
                   <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200/70">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700" />
                     Khẩu vị AI: {user.preferences?.hasCompletedSurvey ? 'Đã kích hoạt' : 'Chưa hoàn tất'}
                   </span>
                   <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-purple-50 text-purple-700 border border-purple-200/70">
@@ -482,8 +480,8 @@ export const ProfilePage: React.FC = () => {
             onClick={() => setActiveTab('overview')}
             className={`flex items-center gap-2 px-5 py-3 rounded-2xl font-bold text-xs sm:text-sm whitespace-nowrap transition-all ${
               activeTab === 'overview'
-                ? 'bg-white text-orange-600 shadow-sm border border-orange-200'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
+                ? 'bg-surface text-slate-800 shadow-sm border border-orange-200'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-surface/60'
             }`}
           >
             <ChefHat className="w-4 h-4" />
@@ -495,8 +493,8 @@ export const ProfilePage: React.FC = () => {
             onClick={() => setActiveTab('edit_profile')}
             className={`flex items-center gap-2 px-5 py-3 rounded-2xl font-bold text-xs sm:text-sm whitespace-nowrap transition-all ${
               activeTab === 'edit_profile'
-                ? 'bg-white text-orange-600 shadow-sm border border-orange-200'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
+                ? 'bg-surface text-slate-800 shadow-sm border border-orange-200'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-surface/60'
             }`}
           >
             <Edit3 className="w-4 h-4" />
@@ -508,8 +506,8 @@ export const ProfilePage: React.FC = () => {
             onClick={() => setActiveTab('preferences')}
             className={`flex items-center gap-2 px-5 py-3 rounded-2xl font-bold text-xs sm:text-sm whitespace-nowrap transition-all ${
               activeTab === 'preferences'
-                ? 'bg-white text-orange-600 shadow-sm border border-orange-200'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
+                ? 'bg-surface text-slate-800 shadow-sm border border-orange-200'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-surface/60'
             }`}
           >
             <Sliders className="w-4 h-4" />
@@ -521,8 +519,8 @@ export const ProfilePage: React.FC = () => {
             onClick={() => setActiveTab('history')}
             className={`flex items-center gap-2 px-5 py-3 rounded-2xl font-bold text-xs sm:text-sm whitespace-nowrap transition-all ${
               activeTab === 'history'
-                ? 'bg-white text-orange-600 shadow-sm border border-orange-200'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
+                ? 'bg-surface text-slate-800 shadow-sm border border-orange-200'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-surface/60'
             }`}
           >
             <History className="w-4 h-4" />
@@ -538,16 +536,16 @@ export const ProfilePage: React.FC = () => {
             
             {/* Quick Stat Cards */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-              <div className="bg-white p-5 rounded-3xl border border-orange-100 shadow-2xs space-y-1">
+              <div className="bg-surface p-5 rounded-3xl border border-orange-100 shadow-2xs space-y-1">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Điểm Đầu Bếp</span>
-                <div className="flex items-center gap-1.5 text-2xl font-black text-orange-600">
-                  <Flame className="w-6 h-6 fill-orange-500 text-orange-500" />
+                <div className="flex items-center gap-1.5 text-2xl font-black text-slate-800">
+                  <Flame className="w-6 h-6 fill-slate-700 text-slate-700" />
                   <span>{currentChefXp}</span>
                 </div>
                 <p className="text-[11px] text-slate-500 font-medium">Tích luỹ sau các món nấu</p>
               </div>
 
-              <div className="bg-white p-5 rounded-3xl border border-orange-100 shadow-2xs space-y-1">
+              <div className="bg-surface p-5 rounded-3xl border border-orange-100 shadow-2xs space-y-1">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Cấp Độ Hiện Tại</span>
                 <div className="text-xl font-black text-slate-800 flex items-center gap-1">
                   <span>{currentLevel.badge}</span>
@@ -556,17 +554,17 @@ export const ProfilePage: React.FC = () => {
                 <p className="text-[11px] text-slate-500 font-medium">Bậc danh hiệu nhà bếp</p>
               </div>
 
-              <div className="bg-white p-5 rounded-3xl border border-orange-100 shadow-2xs space-y-1">
+              <div className="bg-surface p-5 rounded-3xl border border-orange-100 shadow-2xs space-y-1">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Món Đã Nấu</span>
                 <div className="text-2xl font-black text-slate-800">
                   {safeHistory.length} <span className="text-xs font-normal text-slate-400">món</span>
                 </div>
-                <p className="text-[11px] text-emerald-600 font-bold">Thực đơn phong phú</p>
+                <p className="text-[11px] text-emerald-700 font-bold">Thực đơn phong phú</p>
               </div>
 
-              <div className="bg-white p-5 rounded-3xl border border-orange-100 shadow-2xs space-y-1">
+              <div className="bg-surface p-5 rounded-3xl border border-orange-100 shadow-2xs space-y-1">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Cá Nhân Hoá AI</span>
-                <div className="text-2xl font-black text-amber-600">
+                <div className="text-2xl font-black text-amber-700">
                   98%
                 </div>
                 <p className="text-[11px] text-slate-500 font-medium">Phù hợp thể trạng bạn</p>
@@ -574,16 +572,16 @@ export const ProfilePage: React.FC = () => {
             </div>
 
             {/* AI Preferences Snapshot */}
-            <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-orange-100 space-y-5">
+            <div className="bg-surface rounded-3xl p-6 sm:p-8 shadow-sm border border-orange-100 space-y-5">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2.5 text-slate-900 font-bold text-lg font-heading">
-                  <Sparkles className="w-5 h-5 text-orange-500" />
+                  <Sparkles className="w-5 h-5 text-slate-700" />
                   <h2>Khẩu Vị Cá Nhân Hoá Cho Đề Xuất AI</h2>
                 </div>
                 <button
                   type="button"
                   onClick={() => setActiveTab('preferences')}
-                  className="text-xs font-bold text-orange-600 hover:text-orange-700 flex items-center gap-1 hover:underline"
+                  className="text-xs font-bold text-slate-800 hover:text-slate-900 flex items-center gap-1 hover:underline"
                 >
                   <span>Chỉnh sửa</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -597,7 +595,7 @@ export const ProfilePage: React.FC = () => {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="p-4 rounded-2xl bg-orange-50/50 border border-orange-100 space-y-1.5">
                   <div className="flex items-center gap-2 text-slate-500 text-[11px] font-bold uppercase tracking-wide">
-                    <Users className="w-3.5 h-3.5 text-orange-500" />
+                    <Users className="w-3.5 h-3.5 text-slate-700" />
                     <span>Khẩu phần nấu chuẩn</span>
                   </div>
                   <div className="font-extrabold text-sm text-slate-800">
@@ -607,7 +605,7 @@ export const ProfilePage: React.FC = () => {
 
                 <div className="p-4 rounded-2xl bg-orange-50/50 border border-orange-100 space-y-1.5">
                   <div className="flex items-center gap-2 text-slate-500 text-[11px] font-bold uppercase tracking-wide">
-                    <Target className="w-3.5 h-3.5 text-orange-500" />
+                    <Target className="w-3.5 h-3.5 text-slate-700" />
                     <span>Mục tiêu dinh dưỡng</span>
                   </div>
                   <div className="font-extrabold text-sm text-slate-800">
@@ -617,7 +615,7 @@ export const ProfilePage: React.FC = () => {
 
                 <div className="p-4 rounded-2xl bg-orange-50/50 border border-orange-100 space-y-1.5">
                   <div className="flex items-center gap-2 text-slate-500 text-[11px] font-bold uppercase tracking-wide">
-                    <Timer className="w-3.5 h-3.5 text-orange-500" />
+                    <Timer className="w-3.5 h-3.5 text-slate-700" />
                     <span>Thời gian chuẩn bị</span>
                   </div>
                   <div className="font-extrabold text-sm text-slate-800">
@@ -647,17 +645,17 @@ export const ProfilePage: React.FC = () => {
             </div>
 
             {/* Recent Cooked Dishes */}
-            <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-orange-100 space-y-4">
+            <div className="bg-surface rounded-3xl p-6 sm:p-8 shadow-sm border border-orange-100 space-y-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2.5 text-slate-900 font-bold text-lg font-heading">
-                  <History className="w-5 h-5 text-orange-500" />
+                  <History className="w-5 h-5 text-slate-700" />
                   <h2>Món Nấu Gần Đây</h2>
                 </div>
                 {safeHistory.length > 0 && (
                   <button
                     type="button"
                     onClick={() => setActiveTab('history')}
-                    className="text-xs font-bold text-orange-600 hover:text-orange-700 flex items-center gap-1 hover:underline"
+                    className="text-xs font-bold text-slate-800 hover:text-slate-900 flex items-center gap-1 hover:underline"
                   >
                     <span>Xem tất cả ({safeHistory.length})</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -667,7 +665,7 @@ export const ProfilePage: React.FC = () => {
 
               {safeHistory.length === 0 ? (
                 <div className="text-center py-8 px-4 rounded-2xl bg-orange-50/30 border border-dashed border-orange-200 space-y-3">
-                  <div className="w-12 h-12 rounded-2xl bg-orange-100 text-orange-600 mx-auto flex items-center justify-center text-xl">
+                  <div className="w-12 h-12 rounded-2xl bg-orange-100 text-slate-800 mx-auto flex items-center justify-center text-xl">
                     🍳
                   </div>
                   <h4 className="font-bold text-sm text-slate-800">Chưa có lịch sử nấu nướng</h4>
@@ -687,7 +685,7 @@ export const ProfilePage: React.FC = () => {
                   {safeHistory.slice(0, 4).map((record) => (
                     <div key={record._id} className="py-3.5 flex items-center justify-between">
                       <div className="flex items-center gap-3.5">
-                        <span className="w-10 h-10 rounded-2xl bg-gradient-to-br from-orange-100 to-amber-100 text-orange-600 flex items-center justify-center font-bold text-base shadow-2xs">
+                        <span className="w-10 h-10 rounded-2xl bg-gradient-to-br from-orange-100 to-amber-100 text-slate-800 flex items-center justify-center font-bold text-base shadow-2xs">
                           🥘
                         </span>
                         <div>
@@ -701,7 +699,7 @@ export const ProfilePage: React.FC = () => {
                           </p>
                         </div>
                       </div>
-                      <span className="text-xs font-bold text-emerald-600 bg-emerald-50 border border-emerald-100 px-3 py-1 rounded-xl">
+                      <span className="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-100 px-3 py-1 rounded-xl">
                         +50 XP
                       </span>
                     </div>
@@ -711,20 +709,20 @@ export const ProfilePage: React.FC = () => {
             </div>
 
             {/* Favorite Recipes Banner */}
-            <div className="bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 text-white rounded-3xl p-6 sm:p-7 shadow-md flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="bg-panel-900 border border-slate-200 text-white rounded-3xl p-6 sm:p-7 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="space-y-1 text-center sm:text-left">
                 <h3 className="font-bold text-base font-heading flex items-center justify-center sm:justify-start gap-2">
                   <Heart className="w-5 h-5 fill-white" />
                   <span>Kho Món Ăn Yêu Thích Của Bạn</span>
                 </h3>
-                <p className="text-xs text-orange-100 leading-relaxed max-w-xl">
+                <p className="text-xs text-media-muted leading-relaxed max-w-xl">
                   Truy cập nhanh danh sách các món ăn đã lưu để lên thực đơn hàng ngày, ghép nguyên liệu từ tủ lạnh và nhận đề xuất AI thông minh.
                 </p>
               </div>
 
               <Link
                 to="/recipes"
-                className="shrink-0 px-5 py-2.5 rounded-xl bg-white text-orange-600 hover:bg-orange-50 font-bold text-xs shadow-sm hover:scale-105 active:scale-95 transition-all flex items-center gap-1.5"
+                className="shrink-0 px-5 py-2.5 rounded-xl bg-surface text-slate-800 hover:bg-orange-50 font-bold text-xs shadow-sm hover:scale-105 active:scale-95 transition-all flex items-center gap-1.5"
               >
                 <Utensils className="w-4 h-4" />
                 <span>Xem Kho Món Ăn</span>
@@ -737,10 +735,10 @@ export const ProfilePage: React.FC = () => {
         {/* TAB 2: EDIT PROFILE */}
         {/* ========================================================================= */}
         {activeTab === 'edit_profile' && (
-          <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-orange-100 space-y-8">
+          <div className="bg-surface rounded-3xl p-6 sm:p-8 shadow-sm border border-orange-100 space-y-8">
             <div>
               <div className="flex items-center gap-2.5 text-slate-900 font-bold text-xl font-heading">
-                <Edit3 className="w-5 h-5 text-orange-500" />
+                <Edit3 className="w-5 h-5 text-slate-700" />
                 <h2>Chỉnh Sửa Thông Tin Cá Nhân</h2>
               </div>
               <p className="text-xs sm:text-sm text-slate-500 pt-1">
@@ -751,14 +749,14 @@ export const ProfilePage: React.FC = () => {
             {/* Alert Messages */}
             {profileSuccessMsg && (
               <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs sm:text-sm font-semibold flex items-center gap-2">
-                <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                <Check className="w-4 h-4 text-emerald-700 shrink-0" />
                 <span>{profileSuccessMsg}</span>
               </div>
             )}
 
             {profileErrorMsg && (
               <div className="p-4 rounded-2xl bg-red-50 border border-red-200 text-red-800 text-xs sm:text-sm font-semibold flex items-center gap-2">
-                <AlertCircle className="w-4 h-4 text-red-600 shrink-0" />
+                <AlertCircle className="w-4 h-4 text-red-700 shrink-0" />
                 <span>{profileErrorMsg}</span>
               </div>
             )}
@@ -777,10 +775,8 @@ export const ProfilePage: React.FC = () => {
                     <img
                       src={avatarPreview || (user ? getUserAvatarUrl(user) : '/facebook-default-avatar.svg')}
                       alt="Avatar Preview"
-                      onError={(e) => {
-                        (e.currentTarget as HTMLImageElement).src = '/facebook-default-avatar.svg';
-                      }}
-                      className="w-24 h-24 rounded-2xl object-cover border-4 border-white shadow-md bg-[#E4E6EB]"
+                      onError={handleAvatarError}
+                      className="w-24 h-24 rounded-2xl object-cover border-4 border-white shadow-md bg-slate-200"
                     />
                     <button
                       type="button"
@@ -809,14 +805,14 @@ export const ProfilePage: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => fileInputRef.current?.click()}
-                        className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs border border-slate-200 shadow-2xs transition-all active:scale-95"
+                        className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-surface hover:bg-slate-50 text-slate-700 font-bold text-xs border border-slate-200 shadow-2xs transition-all active:scale-95"
                       >
-                        <Upload className="w-3.5 h-3.5 text-orange-500" />
+                        <Upload className="w-3.5 h-3.5 text-slate-700" />
                         <span>Chọn tệp ảnh từ máy</span>
                       </button>
 
                       {avatarFile && (
-                        <span className="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2.5 py-1.5 rounded-xl border border-emerald-200">
+                        <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1.5 rounded-xl border border-emerald-200">
                           ✓ Đã chọn: {avatarFile.name}
                         </span>
                       )}
@@ -845,6 +841,7 @@ export const ProfilePage: React.FC = () => {
                           <img
                             src={preset.url}
                             alt={preset.label}
+                            onError={handleAvatarError}
                             className="w-full h-full object-cover rounded-xl"
                           />
                           {isSelected && (
@@ -863,7 +860,7 @@ export const ProfilePage: React.FC = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-2">
                 <div className="space-y-1.5">
                   <label className="block text-xs font-bold text-slate-700">
-                    Họ và tên đệm <span className="text-red-500">*</span>
+                    Họ và tên đệm <span className="text-red-700">*</span>
                   </label>
                   <input
                     type="text"
@@ -871,13 +868,13 @@ export const ProfilePage: React.FC = () => {
                     onChange={(e) => setLastName(e.target.value)}
                     placeholder="Ví dụ: Nguyễn Văn"
                     required
-                    className="w-full px-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 text-sm font-medium focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all outline-none"
+                    className="w-full px-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 text-sm font-medium focus:bg-surface focus:border-focus focus:ring-4 focus:ring-focus/10 transition-all outline-none"
                   />
                 </div>
 
                 <div className="space-y-1.5">
                   <label className="block text-xs font-bold text-slate-700">
-                    Tên đầu bếp <span className="text-red-500">*</span>
+                    Tên đầu bếp <span className="text-red-700">*</span>
                   </label>
                   <input
                     type="text"
@@ -885,7 +882,7 @@ export const ProfilePage: React.FC = () => {
                     onChange={(e) => setFirstName(e.target.value)}
                     placeholder="Ví dụ: Quang"
                     required
-                    className="w-full px-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 text-sm font-medium focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all outline-none"
+                    className="w-full px-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 text-sm font-medium focus:bg-surface focus:border-focus focus:ring-4 focus:ring-focus/10 transition-all outline-none"
                   />
                 </div>
 
@@ -901,7 +898,7 @@ export const ProfilePage: React.FC = () => {
                       className="w-full pl-10 pr-4 py-3 rounded-2xl bg-slate-100 border border-slate-200 text-slate-500 text-sm font-medium cursor-not-allowed select-none"
                     />
                     <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
-                    <span className="absolute right-3.5 top-3 text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                    <span className="absolute right-3.5 top-3 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
                       Đã xác thực
                     </span>
                   </div>
@@ -948,11 +945,11 @@ export const ProfilePage: React.FC = () => {
         {/* TAB 3: CULINARY PREFERENCES (AI SURVEY) */}
         {/* ========================================================================= */}
         {activeTab === 'preferences' && (
-          <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-orange-100 space-y-8">
+          <div className="bg-surface rounded-3xl p-6 sm:p-8 shadow-sm border border-orange-100 space-y-8">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
                 <div className="flex items-center gap-2.5 text-slate-900 font-bold text-xl font-heading">
-                  <Sliders className="w-5 h-5 text-orange-500" />
+                  <Sliders className="w-5 h-5 text-slate-700" />
                   <h2>Thiết Lập Khẩu Vị & Mục Tiêu Dinh Dưỡng AI</h2>
                 </div>
                 <p className="text-xs sm:text-sm text-slate-500 pt-1">
@@ -983,14 +980,14 @@ export const ProfilePage: React.FC = () => {
             {/* Alert Messages */}
             {preferenceSuccessMsg && (
               <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs sm:text-sm font-semibold flex items-center gap-2">
-                <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                <Check className="w-4 h-4 text-emerald-700 shrink-0" />
                 <span>{preferenceSuccessMsg}</span>
               </div>
             )}
 
             {preferenceErrorMsg && (
               <div className="p-4 rounded-2xl bg-red-50 border border-red-200 text-red-800 text-xs sm:text-sm font-semibold flex items-center gap-2">
-                <AlertCircle className="w-4 h-4 text-red-600 shrink-0" />
+                <AlertCircle className="w-4 h-4 text-red-700 shrink-0" />
                 <span>{preferenceErrorMsg}</span>
               </div>
             )}
@@ -1000,7 +997,7 @@ export const ProfilePage: React.FC = () => {
               {/* 1. Portion Selection */}
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
-                  <Users className="w-4 h-4 text-orange-500" />
+                  <Users className="w-4 h-4 text-slate-700" />
                   <h3 className="text-sm font-bold text-slate-800">1. Số lượng khẩu phần ăn thường nấu</h3>
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -1014,7 +1011,7 @@ export const ProfilePage: React.FC = () => {
                         className={`p-4 rounded-2xl border text-left transition-all ${
                           isSelected
                             ? 'bg-orange-50/80 border-orange-500 ring-2 ring-orange-400/20 shadow-xs'
-                            : 'bg-white border-slate-200 hover:border-orange-200 hover:bg-slate-50/50'
+                            : 'bg-surface border-slate-200 hover:border-orange-200 hover:bg-slate-50/50'
                         }`}
                       >
                         <div className="text-lg font-black text-slate-800">{p} phần</div>
@@ -1028,7 +1025,7 @@ export const ProfilePage: React.FC = () => {
               {/* 2. Health Goal */}
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
-                  <Target className="w-4 h-4 text-orange-500" />
+                  <Target className="w-4 h-4 text-slate-700" />
                   <h3 className="text-sm font-bold text-slate-800">2. Mục tiêu dinh dưỡng ưu tiên</h3>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
@@ -1043,7 +1040,7 @@ export const ProfilePage: React.FC = () => {
                         className={`p-4 rounded-2xl border text-left transition-all flex flex-col justify-between ${
                           isSelected
                             ? 'bg-orange-50/80 border-orange-500 ring-2 ring-orange-400/20 shadow-xs'
-                            : 'bg-white border-slate-200 hover:border-orange-200 hover:bg-slate-50/50'
+                            : 'bg-surface border-slate-200 hover:border-orange-200 hover:bg-slate-50/50'
                         }`}
                       >
                         <div className="text-2xl mb-2">{item.icon}</div>
@@ -1060,7 +1057,7 @@ export const ProfilePage: React.FC = () => {
               {/* 3. Cooking Time */}
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
-                  <Timer className="w-4 h-4 text-orange-500" />
+                  <Timer className="w-4 h-4 text-slate-700" />
                   <h3 className="text-sm font-bold text-slate-800">3. Thời gian nấu ăn mong muốn</h3>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
@@ -1075,7 +1072,7 @@ export const ProfilePage: React.FC = () => {
                         className={`p-4 rounded-2xl border text-left transition-all flex flex-col justify-between ${
                           isSelected
                             ? 'bg-orange-50/80 border-orange-500 ring-2 ring-orange-400/20 shadow-xs'
-                            : 'bg-white border-slate-200 hover:border-orange-200 hover:bg-slate-50/50'
+                            : 'bg-surface border-slate-200 hover:border-orange-200 hover:bg-slate-50/50'
                         }`}
                       >
                         <div className="text-2xl mb-2">{item.icon}</div>
@@ -1092,7 +1089,7 @@ export const ProfilePage: React.FC = () => {
               {/* 4. Preferred Cuisines */}
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
-                  <BookOpen className="w-4 h-4 text-orange-500" />
+                  <BookOpen className="w-4 h-4 text-slate-700" />
                   <h3 className="text-sm font-bold text-slate-800">4. Phong cách ẩm thực yêu thích (chọn nhiều)</h3>
                 </div>
                 <div className="flex flex-wrap gap-2.5">
@@ -1106,7 +1103,7 @@ export const ProfilePage: React.FC = () => {
                         className={`px-4 py-2.5 rounded-2xl border font-bold text-xs flex items-center gap-2 transition-all ${
                           isSelected
                             ? 'bg-orange-500 text-white border-orange-500 shadow-xs'
-                            : 'bg-white border-slate-200 text-slate-700 hover:border-orange-200'
+                            : 'bg-surface border-slate-200 text-slate-700 hover:border-orange-200'
                         }`}
                       >
                         <span>{c.flag}</span>
@@ -1121,7 +1118,7 @@ export const ProfilePage: React.FC = () => {
               {/* 5. Dietary Restrictions */}
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-orange-500" />
+                  <ShieldCheck className="w-4 h-4 text-slate-700" />
                   <h3 className="text-sm font-bold text-slate-800">5. Dị ứng & Hạn chế ăn uống</h3>
                 </div>
                 <div className="flex flex-wrap gap-2.5">
@@ -1141,8 +1138,8 @@ export const ProfilePage: React.FC = () => {
                         }}
                         className={`px-4 py-2.5 rounded-2xl border font-bold text-xs flex items-center gap-2 transition-all ${
                           isSelected
-                            ? 'bg-slate-900 text-white border-slate-900 shadow-xs'
-                            : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300'
+                            ? 'bg-panel-900 text-white border-slate-900 shadow-xs'
+                            : 'bg-surface border-slate-200 text-slate-700 hover:border-slate-300'
                         }`}
                       >
                         <span>{r.icon}</span>
@@ -1157,7 +1154,7 @@ export const ProfilePage: React.FC = () => {
               {/* 6. Taste Profile */}
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-orange-500" />
+                  <Sparkles className="w-4 h-4 text-slate-700" />
                   <h3 className="text-sm font-bold text-slate-800">6. Gu nêm nếm & vị giác yêu thích</h3>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -1171,12 +1168,12 @@ export const ProfilePage: React.FC = () => {
                         className={`p-3.5 rounded-2xl border text-left transition-all ${
                           isSelected
                             ? 'bg-amber-50/80 border-amber-400 ring-2 ring-amber-400/20 shadow-xs'
-                            : 'bg-white border-slate-200 hover:border-amber-200'
+                            : 'bg-surface border-slate-200 hover:border-amber-200'
                         }`}
                       >
                         <div className="flex items-center justify-between">
                           <span className="text-xs font-bold text-slate-800">{t.label}</span>
-                          {isSelected && <Check className="w-4 h-4 text-amber-600" />}
+                          {isSelected && <Check className="w-4 h-4 text-amber-700" />}
                         </div>
                         <div className="text-[11px] text-slate-500 font-medium pt-1">{t.desc}</div>
                       </button>
@@ -1215,11 +1212,11 @@ export const ProfilePage: React.FC = () => {
         {/* TAB 4: COOKING HISTORY */}
         {/* ========================================================================= */}
         {activeTab === 'history' && (
-          <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-orange-100 space-y-6">
+          <div className="bg-surface rounded-3xl p-6 sm:p-8 shadow-sm border border-orange-100 space-y-6">
             <div className="flex items-center justify-between">
               <div>
                 <div className="flex items-center gap-2.5 text-slate-900 font-bold text-xl font-heading">
-                  <History className="w-5 h-5 text-orange-500" />
+                  <History className="w-5 h-5 text-slate-700" />
                   <h2>Lịch Sử Bếp & Thành Tích ({safeHistory.length})</h2>
                 </div>
                 <p className="text-xs sm:text-sm text-slate-500 pt-1">
@@ -1229,7 +1226,7 @@ export const ProfilePage: React.FC = () => {
 
               <Link
                 to="/recipes"
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-orange-50 hover:bg-orange-100 text-orange-700 font-bold text-xs border border-orange-200/80 transition-all hover:scale-105 active:scale-95"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-orange-50 hover:bg-orange-100 text-slate-900 font-bold text-xs border border-orange-200/80 transition-all hover:scale-105 active:scale-95"
               >
                 <Utensils className="w-3.5 h-3.5" />
                 <span>Nấu Món Mới</span>
@@ -1238,7 +1235,7 @@ export const ProfilePage: React.FC = () => {
 
             {safeHistory.length === 0 ? (
               <div className="text-center py-12 px-4 rounded-3xl bg-orange-50/30 border border-dashed border-orange-200 space-y-3">
-                <div className="w-14 h-14 rounded-3xl bg-orange-100 text-orange-600 mx-auto flex items-center justify-center text-2xl shadow-xs">
+                <div className="w-14 h-14 rounded-3xl bg-orange-100 text-slate-800 mx-auto flex items-center justify-center text-2xl shadow-xs">
                   🍳
                 </div>
                 <h4 className="font-bold text-base text-slate-800">Chưa có lịch sử nấu nướng nào</h4>
@@ -1258,7 +1255,7 @@ export const ProfilePage: React.FC = () => {
                 {safeHistory.map((record) => (
                   <div key={record._id} className="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div className="flex items-center gap-3.5">
-                      <span className="w-11 h-11 rounded-2xl bg-gradient-to-br from-orange-100 to-amber-100 text-orange-600 flex items-center justify-center font-bold text-lg shadow-2xs shrink-0">
+                      <span className="w-11 h-11 rounded-2xl bg-gradient-to-br from-orange-100 to-amber-100 text-slate-800 flex items-center justify-center font-bold text-lg shadow-2xs shrink-0">
                         👨‍🍳
                       </span>
                       <div>
@@ -1286,7 +1283,7 @@ export const ProfilePage: React.FC = () => {
                     </div>
 
                     <div className="flex items-center justify-between sm:justify-end gap-3 self-end sm:self-center">
-                      <span className="text-xs font-bold text-emerald-600 bg-emerald-50 border border-emerald-100 px-3.5 py-1.5 rounded-xl">
+                      <span className="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-100 px-3.5 py-1.5 rounded-xl">
                         +50 XP Điểm Bếp
                       </span>
                     </div>

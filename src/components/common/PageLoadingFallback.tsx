@@ -32,7 +32,7 @@ export const PageLoadingFallback: React.FC<PageLoadingFallbackProps> = ({
       {/* Loading message */}
       <div className="mt-6 text-center space-y-1">
         <p className="text-sm font-extrabold text-slate-800 tracking-tight flex items-center justify-center gap-1.5 font-heading">
-          <Sparkles className="w-3.5 h-3.5 text-orange-500" />
+          <Sparkles className="w-3.5 h-3.5 text-slate-700" />
           <span>SmartCook AI</span>
         </p>
         <p className="text-xs text-slate-500 font-medium">{message}</p>
