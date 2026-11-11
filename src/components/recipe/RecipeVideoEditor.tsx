@@ -42,9 +42,9 @@ export function RecipeVideoEditor({ recipeId, youtubeVideoId, onSaved }: RecipeV
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-2.5 rounded-lg border border-slate-200 bg-white p-4">
+    <form onSubmit={handleSubmit} className="space-y-2.5 rounded-lg border border-slate-200 bg-surface p-4">
       <label htmlFor={fieldId} className="flex items-center gap-2 text-sm font-bold text-slate-900">
-        <Video aria-hidden="true" className="size-4 text-orange-600" /> Video hướng dẫn
+        <Video aria-hidden="true" className="size-4 text-slate-800" /> Video hướng dẫn
       </label>
       <input
         id={fieldId}
@@ -62,7 +62,7 @@ export function RecipeVideoEditor({ recipeId, youtubeVideoId, onSaved }: RecipeV
         placeholder="https://youtu.be/…"
         aria-invalid={invalid}
         aria-describedby={`${fieldId}-help${invalid ? ` ${fieldId}-error` : ''}`}
-        className="w-full rounded-lg border border-slate-200 px-3 py-2 text-xs focus:outline-2 focus:outline-orange-500 aria-invalid:border-rose-500"
+        className="w-full rounded-lg border border-slate-200 px-3 py-2 text-xs focus:outline-2 focus:outline-focus aria-invalid:border-rose-500"
       />
       <p id={`${fieldId}-help`} className="text-xs leading-relaxed text-slate-600">
         Dán liên kết đến một video YouTube. Để gỡ video, xóa liên kết rồi lưu.
@@ -74,12 +74,12 @@ export function RecipeVideoEditor({ recipeId, youtubeVideoId, onSaved }: RecipeV
         <button
           type="submit"
           disabled={saveVideo.isPending || url.trim() === savedUrl}
-          className="rounded-lg bg-slate-900 px-3 py-2 text-xs font-bold text-white hover:bg-slate-700 disabled:opacity-50"
+          className="rounded-lg bg-panel-900 px-3 py-2 text-xs font-bold text-white hover:bg-panel-700 disabled:opacity-50"
         >
           {saveVideo.isPending ? 'Đang lưu…' : 'Lưu video'}
         </button>
         {savedUrl && (
-          <a href={savedUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs font-bold text-orange-700 hover:underline">
+          <a href={savedUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-900 hover:underline">
             Mở video hiện tại <ExternalLink aria-hidden="true" className="size-3.5" />
           </a>
         )}

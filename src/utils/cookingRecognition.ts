@@ -37,10 +37,16 @@ export function listenCookingCommand(Recognition: CookingRecognitionConstructor,
     if (finished) return;
     finished = true; dispose(); recognition.abort(); callbacks.onError(message);
   };
+  const finish = () => {
+    if (finished) return;
+    finished = true; dispose();
+    if (finalText) callbacks.onText(finalText);
+    else callbacks.onError('Chưa có kết quả nhận diện hoàn chỉnh. Hãy nói lại, sửa phần chữ nhận được hoặc nhập câu hỏi.');
+  };
   const stop = () => {
     if (finished || stopTimer) return;
     stopTimer = setTimeout(() => fail('Nhận giọng nói chưa kết thúc. Hãy thử lại hoặc nhập câu hỏi.'), 5000);
-    recognition.stop();
+    try { recognition.stop(); } catch { finish(); }
   };
   const limit = setTimeout(stop, 15000);
   recognition.onstart = callbacks.onStart;
@@ -56,12 +62,7 @@ export function listenCookingCommand(Recognition: CookingRecognitionConstructor,
     : event.error === 'no-speech' ? 'Chưa nghe rõ lời nói. Hãy nói gần micro rồi thử lại.'
     : event.error === 'audio-capture' ? 'Không thu được âm thanh. Hãy kiểm tra micro.'
     : 'Không kết nối được nhận giọng nói của trình duyệt. Bạn có thể thử lại, dùng ghi âm dự phòng hoặc nhập câu hỏi.');
-  recognition.onend = () => {
-    if (finished) return;
-    finished = true; dispose();
-    if (finalText) callbacks.onText(finalText);
-    else callbacks.onError('Chưa nghe rõ lời nói. Hãy nói gần micro rồi thử lại.');
-  };
+  recognition.onend = finish;
   try { recognition.start(); } catch (error) { dispose(); throw error; }
   return {
     stop,

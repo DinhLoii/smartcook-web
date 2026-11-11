@@ -42,12 +42,12 @@ export const cookingVoiceApi = {
     const response = await apiClient.post('/ai/cooking-copilot', request, { signal, timeout: 20000 });
     const data = response.data?.data;
     // Navigation/timer controls only come from the deterministic local parser.
-    if (!data || typeof data.speechReply !== 'string' || !data.speechReply.trim()
+    if (response.data?.success !== true || !data || typeof data.speechReply !== 'string' || !data.speechReply.trim()
       || !['NONE', 'TROUBLESHOOT'].includes(data.action)) {
       throw new Error('Phản hồi trợ lý chưa hợp lệ. Hãy thử hỏi lại.');
     }
     return {
-      action: data.action, speechReply: data.speechReply.slice(0, 1800),
+      action: data.action, speechReply: data.speechReply.trim().slice(0, 1800),
       suggestedQuickReplies: Array.isArray(data.suggestedQuickReplies)
         ? data.suggestedQuickReplies.filter((item: unknown) => typeof item === 'string').slice(0, 3) : [],
     };
@@ -55,7 +55,8 @@ export const cookingVoiceApi = {
   async transcribe(audioBase64: string, mimeType: string, signal: AbortSignal): Promise<string> {
     if (!useAuthStore.getState().accessToken) throw new Error('Hãy đăng nhập để dùng nhận diện giọng nói.');
     const response = await apiClient.post('/ai/cooking-transcription', { audioBase64, mimeType }, { signal, timeout: 20000 });
-    const text = response.data?.data?.text;
+    if (response.data?.success !== true) throw new Error('Phản hồi nhận diện giọng nói chưa hợp lệ.');
+    const text = response.data.data?.text;
     if (typeof text !== 'string' || !text.trim()) throw new Error('Chưa nghe rõ. Hãy nói gần micro và thử lại.');
     return text.trim();
   },

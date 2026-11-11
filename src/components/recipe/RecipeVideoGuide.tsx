@@ -109,7 +109,8 @@ export function RecipeVideoGuide({ title, image, youtubeVideoId, ref, onVoiceTar
   useImperativeHandle(ref, () => ({
     run(command) {
       if (command.type === 'ignore') return 'Mình giữ nguyên video nhé.';
-      if (command.type === 'invalid-time') return 'Bạn muốn tua bao lâu? Ví dụ, “tua tới 30 giây” hoặc “tua lùi một phút”.';
+      if (command.type === 'unrecognized') return 'Mình chưa nhận ra lệnh video. Thử nói “tua nhanh 30 giây”, “lùi 15 giây”, “dừng video” hoặc “phát tiếp”.';
+      if (command.type === 'invalid-time') return 'Bạn muốn tua bao lâu? Ví dụ, “tua nhanh 30 giây” hoặc “tua ngược lại một phút”.';
       if (command.type === 'open') section.current?.scrollIntoView({ block: 'start' });
       if (!videoId) return 'Món này chưa có clip đính kèm. Bạn có thể tìm theo tên món ở mục Video hướng dẫn.';
       if (command.type === 'close') {
@@ -135,10 +136,10 @@ export function RecipeVideoGuide({ title, image, youtubeVideoId, ref, onVoiceTar
       ref={section}
       tabIndex={-1}
       aria-labelledby="recipe-video-heading"
-      className="scroll-mt-28 rounded-2xl border border-orange-100 bg-white p-4 shadow-sm focus-visible:outline-2 focus-visible:outline-orange-500 sm:p-5"
+      className="scroll-mt-28 rounded-2xl border border-orange-100 bg-surface p-4 shadow-sm focus-visible:outline-2 focus-visible:outline-focus sm:p-5"
     >
       <div className="flex items-center gap-3">
-        <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-orange-100 text-orange-700">
+        <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-orange-100 text-slate-900">
           <Video aria-hidden="true" className="size-5" />
         </span>
         <div>
@@ -152,7 +153,7 @@ export function RecipeVideoGuide({ title, image, youtubeVideoId, ref, onVoiceTar
       {videoId && watchUrl ? (
         <>
           {opened ? (
-            <div className="mt-4 overflow-hidden rounded-xl bg-slate-950">
+            <div className="mt-4 overflow-hidden rounded-xl bg-panel-950">
               <div className="flex items-center justify-between gap-2 px-3 py-2 text-white">
                 <span className="px-1 text-xs font-semibold">Đang xem trên YouTube</span>
                 <button
@@ -167,7 +168,7 @@ export function RecipeVideoGuide({ title, image, youtubeVideoId, ref, onVoiceTar
                 </button>
               </div>
               <div ref={playerHost} />
-              {notice && <p role="status" className="px-4 py-3 text-xs text-orange-100">{notice}</p>}
+              {notice && <p role="status" className="px-4 py-3 text-xs text-media-muted">{notice}</p>}
               <div ref={onVoiceTarget} />
             </div>
           ) : (
@@ -177,7 +178,7 @@ export function RecipeVideoGuide({ title, image, youtubeVideoId, ref, onVoiceTar
                 type="button"
                 onClick={() => openVideo(true)}
                 aria-label={`Phát video hướng dẫn món ${title}`}
-                className="group relative grid aspect-video w-full place-items-center overflow-hidden rounded-lg bg-slate-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+                className="group relative grid aspect-video w-full place-items-center overflow-hidden rounded-lg bg-panel-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
               >
                 <img
                   src={resolveRecipeImage(image, title)}
@@ -187,16 +188,16 @@ export function RecipeVideoGuide({ title, image, youtubeVideoId, ref, onVoiceTar
                   decoding="async"
                   className="absolute inset-0 size-full object-cover"
                 />
-                <span className="absolute inset-0 bg-slate-950/35" aria-hidden="true" />
+                <span className="absolute inset-0 bg-panel-950/35" aria-hidden="true" />
                 <span className="relative grid size-12 place-items-center rounded-full bg-orange-600 text-white shadow-lg ring-4 ring-white/30 transition-colors group-hover:bg-orange-700">
                   <Play aria-hidden="true" className="ml-0.5 size-5 fill-current" />
                 </span>
-                <span className="absolute bottom-2 left-2 rounded-md bg-slate-950/80 px-2 py-1 text-[10px] font-bold text-white">
+                <span className="absolute bottom-2 left-2 rounded-md bg-panel-950/80 px-2 py-1 text-[10px] font-bold text-white">
                   YouTube
                 </span>
               </button>
               <div className="space-y-1">
-                <p className="text-xs font-bold text-orange-700">Video tham khảo</p>
+                <p className="text-xs font-bold text-slate-900">Video tham khảo</p>
                 <p className="text-sm font-extrabold leading-snug text-slate-900 sm:text-base">{title}</p>
                 <p className="text-xs leading-relaxed text-slate-600">
                   Nguyên liệu và cách làm trong video có thể khác đôi chút so với công thức SmartCook.
@@ -225,4 +226,4 @@ export function RecipeVideoGuide({ title, image, youtubeVideoId, ref, onVoiceTar
   );
 }
 
-const linkClass = 'inline-flex items-center gap-1.5 rounded-lg border border-orange-200 bg-white px-3 py-2 text-xs font-bold text-orange-700 transition-colors hover:bg-orange-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600';
+const linkClass = 'inline-flex items-center gap-1.5 rounded-lg border border-orange-200 bg-surface px-3 py-2 text-xs font-bold text-slate-900 transition-colors hover:bg-orange-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus';
